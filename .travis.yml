@@ -25,6 +25,17 @@ before_script:
       (test -x $HOME/.cargo/bin/mdbook || cargo install mdbook) && \
       cargo install-update -a; \
     fi
+  - |
+    if [[ $TRAVIS_OS_NAME == "linux" ]]
+    then
+      # https://packages.ubuntu.com/bionic/libsdl2-dev
+      sudo apt-get -qq install libsdl2-dev
+    else
+      # https://formulae.brew.sh/formula/sdl2#default
+      brew update
+      brew install sdl2
+    fi
+
 script:
   # builds all examples and builds+runs all tests
   - cargo test
