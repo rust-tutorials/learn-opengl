@@ -2,37 +2,42 @@
 
 TODO: maybe some of this can go into the Introduction? whatever.
 
-It's become the "older" style among the graphics APIs, with Vulkan / DX12 /
-Metal being the new hotness.
+We'll be using OpenGL 3.3. The latest version is 4.6, but we'll still be using
+3.3. The main reason for this is because if we take a quick look at Mac's
+[supported OpenGL versions](https://support.apple.com/en-us/HT202823) we can see
+that they support 3.3 on older stuff and 4.1 on newer stuff. Macs don't get
+OpenGL 4.6 like Windows and Linux have. Oh well. Feel free to use this book and
+then learn the stuff that got added after 3.3 if you don't care about supporting
+old macs.
 
-However, I think that it's easy enough to use and you don't often need the final
-ounce of performance that you can get with Vulkan.
+OpenGL is a _specification_. Not a specific implementation, just a
+specification. Each graphics card has its own driver, which has its own
+implementation of OpenGL. This means that you can run in to bugs on one card
+that doesn't show up on other cards. Fun!
 
-We'll be using OpenGL 3.3. The latest version is 4.6, but we'll be using 3.3.
-The main reason for this is because if we take a quick look at Mac's [supported
-OpenGL versions](https://support.apple.com/en-us/HT202823) we can see that they
-support 3.3 on old stuff and 4.1 on new stuff. Macs don't get OpenGL 4.6 like
-Windows and Linux have. Oh well. Feel free to use this book and then learn the
-stuff that got added after 3.3 if you don't care about supporting old macs.
+OpenGL is specified in terms of a series of C functions that you can call. They
+all affect a "Context". A GL context has all sorts of state inside. There's GL
+calls to draw things, but there's also a lot of calls to carefully set the state
+before the drawing happens. Both types of call are equally important to getting
+a picture on the screen.
 
-OpenGL is a _specification_, and it's a specification for a C API. It's probably
-implemented in C as well, but actually you could implement it in any language
-that can expose a C API. Time to rewrite OGL in Rust, ne?
+So we'll be doing a _lot_ of FFI calls. FFI calls are naturally `unsafe`,
+because the Rust compiler can't see what's going on over there.
 
-So we'll be doing a lot of FFI calls. FFI calls are naturally `unsafe`. If
-you're not comfortable with that then go use [glium](https://docs.rs/glium), or
-[wgpu](https://docs.rs/wgpu) or something. Phaazon converted their [luminance
-tutorial](https://github.com/rust-tutorials/learn-luminance) into a more bookish
-form recently too. You don't _have_ to use OpenGL directly.
+If you don't want to have to call `unsafe` code you can try
+[luminance](https://github.com/rust-tutorials/learn-luminance), or
+[glium](https://docs.rs/glium), or [wgpu](https://docs.rs/wgpu) or, something
+like that. You don't _have_ to call `unsafe` code to get a picture on the
+screen.
 
-But if you want to know how people _built_ those other libraries, you gotta
-learn this direct usage stuff.
+But if you want to know how people _built_ those other libraries that let you do
+those cool things, you gotta learn this direct usage stuff.
 
 ## Prior Knowledge
 
 You should generally be familiar with all the topics covered in [The Rust
 Programming Language](https://doc.rust-lang.org/book/), but you don't need to
-have them memorized you can look things up again if you need to.
+have them memorized. You can look things up again if you need to.
 
 I usually tell folks that they should read [The
 Rustonomicon](https://doc.rust-lang.org/nomicon/) before doing a lot of unsafe
