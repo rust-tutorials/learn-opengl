@@ -1,8 +1,9 @@
-dist: xenial
 
-os:
-  - linux
-  - osx
+matrix:
+  include:
+    - os: linux
+      dist: bionic
+    - os: osx
 
 language: rust
 
