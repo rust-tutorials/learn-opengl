@@ -1,0 +1,49 @@
+dist: xenial
+
+os:
+  - linux
+  - osx
+
+language: rust
+
+rust:
+  - stable
+
+cache:
+  cargo
+
+branches:
+  only:
+    - staging
+    - trying
+    - master
+
+before_script:
+  - |
+    if [[ $TRAVIS_OS_NAME == "linux" ]]; then \
+      (test -x $HOME/.cargo/bin/cargo-install-update || cargo install cargo-update) && \
+      (test -x $HOME/.cargo/bin/mdbook || cargo install mdbook) && \
+      cargo install-update -a; \
+    fi
+script:
+  # builds all examples and builds+runs all tests
+  - cargo test
+  
+  # Also ensure that the book compiles right
+  - mdbook build
+
+# This deploy will push the mdbook output to the `ghpages` branch,
+# but you need to manually set up the GITHUB_TOKEN yourself for each
+# repo you make.
+
+deploy:
+  provider: pages
+  local-dir: target/book-output
+  skip-cleanup: true
+  github-token: $GITHUB_TOKEN
+  keep-history: false
+  name: DocsBot
+  verbose: true
+  on:
+    branch: master
+    condition: $TRAVIS_OS_NAME = linux

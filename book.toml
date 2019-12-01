@@ -1,0 +1,10 @@
+[book]
+title = "Learn OpenGL Rust"
+authors = ["Lokathor"]
+description = "A version of the LearnOpenGL book for Rust."
+src = "book-src"
+language = "en"
+
+[build]
+build-dir = "target/book-output"
+create-missing = true

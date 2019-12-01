@@ -2,15 +2,16 @@
 name = "learn-opengl"
 description = "LearnOpenGL.com lessons in Rust"
 repository = "https://github.com/Lokathor/learn-opengl"
-version = "0.1.0"
+version = "0.0.0"
 authors = ["Lokathor <zefria@gmail.com>"]
 edition = "2018"
 license = "Zlib"
 
-publish = false
-
 [dependencies]
 bytemuck = "1"
-imagine = "0.0.2"
-beryllium = "0.2.0-alpha.1"
 ogl33 = { version = "0.1", features = ["debug_error_checks", "debug_trace_messages"]}
+
+[dev-dependencies]
+beryllium = "0.2.0-alpha.2"
+imagine = "0.0.2"
+ultraviolet = "0.3"
