@@ -16,18 +16,38 @@ fn main() {
   let sdl = SDL::init(InitFlags::Everything).expect("couldn't start SDL");
 ```
 
-Then we set some GL attributes that we want to use:
+Then we set some GL attributes about the [OpenGL
+Context](https://www.khronos.org/opengl/wiki/OpenGL_Context) that we want to
+use:
 
 ```rust
   sdl.gl_set_attribute(SdlGlAttr::MajorVersion, 3).unwrap();
   sdl.gl_set_attribute(SdlGlAttr::MinorVersion, 3).unwrap();
   sdl.gl_set_attribute(SdlGlAttr::Profile, GlProfile::Core).unwrap();
-  sdl
-    .gl_set_attribute(SdlGlAttr::Flags, ContextFlag::ForwardCompatible)
-    .unwrap();
+  #[cfg(target_os = "macos")]
+  {
+    sdl
+      .gl_set_attribute(SdlGlAttr::Flags, ContextFlag::ForwardCompatible)
+      .unwrap();
+  }
 ```
 
-Finally we can make our window.
+* The Core profile is a subset of the full features that the spec allows. An
+  implementation must provide the Core profile, but it can also provide a
+  Compatibility profile, which is the current spec version's features _plus_ all
+  the old stuff from previous versions.
+* The Forward Compatible flag means that all functions that a particular version
+  considers to be "deprecated but available" are instead immediately
+  unavailable. It's needed for Mac if you want to have a Core profile. On other
+  systems you can have it or not and it doesn't make a big difference. The
+  Khronos wiki suggest to only set it if you're on Mac, so that's what I did.
+
+Finally, once GL is all set, we can make our window.
+
+In some libs you might make the window and then make the GL Context as a
+separate step (technically SDL2 lets you do this), but with `beryllium` it just
+sticks the window and the GL Context together as a single thing (`glutin` also
+works this way, I don't know about `glfw`).
 
 ```rust
   let _win = sdl
@@ -41,9 +61,13 @@ Finally we can make our window.
     .expect("couldn't make a window and context");
 ```
 
-Once we have a window, we can poll for events. Right now we just wait for a quit
-event (user clicked the X on the window, pressed Alt+F4, etc) and then quit when
-that happens.
+Once we have a window, we can poll for events. In fact if we _don't_ always poll
+for events promptly the OS will usually think that our application has stalled
+and tell the user they should kill the program. So we want to always be polling
+for those events.
+
+Right now we just wait for a quit event (user clicked the X on the window,
+pressed Alt+F4, etc) and then quit when that happens.
 
 ```rust
   'main_loop: loop {

@@ -8,9 +8,12 @@ fn main() {
   sdl.gl_set_attribute(SdlGlAttr::MajorVersion, 3).unwrap();
   sdl.gl_set_attribute(SdlGlAttr::MinorVersion, 3).unwrap();
   sdl.gl_set_attribute(SdlGlAttr::Profile, GlProfile::Core).unwrap();
-  sdl
-    .gl_set_attribute(SdlGlAttr::Flags, ContextFlag::ForwardCompatible)
-    .unwrap();
+  #[cfg(target_os = "macos")]
+  {
+    sdl
+      .gl_set_attribute(SdlGlAttr::Flags, ContextFlag::ForwardCompatible)
+      .unwrap();
+  }
 
   let _win = sdl
     .create_gl_window(
