@@ -47,9 +47,7 @@ script:
       mdbook build
     fi
 
-# This deploy will push the mdbook output to the `ghpages` branch,
-# but you need to manually set up the GITHUB_TOKEN yourself for each
-# repo you make.
+# This deploy will push the mdbook output to the `gh-pages` branch
 
 deploy:
   provider: pages

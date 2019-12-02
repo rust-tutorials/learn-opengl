@@ -79,7 +79,7 @@ without having to also build the stuff we're using for our examples.
   link by default so you'll need `SDL2.dll` in your path to run a program. You
   can swap this to static linking, I describe that at the end of the first
   lesson.
-  * Other options: [winit](https://docs.rs/winit), [glfw](https://docs.rs/glfw)
+  * Other options: [glutin](https://docs.rs/glutin), [glfw](https://docs.rs/glfw)
 * [imagine](https://docs.rs/imagine) is a PNG parser (not used right away, but
   soon enough).
   * Other options: [image](https://docs.rs/image), which uses
