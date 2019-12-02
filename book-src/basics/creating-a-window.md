@@ -71,15 +71,16 @@ pressed Alt+F4, etc) and then quit when that happens.
 
 ```rust
   'main_loop: loop {
+    // handle events this frame
     while let Some(event) = sdl.poll_events().and_then(Result::ok) {
-      // handle events this frame
       match event {
         Event::Quit(_) => break 'main_loop,
         _ => (),
       }
-
-      // here's where we could change the world state and draw.
     }
+    // now the events are clear
+
+    // here's where we could change the world state and draw.
   }
 }
 ```

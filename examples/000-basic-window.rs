@@ -1,6 +1,8 @@
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 #![allow(clippy::single_match)]
 
+const WINDOW_TITLE: &str = "Hello Window";
+
 use beryllium::*;
 
 fn main() {
@@ -17,7 +19,7 @@ fn main() {
 
   let _win = sdl
     .create_gl_window(
-      "Hello Window",
+      WINDOW_TITLE,
       WindowPosition::Centered,
       800,
       600,
@@ -26,14 +28,15 @@ fn main() {
     .expect("couldn't make a window and context");
 
   'main_loop: loop {
+    // handle events this frame
     while let Some(event) = sdl.poll_events().and_then(Result::ok) {
-      // handle events this frame
       match event {
         Event::Quit(_) => break 'main_loop,
         _ => (),
       }
-
-      // here's where we could change the world state and draw.
     }
+    // now the events are clear.
+
+    // here's where we could change the world state and draw.
   }
 }

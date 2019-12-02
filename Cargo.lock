@@ -7,7 +7,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 dependencies = [
  "fermium 0.1.4 (registry+https://github.com/rust-lang/crates.io-index)",
  "objc 0.2.7 (registry+https://github.com/rust-lang/crates.io-index)",
- "raw-window-handle 0.3.2 (registry+https://github.com/rust-lang/crates.io-index)",
+ "raw-window-handle 0.3.3 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
 
 [[package]]
@@ -38,7 +38,7 @@ dependencies = [
  "beryllium 0.2.0-alpha.2 (registry+https://github.com/rust-lang/crates.io-index)",
  "bytemuck 1.0.1 (registry+https://github.com/rust-lang/crates.io-index)",
  "imagine 0.0.2 (registry+https://github.com/rust-lang/crates.io-index)",
- "ogl33 0.1.2 (registry+https://github.com/rust-lang/crates.io-index)",
+ "ogl33 0.1.6 (registry+https://github.com/rust-lang/crates.io-index)",
  "ultraviolet 0.3.3 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
 
@@ -65,7 +65,7 @@ dependencies = [
 
 [[package]]
 name = "ogl33"
-version = "0.1.2"
+version = "0.1.6"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 dependencies = [
  "libc 0.2.66 (registry+https://github.com/rust-lang/crates.io-index)",
@@ -73,7 +73,7 @@ dependencies = [
 
 [[package]]
 name = "raw-window-handle"
-version = "0.3.2"
+version = "0.3.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 dependencies = [
  "libc 0.2.66 (registry+https://github.com/rust-lang/crates.io-index)",
@@ -103,7 +103,7 @@ dependencies = [
 "checksum libc 0.2.66 (registry+https://github.com/rust-lang/crates.io-index)" = "d515b1f41455adea1313a4a2ac8a8a477634fbae63cc6100e3aebb207ce61558"
 "checksum malloc_buf 0.0.6 (registry+https://github.com/rust-lang/crates.io-index)" = "62bb907fe88d54d8d9ce32a3cceab4218ed2f6b7d35617cafe9adf84e43919cb"
 "checksum objc 0.2.7 (registry+https://github.com/rust-lang/crates.io-index)" = "915b1b472bc21c53464d6c8461c9d3af805ba1ef837e1cac254428f4a77177b1"
-"checksum ogl33 0.1.2 (registry+https://github.com/rust-lang/crates.io-index)" = "f23f160c7ccfc990c06e150907ba5a9f1ca41bb5932ead23e9768b2d3ef00489"
-"checksum raw-window-handle 0.3.2 (registry+https://github.com/rust-lang/crates.io-index)" = "0a7ea72e7af3cafd8355a7a023bf8914964ffa78c04a4f1847bf00726ce590fe"
+"checksum ogl33 0.1.6 (registry+https://github.com/rust-lang/crates.io-index)" = "a009646767fd87fcf12e59b8368938c8da5a2dda5b2aec331a58f09f77072310"
+"checksum raw-window-handle 0.3.3 (registry+https://github.com/rust-lang/crates.io-index)" = "0a441a7a6c80ad6473bd4b74ec1c9a4c951794285bf941c2126f607c72e48211"
 "checksum ultraviolet 0.3.3 (registry+https://github.com/rust-lang/crates.io-index)" = "53c20e1aefc2abf1467eaed9404865774ba32f0f0ca493952d733235efdcc9dc"
 "checksum wide 0.3.2 (registry+https://github.com/rust-lang/crates.io-index)" = "a3cdbd2c50784dd32b342a80d940aac7928e099bb2789041e971de17e1358961"
