@@ -64,9 +64,13 @@ ultraviolet = "0.3"
 So the library itself, where we'll put our useful GL helpers, will depend on
 
 * [ogl33](https://docs.rs/ogl33), which gives us bindings to OpenGL.
-  * It works mostly like the [gl](https://docs.rs/gl) crate, except it _only_
-    connects to OpenGL 3.3 (the `gl` crate builds for 4.6).
-* [bytemuck](https://docs.rs/bytemuck), which is a handy crate for casting around data types.
+  * It's similar to the [gl](https://docs.rs/gl) crate (which loads OpenGL 4.6),
+    but all functions and constants use their real names exactly as you'd see in
+    C code. It makes it a lot easier to read books and blogs about OpenGL that
+    are written for C (which is essentially all of them) and then quickly
+    translate it to Rust.
+* [bytemuck](https://docs.rs/bytemuck), which is a handy crate for casting
+  around plain data types.
 
 And then if you're not familiar with "dev-dependencies", that's bonus
 dependencies that tests and examples can use (but not bins!). Since our example
