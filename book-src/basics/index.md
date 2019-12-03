@@ -67,7 +67,7 @@ So the library itself, where we'll put our useful GL helpers, will depend on
   * It's similar to the [gl](https://docs.rs/gl) crate (which loads OpenGL 4.6),
     but all functions and constants use their real names exactly as you'd see in
     C code. It makes it a lot easier to read books and blogs about OpenGL that
-    are written for C (which is essentially all of them) and then quickly
+    are written for C (which is essentially all of them), and then quickly
     translate it to Rust.
 * [bytemuck](https://docs.rs/bytemuck), which is a handy crate for casting
   around plain data types.
