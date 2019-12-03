@@ -11,7 +11,7 @@ use core::{
   mem::{size_of, size_of_val},
 };
 use learn_opengl as learn;
-use ogl33 as gl;
+use ogl33::*;
 
 type Vertex = [f32; 3];
 
@@ -59,40 +59,40 @@ fn main() {
   win.set_swap_interval(SwapInterval::Vsync);
 
   unsafe {
-    gl::load_with(|f_name| win.get_proc_address(f_name));
+    load_gl_with(|f_name| win.get_proc_address(f_name));
 
-    gl::ClearColor(0.2, 0.3, 0.3, 1.0);
+    glClearColor(0.2, 0.3, 0.3, 1.0);
 
     let mut vao = 0;
-    gl::GenVertexArrays(1, &mut vao);
+    glGenVertexArrays(1, &mut vao);
     assert_ne!(vao, 0);
-    gl::BindVertexArray(vao);
+    glBindVertexArray(vao);
 
     let mut vbo = 0;
-    gl::GenBuffers(1, &mut vbo);
-    gl::BindBuffer(gl::ARRAY_BUFFER, vbo);
-    gl::BufferData(
-      gl::ARRAY_BUFFER,
+    glGenBuffers(1, &mut vbo);
+    glBindBuffer(GL_ARRAY_BUFFER, vbo);
+    glBufferData(
+      GL_ARRAY_BUFFER,
       size_of_val(&VERTICES) as isize,
       VERTICES.as_ptr().cast(),
-      gl::STATIC_DRAW,
+      GL_STATIC_DRAW,
     );
 
-    let vertex_shader = gl::CreateShader(gl::VERTEX_SHADER);
+    let vertex_shader = glCreateShader(GL_VERTEX_SHADER);
     assert_ne!(vertex_shader, 0);
-    gl::ShaderSource(
+    glShaderSource(
       vertex_shader,
       1,
       &(VERT_SHADER.as_bytes().as_ptr().cast()),
       &(VERT_SHADER.len().try_into().unwrap()),
     );
-    gl::CompileShader(vertex_shader);
+    glCompileShader(vertex_shader);
     let mut success = 0;
-    gl::GetShaderiv(vertex_shader, gl::COMPILE_STATUS, &mut success);
+    glGetShaderiv(vertex_shader, GL_COMPILE_STATUS, &mut success);
     if success == 0 {
       let mut v: Vec<u8> = Vec::with_capacity(1024);
       let mut log_len = 0_i32;
-      gl::GetShaderInfoLog(
+      glGetShaderInfoLog(
         vertex_shader,
         1024,
         &mut log_len,
@@ -102,21 +102,21 @@ fn main() {
       panic!("Vertex Compile Error: {}", String::from_utf8_lossy(&v));
     }
 
-    let fragment_shader = gl::CreateShader(gl::FRAGMENT_SHADER);
+    let fragment_shader = glCreateShader(GL_FRAGMENT_SHADER);
     assert_ne!(fragment_shader, 0);
-    gl::ShaderSource(
+    glShaderSource(
       fragment_shader,
       1,
       &(FRAG_SHADER.as_bytes().as_ptr().cast()),
       &(FRAG_SHADER.len().try_into().unwrap()),
     );
-    gl::CompileShader(fragment_shader);
+    glCompileShader(fragment_shader);
     let mut success = 0;
-    gl::GetShaderiv(fragment_shader, gl::COMPILE_STATUS, &mut success);
+    glGetShaderiv(fragment_shader, GL_COMPILE_STATUS, &mut success);
     if success == 0 {
       let mut v: Vec<u8> = Vec::with_capacity(1024);
       let mut log_len = 0_i32;
-      gl::GetShaderInfoLog(
+      glGetShaderInfoLog(
         fragment_shader,
         1024,
         &mut log_len,
@@ -126,16 +126,16 @@ fn main() {
       panic!("Fragment Compile Error: {}", String::from_utf8_lossy(&v));
     }
 
-    let shader_program = gl::CreateProgram();
-    gl::AttachShader(shader_program, vertex_shader);
-    gl::AttachShader(shader_program, fragment_shader);
-    gl::LinkProgram(shader_program);
+    let shader_program = glCreateProgram();
+    glAttachShader(shader_program, vertex_shader);
+    glAttachShader(shader_program, fragment_shader);
+    glLinkProgram(shader_program);
     let mut success = 0;
-    gl::GetProgramiv(shader_program, gl::LINK_STATUS, &mut success);
+    glGetProgramiv(shader_program, GL_LINK_STATUS, &mut success);
     if success == 0 {
       let mut v: Vec<u8> = Vec::with_capacity(1024);
       let mut log_len = 0_i32;
-      gl::GetProgramInfoLog(
+      glGetProgramInfoLog(
         shader_program,
         1024,
         &mut log_len,
@@ -144,20 +144,20 @@ fn main() {
       v.set_len(log_len.try_into().unwrap());
       panic!("Program Link Error: {}", String::from_utf8_lossy(&v));
     }
-    gl::DeleteShader(vertex_shader);
-    gl::DeleteShader(fragment_shader);
+    glDeleteShader(vertex_shader);
+    glDeleteShader(fragment_shader);
 
-    gl::VertexAttribPointer(
+    glVertexAttribPointer(
       0,
       3,
-      gl::FLOAT,
-      gl::FALSE,
+      GL_FLOAT,
+      GL_FALSE,
       size_of::<Vertex>().try_into().unwrap(),
       0 as *const _,
     );
-    gl::EnableVertexAttribArray(0);
+    glEnableVertexAttribArray(0);
 
-    gl::UseProgram(shader_program);
+    glUseProgram(shader_program);
   }
 
   'main_loop: loop {
@@ -174,8 +174,8 @@ fn main() {
 
     // and then draw!
     unsafe {
-      gl::Clear(gl::COLOR_BUFFER_BIT);
-      gl::DrawArrays(gl::TRIANGLES, 0, 3);
+      glClear(GL_COLOR_BUFFER_BIT);
+      glDrawArrays(GL_TRIANGLES, 0, 3);
       win.swap_window();
     }
   }

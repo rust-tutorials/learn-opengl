@@ -14,12 +14,11 @@
 //! the book, and you can just use some `unsafe` blocks here and there.
 
 use core::convert::{TryFrom, TryInto};
-use gl::{GLenum, GLuint};
-use ogl33 as gl;
+use ogl33::*;
 
 /// Sets the color to clear to when clearing the screen.
 pub fn clear_color(r: f32, g: f32, b: f32, a: f32) {
-  unsafe { gl::ClearColor(r, g, b, a) }
+  unsafe { glClearColor(r, g, b, a) }
 }
 
 /// Basic wrapper for a [Vertex Array
@@ -29,7 +28,7 @@ impl VertexArray {
   /// Creates a new vertex array object
   pub fn new() -> Option<Self> {
     let mut vao = 0;
-    unsafe { gl::GenVertexArrays(1, &mut vao) };
+    unsafe { glGenVertexArrays(1, &mut vao) };
     if vao != 0 {
       Some(Self(vao))
     } else {
@@ -39,12 +38,12 @@ impl VertexArray {
 
   /// Bind this vertex array as the current vertex array object
   pub fn bind(&self) {
-    unsafe { gl::BindVertexArray(self.0) }
+    unsafe { glBindVertexArray(self.0) }
   }
 
   /// Clear the current vertex array object binding.
   pub fn clear_binding() {
-    unsafe { gl::BindVertexArray(0) }
+    unsafe { glBindVertexArray(0) }
   }
 }
 
@@ -52,9 +51,9 @@ impl VertexArray {
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum BufferType {
   /// Array Buffers holds arrays of vertex data for drawing.
-  Array = gl::ARRAY_BUFFER as isize,
+  Array = GL_ARRAY_BUFFER as isize,
   /// Element Array Buffers hold indexes of what vertexes to use for drawing.
-  ElementArray = gl::ELEMENT_ARRAY_BUFFER as isize,
+  ElementArray = GL_ELEMENT_ARRAY_BUFFER as isize,
 }
 
 /// Basic wrapper for a [Buffer
@@ -65,7 +64,7 @@ impl Buffer {
   pub fn new() -> Option<Self> {
     let mut vbo = 0;
     unsafe {
-      gl::GenBuffers(1, &mut vbo);
+      glGenBuffers(1, &mut vbo);
     }
     if vbo != 0 {
       Some(Self(vbo))
@@ -76,19 +75,19 @@ impl Buffer {
 
   /// Bind this vertex buffer for the given type
   pub fn bind(&self, ty: BufferType) {
-    unsafe { gl::BindBuffer(ty as GLenum, self.0) }
+    unsafe { glBindBuffer(ty as GLenum, self.0) }
   }
 
   /// Clear the current vertex buffer binding for the given type.
   pub fn clear_binding(ty: BufferType) {
-    unsafe { gl::BindBuffer(ty as GLenum, 0) }
+    unsafe { glBindBuffer(ty as GLenum, 0) }
   }
 }
 
 /// Places a slice of data into a previously-bound buffer.
 pub fn buffer_data(ty: BufferType, data: &[u8], usage: GLenum) {
   unsafe {
-    gl::BufferData(
+    glBufferData(
       ty as GLenum,
       data.len().try_into().unwrap(),
       data.as_ptr().cast(),
@@ -100,11 +99,11 @@ pub fn buffer_data(ty: BufferType, data: &[u8], usage: GLenum) {
 /// The types of shader object.
 pub enum ShaderType {
   /// Vertex shaders determine the position of geometry within the screen.
-  Vertex = gl::VERTEX_SHADER as isize,
+  Vertex = GL_VERTEX_SHADER as isize,
   /// Fragment shaders determine the color output of geometry.
   /// 
   /// Also other values, but mostly color.
-  Fragment = gl::FRAGMENT_SHADER as isize,
+  Fragment = GL_FRAGMENT_SHADER as isize,
 }
 
 /// A handle to a [Shader
@@ -118,7 +117,7 @@ impl Shader {
   /// Possibly skip the direct creation of the shader object and use
   /// [`ShaderProgram::from_vert_frag`](ShaderProgram::from_vert_frag).
   pub fn new(ty: ShaderType) -> Option<Self> {
-    let shader = unsafe { gl::CreateShader(ty as GLenum) };
+    let shader = unsafe { glCreateShader(ty as GLenum) };
     if shader != 0 {
       Some(Self(shader))
     } else {
@@ -131,7 +130,7 @@ impl Shader {
   /// Replaces any previously assigned source.
   pub fn set_source(&self, src: &str) {
     unsafe {
-      gl::ShaderSource(
+      glShaderSource(
         self.0,
         1,
         &(src.as_bytes().as_ptr().cast()),
@@ -142,14 +141,14 @@ impl Shader {
 
   /// Compiles the shader based on the current source.
   pub fn compile(&self) {
-    unsafe { gl::CompileShader(self.0) };
+    unsafe { glCompileShader(self.0) };
   }
 
   /// Checks if the last compile was successful or not.
   pub fn compile_success(&self) -> bool {
     let mut compiled = 0;
-    unsafe { gl::GetShaderiv(self.0, gl::COMPILE_STATUS, &mut compiled) };
-    compiled == i32::from(gl::TRUE)
+    unsafe { glGetShaderiv(self.0, GL_COMPILE_STATUS, &mut compiled) };
+    compiled == i32::from(GL_TRUE)
   }
 
   /// Gets the info log for the shader.
@@ -157,11 +156,11 @@ impl Shader {
   /// Usually you use this to get the compilation log when a compile failed.
   pub fn info_log(&self) -> String {
     let mut needed_len = 0;
-    unsafe { gl::GetShaderiv(self.0, gl::INFO_LOG_LENGTH, &mut needed_len) };
+    unsafe { glGetShaderiv(self.0, GL_INFO_LOG_LENGTH, &mut needed_len) };
     let mut v: Vec<u8> = Vec::with_capacity(needed_len.try_into().unwrap());
     let mut len_written = 0_i32;
     unsafe {
-      gl::GetShaderInfoLog(
+      glGetShaderInfoLog(
         self.0,
         v.capacity().try_into().unwrap(),
         &mut len_written,
@@ -178,7 +177,7 @@ impl Shader {
   /// deletion. If the shader has been previously attached to a program then the
   /// shader will stay allocated until it's unattached from that program.
   pub fn delete(self) {
-    unsafe { gl::DeleteShader(self.0) };
+    unsafe { glDeleteShader(self.0) };
   }
 
   /// Takes a shader type and source string and produces either the compiled
@@ -212,7 +211,7 @@ impl ShaderProgram {
   /// it makes a complete program from the vertex and fragment sources all at
   /// once.
   pub fn new() -> Option<Self> {
-    let prog = unsafe { gl::CreateProgram() };
+    let prog = unsafe { glCreateProgram() };
     if prog != 0 {
       Some(Self(prog))
     } else {
@@ -222,19 +221,19 @@ impl ShaderProgram {
 
   /// Attaches a shader object to this program object.
   pub fn attach_shader(&self, shader: &Shader) {
-    unsafe { gl::AttachShader(self.0, shader.0) };
+    unsafe { glAttachShader(self.0, shader.0) };
   }
 
   /// Links the various attached, compiled shader objects into a usable program.
   pub fn link_program(&self) {
-    unsafe { gl::LinkProgram(self.0) };
+    unsafe { glLinkProgram(self.0) };
   }
 
   /// Checks if the last linking operation was successful.
   pub fn link_success(&self) -> bool {
     let mut success = 0;
-    unsafe { gl::GetProgramiv(self.0, gl::LINK_STATUS, &mut success) };
-    success == i32::from(gl::TRUE)
+    unsafe { glGetProgramiv(self.0, GL_LINK_STATUS, &mut success) };
+    success == i32::from(GL_TRUE)
   }
 
   /// Gets the log data for this program.
@@ -242,11 +241,11 @@ impl ShaderProgram {
   /// This is usually used to check the message when a program failed to link.
   pub fn info_log(&self) -> String {
     let mut needed_len = 0;
-    unsafe { gl::GetProgramiv(self.0, gl::INFO_LOG_LENGTH, &mut needed_len) };
+    unsafe { glGetProgramiv(self.0, GL_INFO_LOG_LENGTH, &mut needed_len) };
     let mut v: Vec<u8> = Vec::with_capacity(needed_len.try_into().unwrap());
     let mut len_written = 0_i32;
     unsafe {
-      gl::GetProgramInfoLog(
+      glGetProgramInfoLog(
         self.0,
         v.capacity().try_into().unwrap(),
         &mut len_written,
@@ -259,7 +258,7 @@ impl ShaderProgram {
 
   /// Sets the program as the program to use when drawing.
   pub fn use_program(&self) {
-    unsafe { gl::UseProgram(self.0) };
+    unsafe { glUseProgram(self.0) };
   }
 
   /// Marks the program for deletion.
@@ -268,7 +267,7 @@ impl ShaderProgram {
   /// currently in use it won't be deleted until it's not the active program.
   /// When a program is finally deleted and attached shaders are unattached.
   pub fn delete(self) {
-    unsafe { gl::DeleteProgram(self.0) };
+    unsafe { glDeleteProgram(self.0) };
   }
 
   /// Takes a vertex shader source string and a fragment shader source string
@@ -302,14 +301,14 @@ impl ShaderProgram {
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum PolygonMode {
   /// Just show the points.
-  Point = gl::POINT as isize,
+  Point = GL_POINT as isize,
   /// Just show the lines.
-  Line = gl::LINE as isize,
+  Line = GL_LINE as isize,
   /// Fill in the polygons.
-  Fill = gl::FILL as isize,
+  Fill = GL_FILL as isize,
 }
 
 /// Sets the font and back polygon mode to the mode given.
 pub fn polygon_mode(mode: PolygonMode) {
-  unsafe { gl::PolygonMode(gl::FRONT_AND_BACK, mode as GLenum) };
+  unsafe { glPolygonMode(GL_FRONT_AND_BACK, mode as GLenum) };
 }

@@ -14,7 +14,7 @@ use learn::{
   Buffer, BufferType, Shader, ShaderProgram, ShaderType, VertexArray,
 };
 use learn_opengl as learn;
-use ogl33 as gl;
+use ogl33::*;
 
 type Vertex = [f32; 3];
 
@@ -61,7 +61,7 @@ fn main() {
   win.set_swap_interval(SwapInterval::Vsync);
 
   unsafe {
-    gl::load_with(|f_name| win.get_proc_address(f_name));
+    load_gl_with(|f_name| win.get_proc_address(f_name));
   }
 
   learn::clear_color(0.2, 0.3, 0.3, 1.0);
@@ -74,7 +74,7 @@ fn main() {
   learn::buffer_data(
     BufferType::Array,
     bytemuck::cast_slice(&VERTICES),
-    gl::STATIC_DRAW,
+    GL_STATIC_DRAW,
   );
 
   let shader_program =
@@ -82,15 +82,15 @@ fn main() {
   shader_program.use_program();
 
   unsafe {
-    gl::VertexAttribPointer(
+    glVertexAttribPointer(
       0,
       3,
-      gl::FLOAT,
-      gl::FALSE,
+      GL_FLOAT,
+      GL_FALSE,
       size_of::<Vertex>().try_into().unwrap(),
       0 as *const _,
     );
-    gl::EnableVertexAttribArray(0);
+    glEnableVertexAttribArray(0);
   }
 
   'main_loop: loop {
@@ -107,8 +107,8 @@ fn main() {
 
     // and then draw!
     unsafe {
-      gl::Clear(gl::COLOR_BUFFER_BIT);
-      gl::DrawArrays(gl::TRIANGLES, 0, 3);
+      glClear(GL_COLOR_BUFFER_BIT);
+      glDrawArrays(GL_TRIANGLES, 0, 3);
       win.swap_window();
     }
   }

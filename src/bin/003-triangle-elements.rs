@@ -65,7 +65,7 @@ fn main() {
   win.set_swap_interval(SwapInterval::Vsync);
 
   unsafe {
-    gl::load_with(|f_name| win.get_proc_address(f_name));
+    glload_with(|f_name| win.get_proc_address(f_name));
   }
 
   learn::clear_color(0.2, 0.3, 0.3, 1.0);
@@ -78,7 +78,7 @@ fn main() {
   learn::buffer_data(
     BufferType::Array,
     bytemuck::cast_slice(&VERTICES),
-    gl::STATIC_DRAW,
+    glSTATIC_DRAW,
   );
 
   let ebo = Buffer::new().expect("Couldn't make the element buffer.");
@@ -86,7 +86,7 @@ fn main() {
   learn::buffer_data(
     BufferType::ElementArray,
     bytemuck::cast_slice(&INDICES),
-    gl::STATIC_DRAW,
+    glSTATIC_DRAW,
   );
 
   let shader_program =
@@ -94,15 +94,15 @@ fn main() {
   shader_program.use_program();
 
   unsafe {
-    gl::VertexAttribPointer(
+    glVertexAttribPointer(
       0,
       3,
-      gl::FLOAT,
-      gl::FALSE,
+      glFLOAT,
+      glFALSE,
       size_of::<Vertex>().try_into().unwrap(),
       0 as *const _,
     );
-    gl::EnableVertexAttribArray(0);
+    glEnableVertexAttribArray(0);
   }
 
   'main_loop: loop {
@@ -119,8 +119,8 @@ fn main() {
 
     // and then draw!
     unsafe {
-      gl::Clear(gl::COLOR_BUFFER_BIT);
-      gl::DrawElements(gl::TRIANGLES, 6, gl::UNSIGNED_INT, null());
+      glClear(glCOLOR_BUFFER_BIT);
+      glDrawElements(glTRIANGLES, 6, glUNSIGNED_INT, null());
       win.swap_window();
     }
   }
