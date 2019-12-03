@@ -1,13 +1,29 @@
 #![allow(unused_imports)]
+#![warn(missing_docs)]
+
+//! Simplistic OpenGL wrappers, for use with the Learn-OpenGL book.
+//!
+//! Please do **not** think that this is a perfectly solid and complete wrapper
+//! for OpenGL!
+//!
+//! It is mostly focused on the parts of OpenGL that can be _easily_ wrapped to
+//! give the programmer a good leg up while doing so. Any parts that would be
+//! hard or complicated to make safe have just been skipped over. That would
+//! take a lot of time away from covering OpenGL itself. Usually the exact
+//! design comes down to personal preference. I'd rather spend time on adding to
+//! the book, and you can just use some `unsafe` blocks here and there.
 
 use core::convert::{TryFrom, TryInto};
 use gl::{GLenum, GLuint};
 use ogl33 as gl;
 
+/// Sets the color to clear to when clearing the screen.
 pub fn clear_color(r: f32, g: f32, b: f32, a: f32) {
   unsafe { gl::ClearColor(r, g, b, a) }
 }
 
+/// Basic wrapper for a [Vertex Array
+/// Object](https://www.khronos.org/opengl/wiki/Vertex_Specification#Vertex_Array_Object).
 pub struct VertexArray(pub GLuint);
 impl VertexArray {
   /// Creates a new vertex array object
@@ -32,13 +48,19 @@ impl VertexArray {
   }
 }
 
-#[derive(Debug, Clone, Copy)]
+/// The types of buffer object that you can have.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum BufferType {
+  /// Array Buffers holds arrays of vertex data for drawing.
   Array = gl::ARRAY_BUFFER as isize,
+  /// Element Array Buffers hold indexes of what vertexes to use for drawing.
+  ElementArray = gl::ELEMENT_ARRAY_BUFFER as isize,
 }
 
-pub struct VertexBuffer(pub GLuint);
-impl VertexBuffer {
+/// Basic wrapper for a [Buffer
+/// Object](https://www.khronos.org/opengl/wiki/Buffer_Object).
+pub struct Buffer(pub GLuint);
+impl Buffer {
   /// Makes a new vertex buffer
   pub fn new() -> Option<Self> {
     let mut vbo = 0;
@@ -63,6 +85,7 @@ impl VertexBuffer {
   }
 }
 
+/// Places a slice of data into a previously-bound buffer.
 pub fn buffer_data(ty: BufferType, data: &[u8], usage: GLenum) {
   unsafe {
     gl::BufferData(
@@ -74,13 +97,26 @@ pub fn buffer_data(ty: BufferType, data: &[u8], usage: GLenum) {
   }
 }
 
+/// The types of shader object.
 pub enum ShaderType {
+  /// Vertex shaders determine the position of geometry within the screen.
   Vertex = gl::VERTEX_SHADER as isize,
+  /// Fragment shaders determine the color output of geometry.
+  /// 
+  /// Also other values, but mostly color.
   Fragment = gl::FRAGMENT_SHADER as isize,
 }
 
+/// A handle to a [Shader
+/// Object](https://www.khronos.org/opengl/wiki/GLSL_Object#Shader_objects)
 pub struct Shader(pub GLuint);
 impl Shader {
+  /// Makes a new shader.
+  ///
+  /// Prefer the [`Shader::from_source`](Shader::from_source) method.
+  ///
+  /// Possibly skip the direct creation of the shader object and use
+  /// [`ShaderProgram::from_vert_frag`](ShaderProgram::from_vert_frag).
   pub fn new(ty: ShaderType) -> Option<Self> {
     let shader = unsafe { gl::CreateShader(ty as GLenum) };
     if shader != 0 {
@@ -90,6 +126,9 @@ impl Shader {
     }
   }
 
+  /// Assigns a source string to the shader.
+  /// 
+  /// Replaces any previously assigned source.
   pub fn set_source(&self, src: &str) {
     unsafe {
       gl::ShaderSource(
@@ -101,16 +140,21 @@ impl Shader {
     }
   }
 
+  /// Compiles the shader based on the current source.
   pub fn compile(&self) {
     unsafe { gl::CompileShader(self.0) };
   }
 
+  /// Checks if the last compile was successful or not.
   pub fn compile_success(&self) -> bool {
     let mut compiled = 0;
     unsafe { gl::GetShaderiv(self.0, gl::COMPILE_STATUS, &mut compiled) };
     compiled == i32::from(gl::TRUE)
   }
 
+  /// Gets the info log for the shader.
+  /// 
+  /// Usually you use this to get the compilation log when a compile failed.
   pub fn info_log(&self) -> String {
     let mut needed_len = 0;
     unsafe { gl::GetShaderiv(self.0, gl::INFO_LOG_LENGTH, &mut needed_len) };
@@ -128,13 +172,45 @@ impl Shader {
     String::from_utf8_lossy(&v).into_owned()
   }
 
+  /// Marks a shader for deletion.
+  ///
+  /// Note: This _does not_ immediately delete the shader. It only marks it for
+  /// deletion. If the shader has been previously attached to a program then the
+  /// shader will stay allocated until it's unattached from that program.
   pub fn delete(self) {
     unsafe { gl::DeleteShader(self.0) };
   }
+
+  /// Takes a shader type and source string and produces either the compiled
+  /// shader or an error message.
+  ///
+  /// Prefer [`ShaderProgram::from_vert_frag`](ShaderProgram::from_vert_frag),
+  /// it makes a complete program from the vertex and fragment sources all at
+  /// once.
+  pub fn from_source(ty: ShaderType, source: &str) -> Result<Self, String> {
+    let id = Self::new(ty)
+      .ok_or_else(|| "Couldn't allocate new shader".to_string())?;
+    id.set_source(source);
+    id.compile();
+    if id.compile_success() {
+      Ok(id)
+    } else {
+      let out = id.info_log();
+      id.delete();
+      Err(out)
+    }
+  }
 }
 
+/// A handle to a [Program
+/// Object](https://www.khronos.org/opengl/wiki/GLSL_Object#Program_objects)
 pub struct ShaderProgram(pub GLuint);
 impl ShaderProgram {
+  /// Allocates a new program object.
+  ///
+  /// Prefer [`ShaderProgram::from_vert_frag`](ShaderProgram::from_vert_frag),
+  /// it makes a complete program from the vertex and fragment sources all at
+  /// once.
   pub fn new() -> Option<Self> {
     let prog = unsafe { gl::CreateProgram() };
     if prog != 0 {
@@ -144,20 +220,26 @@ impl ShaderProgram {
     }
   }
 
+  /// Attaches a shader object to this program object.
   pub fn attach_shader(&self, shader: &Shader) {
     unsafe { gl::AttachShader(self.0, shader.0) };
   }
 
+  /// Links the various attached, compiled shader objects into a usable program.
   pub fn link_program(&self) {
     unsafe { gl::LinkProgram(self.0) };
   }
 
+  /// Checks if the last linking operation was successful.
   pub fn link_success(&self) -> bool {
     let mut success = 0;
     unsafe { gl::GetProgramiv(self.0, gl::LINK_STATUS, &mut success) };
     success == i32::from(gl::TRUE)
   }
 
+  /// Gets the log data for this program.
+  /// 
+  /// This is usually used to check the message when a program failed to link.
   pub fn info_log(&self) -> String {
     let mut needed_len = 0;
     unsafe { gl::GetProgramiv(self.0, gl::INFO_LOG_LENGTH, &mut needed_len) };
@@ -175,7 +257,59 @@ impl ShaderProgram {
     String::from_utf8_lossy(&v).into_owned()
   }
 
+  /// Sets the program as the program to use when drawing.
   pub fn use_program(&self) {
     unsafe { gl::UseProgram(self.0) };
   }
+
+  /// Marks the program for deletion.
+  ///
+  /// Note: This _does not_ immediately delete the program. If the program is
+  /// currently in use it won't be deleted until it's not the active program.
+  /// When a program is finally deleted and attached shaders are unattached.
+  pub fn delete(self) {
+    unsafe { gl::DeleteProgram(self.0) };
+  }
+
+  /// Takes a vertex shader source string and a fragment shader source string
+  /// and either gets you a working program object or gets you an error message.
+  ///
+  /// This is the preferred way to create a simple shader program in the common
+  /// case. It's just less error prone than doing all the steps yourself.
+  pub fn from_vert_frag(vert: &str, frag: &str) -> Result<Self, String> {
+    let p =
+      Self::new().ok_or_else(|| "Couldn't allocate a program".to_string())?;
+    let v = Shader::from_source(ShaderType::Vertex, vert)
+      .map_err(|e| format!("Vertex Compile Error: {}", e))?;
+    let f = Shader::from_source(ShaderType::Fragment, frag)
+      .map_err(|e| format!("Fragment Compile Error: {}", e))?;
+    p.attach_shader(&v);
+    p.attach_shader(&f);
+    p.link_program();
+    v.delete();
+    f.delete();
+    if p.link_success() {
+      Ok(p)
+    } else {
+      let out = format!("Program Link Error: {}", p.info_log());
+      p.delete();
+      Err(out)
+    }
+  }
+}
+
+/// The polygon display modes you can set.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum PolygonMode {
+  /// Just show the points.
+  Point = gl::POINT as isize,
+  /// Just show the lines.
+  Line = gl::LINE as isize,
+  /// Fill in the polygons.
+  Fill = gl::FILL as isize,
+}
+
+/// Sets the font and back polygon mode to the mode given.
+pub fn polygon_mode(mode: PolygonMode) {
+  unsafe { gl::PolygonMode(gl::FRONT_AND_BACK, mode as GLenum) };
 }

@@ -1,41 +1,44 @@
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
-#![allow(clippy::single_match)]
 #![allow(unused_imports)]
+#![allow(clippy::single_match)]
 #![allow(clippy::zero_ptr)]
 
-const WINDOW_TITLE: &str = "Triangle: Draw Arrays Cleaned Up";
+const WINDOW_TITLE: &str = "Triangle: Elements";
 
 use beryllium::*;
 use core::{
   convert::{TryFrom, TryInto},
   mem::{size_of, size_of_val},
+  ptr::null,
 };
 use learn::{
-  BufferType, Shader, ShaderProgram, ShaderType, VertexArray, VertexBuffer,
+  Buffer, BufferType, Shader, ShaderProgram, ShaderType, VertexArray,
 };
 use learn_opengl as learn;
 use ogl33 as gl;
 
 type Vertex = [f32; 3];
+type TriIndexes = [u32; 3];
 
-const VERTICES: [Vertex; 3] =
-  [[-0.5, -0.5, 0.0], [0.5, -0.5, 0.0], [0.0, 0.5, 0.0]];
+const VERTICES: [Vertex; 4] =
+  [[0.5, 0.5, 0.0], [0.5, -0.5, 0.0], [-0.5, -0.5, 0.0], [-0.5, 0.5, 0.0]];
+
+const INDICES: [TriIndexes; 2] = [[0, 1, 3], [1, 2, 3]];
 
 const VERT_SHADER: &str = r#"#version 330 core
+  layout (location = 0) in vec3 pos;
 
-layout (location = 0) in vec3 pos;
-
-void main() {
-  gl_Position = vec4(pos.x, pos.y, pos.z, 1.0);
-}
+  void main() {
+    gl_Position = vec4(pos.x, pos.y, pos.z, 1.0);
+  }
 "#;
 
 const FRAG_SHADER: &str = r#"#version 330 core
-out vec4 final_color;
+  out vec4 final_color;
 
-void main() {
-  final_color = vec4(1.0, 0.5, 0.2, 1.0);
-}
+  void main() {
+    final_color = vec4(1.0, 0.5, 0.2, 1.0);
+  }
 "#;
 
 fn main() {
@@ -70,7 +73,7 @@ fn main() {
   let vao = VertexArray::new().expect("Couldn't make a VAO");
   vao.bind();
 
-  let vbo = VertexBuffer::new().expect("Couldn't make a VBO");
+  let vbo = Buffer::new().expect("Couldn't make the vertex buffer");
   vbo.bind(BufferType::Array);
   learn::buffer_data(
     BufferType::Array,
@@ -78,32 +81,16 @@ fn main() {
     gl::STATIC_DRAW,
   );
 
-  let vertex_shader =
-    Shader::new(ShaderType::Vertex).expect("failed to make a vertex shader");
-  vertex_shader.set_source(VERT_SHADER);
-  vertex_shader.compile();
-  if !vertex_shader.compile_success() {
-    panic!("Vertex Compile Error: {}", vertex_shader.info_log());
-  }
-
-  let fragment_shader =
-    Shader::new(ShaderType::Fragment).expect("failed to make a vertex shader");
-  fragment_shader.set_source(FRAG_SHADER);
-  fragment_shader.compile();
-  if !fragment_shader.compile_success() {
-    panic!("Fragment Compile Error: {}", fragment_shader.info_log());
-  }
+  let ebo = Buffer::new().expect("Couldn't make the element buffer.");
+  ebo.bind(BufferType::ElementArray);
+  learn::buffer_data(
+    BufferType::ElementArray,
+    bytemuck::cast_slice(&INDICES),
+    gl::STATIC_DRAW,
+  );
 
   let shader_program =
-    ShaderProgram::new().expect("couldn't make a shader program");
-  shader_program.attach_shader(&vertex_shader);
-  shader_program.attach_shader(&fragment_shader);
-  shader_program.link_program();
-  if !shader_program.link_success() {
-    panic!("Shader Link Error: {}", shader_program.info_log());
-  }
-  vertex_shader.delete();
-  fragment_shader.delete();
+    ShaderProgram::from_vert_frag(VERT_SHADER, FRAG_SHADER).unwrap();
   shader_program.use_program();
 
   unsafe {
@@ -133,7 +120,7 @@ fn main() {
     // and then draw!
     unsafe {
       gl::Clear(gl::COLOR_BUFFER_BIT);
-      gl::DrawArrays(gl::TRIANGLES, 0, 3);
+      gl::DrawElements(gl::TRIANGLES, 6, gl::UNSIGNED_INT, null());
       win.swap_window();
     }
   }
