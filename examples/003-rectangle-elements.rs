@@ -15,7 +15,7 @@ use learn::{
   Buffer, BufferType, Shader, ShaderProgram, ShaderType, VertexArray,
 };
 use learn_opengl as learn;
-use ogl33 as gl;
+use ogl33::*;
 
 type Vertex = [f32; 3];
 type TriIndexes = [u32; 3];
@@ -65,7 +65,7 @@ fn main() {
   win.set_swap_interval(SwapInterval::Vsync);
 
   unsafe {
-    glload_with(|f_name| win.get_proc_address(f_name));
+    load_gl_with(|f_name| win.get_proc_address(f_name));
   }
 
   learn::clear_color(0.2, 0.3, 0.3, 1.0);
@@ -78,7 +78,7 @@ fn main() {
   learn::buffer_data(
     BufferType::Array,
     bytemuck::cast_slice(&VERTICES),
-    glSTATIC_DRAW,
+    GL_STATIC_DRAW,
   );
 
   let ebo = Buffer::new().expect("Couldn't make the element buffer.");
@@ -86,7 +86,7 @@ fn main() {
   learn::buffer_data(
     BufferType::ElementArray,
     bytemuck::cast_slice(&INDICES),
-    glSTATIC_DRAW,
+    GL_STATIC_DRAW,
   );
 
   let shader_program =
@@ -97,8 +97,8 @@ fn main() {
     glVertexAttribPointer(
       0,
       3,
-      glFLOAT,
-      glFALSE,
+      GL_FLOAT,
+      GL_FALSE,
       size_of::<Vertex>().try_into().unwrap(),
       0 as *const _,
     );
@@ -119,8 +119,8 @@ fn main() {
 
     // and then draw!
     unsafe {
-      glClear(glCOLOR_BUFFER_BIT);
-      glDrawElements(glTRIANGLES, 6, glUNSIGNED_INT, null());
+      glClear(GL_COLOR_BUFFER_BIT);
+      glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, null());
       win.swap_window();
     }
   }
