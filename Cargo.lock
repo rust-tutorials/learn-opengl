@@ -25,7 +25,7 @@ dependencies = [
 
 [[package]]
 name = "imagine"
-version = "0.0.3"
+version = "0.0.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 dependencies = [
  "bytemuck 1.0.1 (registry+https://github.com/rust-lang/crates.io-index)",
@@ -37,7 +37,7 @@ version = "0.0.1-alpha.0"
 dependencies = [
  "beryllium 0.2.0-alpha.3 (registry+https://github.com/rust-lang/crates.io-index)",
  "bytemuck 1.0.1 (registry+https://github.com/rust-lang/crates.io-index)",
- "imagine 0.0.3 (registry+https://github.com/rust-lang/crates.io-index)",
+ "imagine 0.0.4 (registry+https://github.com/rust-lang/crates.io-index)",
  "ogl33 0.2.0-alpha.2 (registry+https://github.com/rust-lang/crates.io-index)",
  "ultraviolet 0.3.3 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
@@ -99,7 +99,7 @@ dependencies = [
 "checksum beryllium 0.2.0-alpha.3 (registry+https://github.com/rust-lang/crates.io-index)" = "47ce0cdd265c15addc7da4686b29af2017ac61e0fa8f5eacee68b975b8089dde"
 "checksum bytemuck 1.0.1 (registry+https://github.com/rust-lang/crates.io-index)" = "24f99434c5af25c3002973d0e93d24ca72a09a7c890068d7e4ccdd2ba2d53f9b"
 "checksum fermium 0.1.4 (registry+https://github.com/rust-lang/crates.io-index)" = "e0db7d98893b18bff24e14593a05ff0dccba8cc6ed795dce5623213acffda87d"
-"checksum imagine 0.0.3 (registry+https://github.com/rust-lang/crates.io-index)" = "444c4bcce7866ead281178efb460b226fca66297da1e31e2ba763d30be662335"
+"checksum imagine 0.0.4 (registry+https://github.com/rust-lang/crates.io-index)" = "47c4e43aa71614f9ad39bc2589c2475bdc114735b2edc32b960bef9e7d209e1a"
 "checksum libc 0.2.66 (registry+https://github.com/rust-lang/crates.io-index)" = "d515b1f41455adea1313a4a2ac8a8a477634fbae63cc6100e3aebb207ce61558"
 "checksum malloc_buf 0.0.6 (registry+https://github.com/rust-lang/crates.io-index)" = "62bb907fe88d54d8d9ce32a3cceab4218ed2f6b7d35617cafe9adf84e43919cb"
 "checksum objc 0.2.7 (registry+https://github.com/rust-lang/crates.io-index)" = "915b1b472bc21c53464d6c8461c9d3af805ba1ef837e1cac254428f4a77177b1"

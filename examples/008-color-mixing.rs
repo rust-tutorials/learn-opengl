@@ -3,7 +3,7 @@
 #![allow(clippy::single_match)]
 #![allow(clippy::zero_ptr)]
 
-const WINDOW_TITLE: &str = "Textures";
+const WINDOW_TITLE: &str = "Color Mixing";
 
 use beryllium::*;
 use core::{
@@ -22,13 +22,13 @@ type TriIndexes = [u32; 3];
 
 const VERTICES: [Vertex; 4] = [
   // top right
-  [1.0, 1.0, 0.0, 1.0, 0.0, 0.0, 1.0, 1.0],
+  [0.5, 0.5, 0.0, 1.0, 0.0, 0.0, 1.0, 1.0],
   // bottom right
-  [1.0, -1.0, 0.0, 0.0, 1.0, 0.0, 1.0, 0.0],
+  [0.5, -0.5, 0.0, 0.0, 1.0, 0.0, 1.0, 0.0],
   // bottom left
-  [-1.0, -1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0],
+  [-0.5, -0.5, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0],
   // top left
-  [-1.0, 1.0, 0.0, 0.2, 0.3, 0.4, 0.0, 1.0],
+  [-0.5, 0.5, 0.0, 0.2, 0.3, 0.4, 0.0, 1.0],
 ];
 
 const INDICES: [TriIndexes; 2] = [[0, 1, 3], [1, 2, 3]];
@@ -57,7 +57,7 @@ const FRAG_SHADER: &str = r#"#version 330 core
   out vec4 final_color;
 
   void main() {
-    final_color = texture(the_texture, frag_tex);
+    final_color = texture(the_texture, frag_tex) * frag_color;
   }
 "#;
 
@@ -66,7 +66,9 @@ fn main() {
     let mut f = std::fs::File::open("logo.png").unwrap();
     let mut bytes = vec![];
     std::io::Read::read_to_end(&mut f, &mut bytes).unwrap();
-    imagine::png::parse_png_rgba8(&bytes).unwrap().bitmap
+    let mut bitmap = imagine::png::parse_png_rgba8(&bytes).unwrap().bitmap;
+    bitmap.flip_scanlines();
+    bitmap
   };
 
   let sdl = SDL::init(InitFlags::Everything).expect("couldn't start SDL");
@@ -84,8 +86,8 @@ fn main() {
     .create_gl_window(
       WINDOW_TITLE,
       WindowPosition::Centered,
-      400,
-      400,
+      800,
+      800,
       WindowFlags::Shown,
     )
     .expect("couldn't make a window and context");
@@ -128,12 +130,12 @@ fn main() {
       GL_TEXTURE_2D,
       0,
       GL_RGBA as GLint,
-      bitmap.width.try_into().unwrap(),
-      bitmap.height.try_into().unwrap(),
+      bitmap.width().try_into().unwrap(),
+      bitmap.height().try_into().unwrap(),
       0,
       GL_RGBA,
       GL_UNSIGNED_BYTE,
-      bitmap.pixels.as_ptr().cast(),
+      bitmap.pixels().as_ptr().cast(),
     );
     glGenerateMipmap(GL_TEXTURE_2D);
   }
