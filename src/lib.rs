@@ -13,6 +13,16 @@
 //! design comes down to personal preference. I'd rather spend time on adding to
 //! the book, and you can just use some `unsafe` blocks here and there.
 
+/*
+
+TODO:
+
+Uniforms
+Get a Uniform Location
+Assign a value to a Uniform
+
+*/
+
 use core::convert::{TryFrom, TryInto};
 use ogl33::*;
 
@@ -101,7 +111,7 @@ pub enum ShaderType {
   /// Vertex shaders determine the position of geometry within the screen.
   Vertex = GL_VERTEX_SHADER as isize,
   /// Fragment shaders determine the color output of geometry.
-  /// 
+  ///
   /// Also other values, but mostly color.
   Fragment = GL_FRAGMENT_SHADER as isize,
 }
@@ -126,7 +136,7 @@ impl Shader {
   }
 
   /// Assigns a source string to the shader.
-  /// 
+  ///
   /// Replaces any previously assigned source.
   pub fn set_source(&self, src: &str) {
     unsafe {
@@ -152,7 +162,7 @@ impl Shader {
   }
 
   /// Gets the info log for the shader.
-  /// 
+  ///
   /// Usually you use this to get the compilation log when a compile failed.
   pub fn info_log(&self) -> String {
     let mut needed_len = 0;
@@ -237,7 +247,7 @@ impl ShaderProgram {
   }
 
   /// Gets the log data for this program.
-  /// 
+  ///
   /// This is usually used to check the message when a program failed to link.
   pub fn info_log(&self) -> String {
     let mut needed_len = 0;

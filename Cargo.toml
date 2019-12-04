@@ -9,10 +9,9 @@ license = "Zlib"
 
 [dependencies]
 bytemuck = "1"
-ogl33 = { version = "0.2.0-alpha.1", features = ["debug_error_checks"]}#, "debug_trace_messages"]}
-beryllium = "0.2.0-alpha.2"
+ogl33 = { version = "0.2.0-alpha.2", features = ["debug_error_checks"]}#, "debug_trace_messages"]}
+beryllium = "0.2.0-alpha.3"
+imagine = "0.0.3"
 
 [dev-dependencies]
-beryllium = "0.2.0-alpha.2"
-imagine = "0.0.2"
 ultraviolet = "0.3"
