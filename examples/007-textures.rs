@@ -17,7 +17,7 @@ use learn::{
 use learn_opengl as learn;
 use ogl33::*;
 
-type Vertex = [f32; 3+3+2];
+type Vertex = [f32; 3 + 3 + 2];
 type TriIndexes = [u32; 3];
 
 const VERTICES: [Vertex; 4] = [

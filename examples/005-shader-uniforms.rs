@@ -12,7 +12,7 @@ use core::{
   ptr::null,
 };
 use learn::{
-  Buffer, BufferType, Shader, ShaderProgram, ShaderType, VertexArray,
+  null_str, Buffer, BufferType, Shader, ShaderProgram, ShaderType, VertexArray,
 };
 use learn_opengl as learn;
 use ogl33::*;
@@ -107,7 +107,7 @@ fn main() {
     glEnableVertexAttribArray(0);
   }
 
-  let p: *const c_char = b"uni_color\0".as_ptr().cast();
+  let p: *const c_char = null_str!("uni_color").as_ptr().cast();
   let uni_color_loc = unsafe { glGetUniformLocation(shader_program.0, p) };
 
   'main_loop: loop {

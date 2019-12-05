@@ -15,16 +15,37 @@
 
 /*
 
+NEEDS FIXING:
+
+We need to fix these once Fusha fixes the matrix stuff
+
+010
+011
+
 TODO:
 
-Uniforms
-Get a Uniform Location
-Assign a value to a Uniform
+012 cube with depth buffer
+013 a dozen cubes
+014 mouse look camera
+015 add WASDQE movement
+016 Zoom
+017 Quaternion Camera
+--- end of arc 1
 
 */
 
 use core::convert::{TryFrom, TryInto};
 use ogl33::*;
+
+/// Takes a string literal and concatenates a null byte onto the end.
+#[macro_export]
+macro_rules! null_str {
+  ($lit:literal) => {{
+    // "type check" the input
+    const _: &str = $lit;
+    concat!($lit, "\0")
+  }};
+}
 
 /// Sets the color to clear to when clearing the screen.
 pub fn clear_color(r: f32, g: f32, b: f32, a: f32) {

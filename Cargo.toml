@@ -7,11 +7,17 @@ authors = ["Lokathor <zefria@gmail.com>"]
 edition = "2018"
 license = "Zlib"
 
+publish = false
+
 [dependencies]
 bytemuck = "1"
 ogl33 = { version = "0.2.0-alpha.2", features = ["debug_error_checks"]}#, "debug_trace_messages"]}
+
+# these should be dev dependencies, but i use the bin directory
+# during dev so they live here, except during a crates.io release
 beryllium = "0.2.0-alpha.3"
-imagine = "0.0.4"
+imagine = "0.0.5"
+#ultraviolet = "0.3"
+ultraviolet = { git = "https://github.com/Lokathor/ultraviolet", branch = "rotation-fix" }
 
 [dev-dependencies]
-ultraviolet = "0.3"
