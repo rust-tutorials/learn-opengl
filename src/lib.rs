@@ -17,16 +17,13 @@
 
 NEEDS FIXING:
 
-We need to fix these once Fusha fixes the matrix stuff
+We need to fix these once Fusha fixes the matrix stuff (lesson 10 and onward)
 
-010
-011
+texture id variables should go inside the block because we don't use them later.
+(check all lessons from 7 onward)
 
 TODO:
 
-012 cube with depth buffer
-013 a dozen cubes
-014 mouse look camera
 015 add WASDQE movement
 016 Zoom
 017 Quaternion Camera

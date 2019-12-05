@@ -3,7 +3,7 @@
 #![allow(clippy::single_match)]
 #![allow(clippy::zero_ptr)]
 
-const WINDOW_TITLE: &str = "Coordinate Basics";
+const WINDOW_TITLE: &str = "Depth Buffer Cube";
 const WINDOW_WIDTH: u32 = 800;
 const WINDOW_HEIGHT: u32 = 800;
 
@@ -21,19 +21,53 @@ use ogl33::*;
 use ultraviolet::mat::Mat4;
 
 type Vertex = [f32; 3 + 2];
-type TriIndexes = [u32; 3];
-
-const VERTICES: [Vertex; 4] = [
-  // top right
-  [0.5, 0.5, 0.0, 1.0, 1.0],
-  // bottom right
-  [0.5, -0.5, 0.0, 1.0, 0.0],
-  // bottom left
-  [-0.5, -0.5, 0.0, 0.0, 0.0],
-  // top left
-  [-0.5, 0.5, 0.0, 0.0, 1.0],
+/// Draw this with glDrawArrays(GL_TRIANGLES, 0, 36)
+const CUBE_VERTICES: [Vertex; 6 * 6] = [
+  // panel 1
+  [-0.5, -0.5, -0.5, 0.0, 0.0],
+  [0.5, -0.5, -0.5, 1.0, 0.0],
+  [0.5, 0.5, -0.5, 1.0, 1.0],
+  [0.5, 0.5, -0.5, 1.0, 1.0],
+  [-0.5, 0.5, -0.5, 0.0, 1.0],
+  [-0.5, -0.5, -0.5, 0.0, 0.0],
+  // panel 2
+  [-0.5, -0.5, 0.5, 0.0, 0.0],
+  [0.5, -0.5, 0.5, 1.0, 0.0],
+  [0.5, 0.5, 0.5, 1.0, 1.0],
+  [0.5, 0.5, 0.5, 1.0, 1.0],
+  [-0.5, 0.5, 0.5, 0.0, 1.0],
+  [-0.5, -0.5, 0.5, 0.0, 0.0],
+  // panel 3
+  [-0.5, 0.5, 0.5, 1.0, 0.0],
+  [-0.5, 0.5, -0.5, 1.0, 1.0],
+  [-0.5, -0.5, -0.5, 0.0, 1.0],
+  [-0.5, -0.5, -0.5, 0.0, 1.0],
+  [-0.5, -0.5, 0.5, 0.0, 0.0],
+  [-0.5, 0.5, 0.5, 1.0, 0.0],
+  // panel 4
+  [0.5, 0.5, 0.5, 1.0, 0.0],
+  [0.5, 0.5, -0.5, 1.0, 1.0],
+  [0.5, -0.5, -0.5, 0.0, 1.0],
+  [0.5, -0.5, -0.5, 0.0, 1.0],
+  [0.5, -0.5, 0.5, 0.0, 0.0],
+  [0.5, 0.5, 0.5, 1.0, 0.0],
+  // panel 5
+  [-0.5, -0.5, -0.5, 0.0, 1.0],
+  [0.5, -0.5, -0.5, 1.0, 1.0],
+  [0.5, -0.5, 0.5, 1.0, 0.0],
+  [0.5, -0.5, 0.5, 1.0, 0.0],
+  [-0.5, -0.5, 0.5, 0.0, 0.0],
+  [-0.5, -0.5, -0.5, 0.0, 1.0],
+  // panel 6
+  [-0.5, 0.5, -0.5, 0.0, 1.0],
+  [0.5, 0.5, -0.5, 1.0, 1.0],
+  [0.5, 0.5, 0.5, 1.0, 0.0],
+  [0.5, 0.5, 0.5, 1.0, 0.0],
+  [-0.5, 0.5, 0.5, 0.0, 0.0],
+  [-0.5, 0.5, -0.5, 0.0, 1.0],
 ];
 
+type TriIndexes = [u32; 3];
 const INDICES: [TriIndexes; 2] = [[0, 1, 3], [1, 2, 3]];
 
 const VERT_SHADER: &str = r#"#version 330 core
@@ -108,6 +142,8 @@ fn main() {
 
   unsafe {
     load_gl_with(|f_name| win.get_proc_address(f_name));
+
+    glEnable(GL_DEPTH_TEST);
   }
 
   learn::clear_color(0.2, 0.3, 0.3, 1.0);
@@ -119,20 +155,12 @@ fn main() {
   vbo.bind(BufferType::Array);
   learn::buffer_data(
     BufferType::Array,
-    bytemuck::cast_slice(&VERTICES),
+    bytemuck::cast_slice(&CUBE_VERTICES),
     GL_STATIC_DRAW,
   );
 
-  let ebo = Buffer::new().expect("Couldn't make the element buffer.");
-  ebo.bind(BufferType::ElementArray);
-  learn::buffer_data(
-    BufferType::ElementArray,
-    bytemuck::cast_slice(&INDICES),
-    GL_STATIC_DRAW,
-  );
-
-  let mut logo_texture = 0;
   unsafe {
+    let mut logo_texture = 0;
     glGenTextures(1, &mut logo_texture);
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, logo_texture);
@@ -154,8 +182,8 @@ fn main() {
     glGenerateMipmap(GL_TEXTURE_2D);
   }
 
-  let mut garris_texture = 0;
   unsafe {
+    let mut garris_texture = 0;
     glGenTextures(1, &mut garris_texture);
     glActiveTexture(GL_TEXTURE1);
     glBindTexture(GL_TEXTURE_2D, garris_texture);
@@ -225,12 +253,12 @@ fn main() {
   };
 
   let view = Mat4::identity();
-  /*
+  ///*
   let projection = ultraviolet::projection::rh_yup::orthographic_gl(
     -1.0, 1.0, -1.0, 1.0, 1.0, -1.0,
   );
   // */
-  // /*
+  /*
   let projection = ultraviolet::projection::rh_yup::perspective_gl(
     45.0_f32.to_radians(),
     (WINDOW_WIDTH as f32) / (WINDOW_HEIGHT as f32),
@@ -238,6 +266,7 @@ fn main() {
     100.0,
   );
   // */
+
   'main_loop: loop {
     // handle events this frame
     while let Some(event) = sdl.poll_events().and_then(Result::ok) {
@@ -250,15 +279,20 @@ fn main() {
 
     // update the "world state".
     let time = sdl.get_ticks() as f32 / 1000.0_f32;
-    let model = Mat4::from_rotation_z(0.0) * Mat4::from_rotation_z(time);
+    let model = Mat4::from_rotation_y(1.0)
+      * Mat4::from_rotation_x(0.5)
+      * Mat4::from_rotation_z(time);
 
     // and then draw!
     unsafe {
-      glClear(GL_COLOR_BUFFER_BIT);
+      glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
       glUniformMatrix4fv(model_loc, 1, GL_FALSE, model.as_ptr());
       glUniformMatrix4fv(view_loc, 1, GL_FALSE, view.as_ptr());
       glUniformMatrix4fv(projection_loc, 1, GL_FALSE, projection.as_ptr());
-      glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, null());
+
+      glDrawArrays(GL_TRIANGLES, 0, 36);
+
       win.swap_window();
     }
   }
