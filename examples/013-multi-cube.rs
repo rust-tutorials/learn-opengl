@@ -294,7 +294,9 @@ fn main() {
 
       for (i, position) in CUBE_POSITIONS.iter().copied().enumerate() {
         let model = Mat4::from_translation(position)
-          * Mat4::from_euler_angles(time * (1.0 + i as f32), 2.0, 3.0);
+          * Mat4::from_rotation_y(3.0)
+          * Mat4::from_rotation_x((1.0 + i as f32) * 0.8)
+          * Mat4::from_rotation_z(time * (1.0 + i as f32));
 
         glUniformMatrix4fv(model_loc, 1, GL_FALSE, model.as_ptr());
 
