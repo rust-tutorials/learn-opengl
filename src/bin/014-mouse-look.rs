@@ -286,8 +286,8 @@ fn main() {
       match event {
         Event::Quit(_) => break 'main_loop,
         Event::MouseMotion(MouseMotionEvent { x_delta, y_delta, .. }) => {
-          let d_pitch_deg = x_delta as f32 * 0.1;
-          let d_yaw_deg = y_delta as f32 * 0.1;
+          let d_yaw_deg = -x_delta as f32 * 0.1;
+          let d_pitch_deg = -y_delta as f32 * 0.1;
           camera.update_orientation(d_pitch_deg, d_yaw_deg);
         }
         Event::Keyboard(KeyboardEvent {
