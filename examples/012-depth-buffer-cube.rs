@@ -67,9 +67,6 @@ const CUBE_VERTICES: [Vertex; 6 * 6] = [
   [-0.5, 0.5, -0.5, 0.0, 1.0],
 ];
 
-type TriIndexes = [u32; 3];
-const INDICES: [TriIndexes; 2] = [[0, 1, 3], [1, 2, 3]];
-
 const VERT_SHADER: &str = r#"#version 330 core
   uniform mat4 model;
   uniform mat4 view;
@@ -253,12 +250,13 @@ fn main() {
   };
 
   let view = Mat4::identity();
-  ///*
+  unsafe { glUniformMatrix4fv(view_loc, 1, GL_FALSE, view.as_ptr()) };
+  /*
   let projection = ultraviolet::projection::rh_yup::orthographic_gl(
     -1.0, 1.0, -1.0, 1.0, 1.0, -1.0,
   );
   // */
-  /*
+  // /*
   let projection = ultraviolet::projection::rh_yup::perspective_gl(
     45.0_f32.to_radians(),
     (WINDOW_WIDTH as f32) / (WINDOW_HEIGHT as f32),
@@ -266,6 +264,9 @@ fn main() {
     100.0,
   );
   // */
+  unsafe {
+    glUniformMatrix4fv(projection_loc, 1, GL_FALSE, projection.as_ptr())
+  };
 
   'main_loop: loop {
     // handle events this frame
@@ -288,8 +289,6 @@ fn main() {
       glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
       glUniformMatrix4fv(model_loc, 1, GL_FALSE, model.as_ptr());
-      glUniformMatrix4fv(view_loc, 1, GL_FALSE, view.as_ptr());
-      glUniformMatrix4fv(projection_loc, 1, GL_FALSE, projection.as_ptr());
 
       glDrawArrays(GL_TRIANGLES, 0, 36);
 

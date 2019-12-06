@@ -80,9 +80,6 @@ const CUBE_POSITIONS: [Vec3; 10] = [
   Vec3 { x: -1.3, y: 1.0, z: -1.5 },
 ];
 
-type TriIndexes = [u32; 3];
-const INDICES: [TriIndexes; 2] = [[0, 1, 3], [1, 2, 3]];
-
 const VERT_SHADER: &str = r#"#version 330 core
   uniform mat4 model;
   uniform mat4 view;
@@ -278,7 +275,9 @@ fn main() {
     100.0,
   );
   // */
-  unsafe { glUniformMatrix4fv(projection_loc, 1, GL_FALSE, projection.as_ptr()) };
+  unsafe {
+    glUniformMatrix4fv(projection_loc, 1, GL_FALSE, projection.as_ptr())
+  };
 
   let mut view_pitch = 0.0;
   let mut view_yaw = 0.0;

@@ -18,7 +18,7 @@ use learn::{
 };
 use learn_opengl as learn;
 use ogl33::*;
-use ultraviolet::mat::Mat4;
+use ultraviolet::{mat::Mat4, vec::Vec3};
 
 type Vertex = [f32; 3 + 2];
 type TriIndexes = [u32; 3];
@@ -224,20 +224,19 @@ fn main() {
     glGetUniformLocation(shader_program.0, name)
   };
 
-  let view = Mat4::identity();
-  /*
-  let projection = ultraviolet::projection::rh_yup::orthographic_gl(
-    -1.0, 1.0, -1.0, 1.0, 1.0, -1.0,
-  );
-  // */
-  // /*
+  let view = Mat4::from_translation(Vec3::new(0.0, 0.0, -1.0));
+  unsafe { glUniformMatrix4fv(view_loc, 1, GL_FALSE, view.as_ptr()) };
+
   let projection = ultraviolet::projection::rh_yup::perspective_gl(
     45.0_f32.to_radians(),
     (WINDOW_WIDTH as f32) / (WINDOW_HEIGHT as f32),
     0.1,
     100.0,
   );
-  // */
+  unsafe {
+    glUniformMatrix4fv(projection_loc, 1, GL_FALSE, projection.as_ptr())
+  };
+
   'main_loop: loop {
     // handle events this frame
     while let Some(event) = sdl.poll_events().and_then(Result::ok) {
@@ -250,14 +249,12 @@ fn main() {
 
     // update the "world state".
     let time = sdl.get_ticks() as f32 / 1000.0_f32;
-    let model = Mat4::from_rotation_z(0.0) * Mat4::from_rotation_z(time);
+    let model = Mat4::from_rotation_x(1.3) * Mat4::from_rotation_z(time);
 
     // and then draw!
     unsafe {
       glClear(GL_COLOR_BUFFER_BIT);
       glUniformMatrix4fv(model_loc, 1, GL_FALSE, model.as_ptr());
-      glUniformMatrix4fv(view_loc, 1, GL_FALSE, view.as_ptr());
-      glUniformMatrix4fv(projection_loc, 1, GL_FALSE, projection.as_ptr());
       glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, null());
       win.swap_window();
     }
