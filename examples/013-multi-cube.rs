@@ -286,7 +286,7 @@ fn main() {
     // now the events are clear.
 
     // update the "world state".
-    let time = sdl.get_ticks() as f32 / 10000.0_f32;
+    let time = sdl.get_ticks() as f32 / 10_000.0_f32;
 
     // and then draw!
     unsafe {

@@ -262,26 +262,20 @@ fn main() {
     glGetUniformLocation(shader_program.0, name)
   };
 
-  /*
-  let projection = ultraviolet::projection::rh_yup::orthographic_gl(
-    -1.0, 1.0, -1.0, 1.0, 1.0, -1.0,
-  );
-  // */
-  // /*
   let projection = ultraviolet::projection::rh_yup::perspective_gl(
     45.0_f32.to_radians(),
     (WINDOW_WIDTH as f32) / (WINDOW_HEIGHT as f32),
     0.1,
     100.0,
   );
-  // */
   unsafe {
     glUniformMatrix4fv(projection_loc, 1, GL_FALSE, projection.as_ptr())
   };
 
   let mut view_pitch = 0.0;
   let mut view_yaw = 0.0;
-  const MOUSE_SENSITIVITY: f32 = 0.05;
+  const MOUSE_SENSITIVITY: f32 = 0.2;
+  sdl.set_relative_mouse_mode(true).unwrap();
 
   'main_loop: loop {
     // handle events this frame
@@ -292,13 +286,8 @@ fn main() {
           view_pitch += (y_delta as f32) * MOUSE_SENSITIVITY;
           view_pitch = view_pitch.max(-89.0).min(89.0);
 
-          view_yaw += (x_delta as f32) * MOUSE_SENSITIVITY;
-          if view_yaw < 0.0 {
-            view_yaw += 360.0;
-          }
-          if view_yaw >= 360.0 {
-            view_yaw -= 360.0;
-          }
+          view_yaw -= (x_delta as f32) * MOUSE_SENSITIVITY;
+          view_yaw %= 360.0;
         }
         _ => (),
       }
@@ -306,8 +295,12 @@ fn main() {
     // now the events are clear.
 
     // update the "world state".
-    let time = sdl.get_ticks() as f32 / 1000.0_f32;
-    let view = Mat4::from_euler_angles(0.0, view_pitch, view_yaw);
+    let time = sdl.get_ticks() as f32 / 10_000.0_f32;
+    let view = Mat4::from_euler_angles(
+      0.0,
+      view_pitch.to_radians(),
+      view_yaw.to_radians(),
+    ) * Mat4::from_translation(Vec3::new(0.0, 0.0, -3.0));
 
     // and then draw!
     unsafe {
@@ -316,8 +309,10 @@ fn main() {
       glUniformMatrix4fv(view_loc, 1, GL_FALSE, view.as_ptr());
 
       for (i, position) in CUBE_POSITIONS.iter().copied().enumerate() {
-        let model = Mat4::from_euler_angles(time * (i as f32), 2.0, 3.0)
-          * Mat4::from_translation(position);
+        let model = Mat4::from_translation(position)
+          * Mat4::from_rotation_y(3.0)
+          * Mat4::from_rotation_x((1.0 + i as f32) * 0.8)
+          * Mat4::from_rotation_z(time * (1.0 + i as f32));
 
         glUniformMatrix4fv(model_loc, 1, GL_FALSE, model.as_ptr());
 
