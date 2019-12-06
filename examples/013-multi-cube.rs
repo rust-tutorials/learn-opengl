@@ -262,7 +262,7 @@ fn main() {
     glGetUniformLocation(shader_program.0, name)
   };
 
-  let view = Mat4::from_translation(Vec3::new(0.0, 0.0, -2.0));
+  let view = Mat4::from_translation(Vec3::new(0.0, 0.0, -3.0));
   unsafe { glUniformMatrix4fv(view_loc, 1, GL_FALSE, view.as_ptr()) };
 
   let projection = ultraviolet::projection::rh_yup::perspective_gl(
@@ -286,7 +286,7 @@ fn main() {
     // now the events are clear.
 
     // update the "world state".
-    let time = sdl.get_ticks() as f32 / 1000.0_f32;
+    let time = sdl.get_ticks() as f32 / 10000.0_f32;
 
     // and then draw!
     unsafe {
