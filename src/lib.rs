@@ -25,7 +25,7 @@ texture id variables should go inside the block because we don't use them later.
 TODO:
 
 015 add WASDQE movement
-016 Zoom
+016 mouse-wheel Zoom on the camera
 017 Quaternion Camera
 --- end of arc 1
 
