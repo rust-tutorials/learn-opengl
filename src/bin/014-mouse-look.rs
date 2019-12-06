@@ -381,8 +381,8 @@ impl EulerFPSCamera {
       |vec, key| match *key {
         beryllium::fermium::SDLK_w => vec + forward,
         beryllium::fermium::SDLK_s => vec - forward,
-        beryllium::fermium::SDLK_a => vec + cross_normalized,
-        beryllium::fermium::SDLK_d => vec - cross_normalized,
+        beryllium::fermium::SDLK_a => vec - cross_normalized,
+        beryllium::fermium::SDLK_d => vec + cross_normalized,
         beryllium::fermium::SDLK_e => vec + Self::UP,
         beryllium::fermium::SDLK_q => vec - Self::UP,
         _ => vec,
