@@ -17,6 +17,6 @@ ogl33 = { version = "0.2.0-alpha.2", features = ["debug_error_checks"]}#, "debug
 # during dev so they live here, except during a crates.io release
 beryllium = "0.2.0-alpha.4"
 imagine = "0.0.5"
-ultraviolet = "0.4.0-alpha3"
+ultraviolet = "0.4.0-alpha5"
 
 [dev-dependencies]

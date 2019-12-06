@@ -38,7 +38,7 @@ dependencies = [
  "bytemuck 1.0.1 (registry+https://github.com/rust-lang/crates.io-index)",
  "imagine 0.0.5 (registry+https://github.com/rust-lang/crates.io-index)",
  "ogl33 0.2.0-alpha.2 (registry+https://github.com/rust-lang/crates.io-index)",
- "ultraviolet 0.4.0-alpha3 (registry+https://github.com/rust-lang/crates.io-index)",
+ "ultraviolet 0.4.0-alpha5 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
 
 [[package]]
@@ -72,7 +72,7 @@ dependencies = [
 
 [[package]]
 name = "ultraviolet"
-version = "0.4.0-alpha3"
+version = "0.4.0-alpha5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 dependencies = [
  "wide 0.3.2 (registry+https://github.com/rust-lang/crates.io-index)",
@@ -95,5 +95,5 @@ dependencies = [
 "checksum malloc_buf 0.0.6 (registry+https://github.com/rust-lang/crates.io-index)" = "62bb907fe88d54d8d9ce32a3cceab4218ed2f6b7d35617cafe9adf84e43919cb"
 "checksum objc 0.2.7 (registry+https://github.com/rust-lang/crates.io-index)" = "915b1b472bc21c53464d6c8461c9d3af805ba1ef837e1cac254428f4a77177b1"
 "checksum ogl33 0.2.0-alpha.2 (registry+https://github.com/rust-lang/crates.io-index)" = "243dfcefdb98ab1e605f8dca96a2747c4a036784ed334d8be4d9c53eacf49ab8"
-"checksum ultraviolet 0.4.0-alpha3 (registry+https://github.com/rust-lang/crates.io-index)" = "11a498141778e181bb1d37ccffd5f22c352c42ed1e3444db63aebe166f121056"
+"checksum ultraviolet 0.4.0-alpha5 (registry+https://github.com/rust-lang/crates.io-index)" = "f04abe6135767e6fa0854b05cb6c6e942a43e71d96d13ccacf657a3b6f1fbfe4"
 "checksum wide 0.3.2 (registry+https://github.com/rust-lang/crates.io-index)" = "a3cdbd2c50784dd32b342a80d940aac7928e099bb2789041e971de17e1358961"
