@@ -2,12 +2,11 @@
 # It is not intended for manual editing.
 [[package]]
 name = "beryllium"
-version = "0.2.0-alpha.3"
+version = "0.2.0-alpha.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 dependencies = [
  "fermium 0.1.4 (registry+https://github.com/rust-lang/crates.io-index)",
  "objc 0.2.7 (registry+https://github.com/rust-lang/crates.io-index)",
- "raw-window-handle 0.3.3 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
 
 [[package]]
@@ -35,11 +34,11 @@ dependencies = [
 name = "learn-opengl"
 version = "0.0.1-alpha.0"
 dependencies = [
- "beryllium 0.2.0-alpha.3 (registry+https://github.com/rust-lang/crates.io-index)",
+ "beryllium 0.2.0-alpha.4 (registry+https://github.com/rust-lang/crates.io-index)",
  "bytemuck 1.0.1 (registry+https://github.com/rust-lang/crates.io-index)",
  "imagine 0.0.5 (registry+https://github.com/rust-lang/crates.io-index)",
  "ogl33 0.2.0-alpha.2 (registry+https://github.com/rust-lang/crates.io-index)",
- "ultraviolet 0.4.0-alpha2 (registry+https://github.com/rust-lang/crates.io-index)",
+ "ultraviolet 0.4.0-alpha3 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
 
 [[package]]
@@ -72,16 +71,8 @@ dependencies = [
 ]
 
 [[package]]
-name = "raw-window-handle"
-version = "0.3.3"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-dependencies = [
- "libc 0.2.66 (registry+https://github.com/rust-lang/crates.io-index)",
-]
-
-[[package]]
 name = "ultraviolet"
-version = "0.4.0-alpha2"
+version = "0.4.0-alpha3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 dependencies = [
  "wide 0.3.2 (registry+https://github.com/rust-lang/crates.io-index)",
@@ -96,7 +87,7 @@ dependencies = [
 ]
 
 [metadata]
-"checksum beryllium 0.2.0-alpha.3 (registry+https://github.com/rust-lang/crates.io-index)" = "47ce0cdd265c15addc7da4686b29af2017ac61e0fa8f5eacee68b975b8089dde"
+"checksum beryllium 0.2.0-alpha.4 (registry+https://github.com/rust-lang/crates.io-index)" = "a17026f2207a77e54a1fb85b5078dcaaab3b2155de2f167604eb933620bf1dcf"
 "checksum bytemuck 1.0.1 (registry+https://github.com/rust-lang/crates.io-index)" = "24f99434c5af25c3002973d0e93d24ca72a09a7c890068d7e4ccdd2ba2d53f9b"
 "checksum fermium 0.1.4 (registry+https://github.com/rust-lang/crates.io-index)" = "e0db7d98893b18bff24e14593a05ff0dccba8cc6ed795dce5623213acffda87d"
 "checksum imagine 0.0.5 (registry+https://github.com/rust-lang/crates.io-index)" = "b66f20ef575a7087eed611a0d4ff4bd624d24bf9c63b4d614d2d8823090af75b"
@@ -104,6 +95,5 @@ dependencies = [
 "checksum malloc_buf 0.0.6 (registry+https://github.com/rust-lang/crates.io-index)" = "62bb907fe88d54d8d9ce32a3cceab4218ed2f6b7d35617cafe9adf84e43919cb"
 "checksum objc 0.2.7 (registry+https://github.com/rust-lang/crates.io-index)" = "915b1b472bc21c53464d6c8461c9d3af805ba1ef837e1cac254428f4a77177b1"
 "checksum ogl33 0.2.0-alpha.2 (registry+https://github.com/rust-lang/crates.io-index)" = "243dfcefdb98ab1e605f8dca96a2747c4a036784ed334d8be4d9c53eacf49ab8"
-"checksum raw-window-handle 0.3.3 (registry+https://github.com/rust-lang/crates.io-index)" = "0a441a7a6c80ad6473bd4b74ec1c9a4c951794285bf941c2126f607c72e48211"
-"checksum ultraviolet 0.4.0-alpha2 (registry+https://github.com/rust-lang/crates.io-index)" = "549e27d6706979ff88a3ed084e3727aed5592fbc3d9ef6cd90c9ee7d5c7faa2c"
+"checksum ultraviolet 0.4.0-alpha3 (registry+https://github.com/rust-lang/crates.io-index)" = "11a498141778e181bb1d37ccffd5f22c352c42ed1e3444db63aebe166f121056"
 "checksum wide 0.3.2 (registry+https://github.com/rust-lang/crates.io-index)" = "a3cdbd2c50784dd32b342a80d940aac7928e099bb2789041e971de17e1358961"

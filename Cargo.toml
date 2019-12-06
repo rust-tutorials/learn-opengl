@@ -15,9 +15,8 @@ ogl33 = { version = "0.2.0-alpha.2", features = ["debug_error_checks"]}#, "debug
 
 # these should be dev dependencies, but i use the bin directory
 # during dev so they live here, except during a crates.io release
-beryllium = "0.2.0-alpha.3"
+beryllium = "0.2.0-alpha.4"
 imagine = "0.0.5"
-ultraviolet = "0.4.0-alpha2"
-#ultraviolet = { git = "https://github.com/Lokathor/ultraviolet", branch = "rotation-fix" }
+ultraviolet = "0.4.0-alpha3"
 
 [dev-dependencies]
