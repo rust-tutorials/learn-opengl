@@ -3,7 +3,7 @@
 #![allow(clippy::single_match)]
 #![allow(clippy::zero_ptr)]
 
-const WINDOW_TITLE: &str = "Mouse Look";
+const WINDOW_TITLE: &str = "Movement";
 const WINDOW_WIDTH: u32 = 800;
 const WINDOW_HEIGHT: u32 = 800;
 
@@ -371,20 +371,20 @@ impl EulerFPSCamera {
   /// The "forward" vector is relative to the current orientation.
   pub fn update_position(
     &mut self,
-    keys: &HashSet<beryllium::fermium::SDL_Keycode>,
+    keys: &HashSet<Keycode>,
     distance: f32,
   ) {
     let forward = self.make_front();
     let cross_normalized = forward.cross(Self::UP).normalized();
     let mut move_vector = keys.iter().fold(
       Vec3 { x: 0.0, y: 0.0, z: 0.0 },
-      |vec, key| match *key as beryllium::fermium::_bindgen_ty_7 {
-        beryllium::fermium::SDLK_w => vec + forward,
-        beryllium::fermium::SDLK_s => vec - forward,
-        beryllium::fermium::SDLK_a => vec - cross_normalized,
-        beryllium::fermium::SDLK_d => vec + cross_normalized,
-        beryllium::fermium::SDLK_e => vec + Self::UP,
-        beryllium::fermium::SDLK_q => vec - Self::UP,
+      |vec, key| match *key {
+        Keycode::W => vec + forward,
+        Keycode::S => vec - forward,
+        Keycode::A => vec - cross_normalized,
+        Keycode::D => vec + cross_normalized,
+        Keycode::E => vec + Self::UP,
+        Keycode::Q => vec - Self::UP,
         _ => vec,
       },
     );
