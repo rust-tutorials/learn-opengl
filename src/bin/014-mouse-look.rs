@@ -378,7 +378,7 @@ impl EulerFPSCamera {
     let cross_normalized = forward.cross(Self::UP).normalized();
     let mut move_vector = keys.iter().fold(
       Vec3 { x: 0.0, y: 0.0, z: 0.0 },
-      |vec, key| match *key {
+      |vec, key| match *key as beryllium::fermium::_bindgen_ty_7 {
         beryllium::fermium::SDLK_w => vec + forward,
         beryllium::fermium::SDLK_s => vec - forward,
         beryllium::fermium::SDLK_a => vec - cross_normalized,
