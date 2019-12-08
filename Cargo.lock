@@ -37,7 +37,7 @@ dependencies = [
  "beryllium 0.2.0-alpha.5 (registry+https://github.com/rust-lang/crates.io-index)",
  "bytemuck 1.1.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "imagine 0.0.5 (registry+https://github.com/rust-lang/crates.io-index)",
- "ogl33 0.2.0-alpha.2 (registry+https://github.com/rust-lang/crates.io-index)",
+ "ogl33 0.2.0 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
 
 [[package]]
@@ -63,7 +63,7 @@ dependencies = [
 
 [[package]]
 name = "ogl33"
-version = "0.2.0-alpha.2"
+version = "0.2.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 dependencies = [
  "libc 0.2.66 (registry+https://github.com/rust-lang/crates.io-index)",
@@ -77,4 +77,4 @@ dependencies = [
 "checksum libc 0.2.66 (registry+https://github.com/rust-lang/crates.io-index)" = "d515b1f41455adea1313a4a2ac8a8a477634fbae63cc6100e3aebb207ce61558"
 "checksum malloc_buf 0.0.6 (registry+https://github.com/rust-lang/crates.io-index)" = "62bb907fe88d54d8d9ce32a3cceab4218ed2f6b7d35617cafe9adf84e43919cb"
 "checksum objc 0.2.7 (registry+https://github.com/rust-lang/crates.io-index)" = "915b1b472bc21c53464d6c8461c9d3af805ba1ef837e1cac254428f4a77177b1"
-"checksum ogl33 0.2.0-alpha.2 (registry+https://github.com/rust-lang/crates.io-index)" = "243dfcefdb98ab1e605f8dca96a2747c4a036784ed334d8be4d9c53eacf49ab8"
+"checksum ogl33 0.2.0 (registry+https://github.com/rust-lang/crates.io-index)" = "824cf1a81ae16877f90e9cdc4dcb51c833a0f8da6a7ca36a782a3a970fcd3e32"

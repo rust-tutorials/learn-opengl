@@ -11,7 +11,7 @@ publish = false
 
 [dependencies]
 bytemuck = "1"
-ogl33 = { version = "0.2.0-alpha.2", features = ["debug_error_checks"]}
+ogl33 = { version = "0.2", features = ["debug_error_checks"]}
 
 # these should be dev dependencies, but i use the bin directory
 # during dev so they live here, except during a crates.io release

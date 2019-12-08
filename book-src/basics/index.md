@@ -53,7 +53,7 @@ As I start this project, this is what my Cargo.toml looks like.
 ```toml
 [dependencies]
 bytemuck = "1"
-ogl33 = { version = "0.2.0-alpha.2", features = ["debug_error_checks"]}
+ogl33 = { version = "0.2.0", features = ["debug_error_checks"]}
 
 [dev-dependencies]
 beryllium = "0.2.0-alpha.4"
