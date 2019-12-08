@@ -19,20 +19,19 @@ const VERTICES: [Vertex; 3] =
   [[-0.5, -0.5, 0.0], [0.5, -0.5, 0.0], [0.0, 0.5, 0.0]];
 
 const VERT_SHADER: &str = r#"#version 330 core
+  layout (location = 0) in vec3 pos;
 
-layout (location = 0) in vec3 pos;
-
-void main() {
-  gl_Position = vec4(pos.x, pos.y, pos.z, 1.0);
-}
+  void main() {
+    gl_Position = vec4(pos.x, pos.y, pos.z, 1.0);
+  }
 "#;
 
 const FRAG_SHADER: &str = r#"#version 330 core
-out vec4 final_color;
+  out vec4 final_color;
 
-void main() {
-  final_color = vec4(1.0, 0.5, 0.2, 1.0);
-}
+  void main() {
+    final_color = vec4(1.0, 0.5, 0.2, 1.0);
+  }
 "#;
 
 fn main() {
