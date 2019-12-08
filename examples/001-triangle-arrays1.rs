@@ -137,6 +137,7 @@ fn main() {
     }
 
     let shader_program = glCreateProgram();
+    assert_ne!(shader_program, 0);
     glAttachShader(shader_program, vertex_shader);
     glAttachShader(shader_program, fragment_shader);
     glLinkProgram(shader_program);
