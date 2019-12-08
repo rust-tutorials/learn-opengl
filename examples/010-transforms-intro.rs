@@ -229,7 +229,7 @@ fn main() {
         glGetUniformLocation(shader_program.0, transform_name);
       glUniformMatrix4fv(transform_loc, 1, GL_FALSE, transform.as_ptr());
       glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, null());
-      win.swap_window();
     }
+    win.swap_window();
   }
 }

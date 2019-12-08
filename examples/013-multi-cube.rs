@@ -302,8 +302,7 @@ fn main() {
 
         glDrawArrays(GL_TRIANGLES, 0, 36);
       }
-
-      win.swap_window();
     }
+    win.swap_window();
   }
 }

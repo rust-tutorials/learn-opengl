@@ -126,7 +126,7 @@ fn main() {
     unsafe {
       glClear(GL_COLOR_BUFFER_BIT);
       glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, null());
-      win.swap_window();
     }
+    win.swap_window();
   }
 }

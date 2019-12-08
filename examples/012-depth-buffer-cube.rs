@@ -284,8 +284,7 @@ fn main() {
       glUniformMatrix4fv(model_loc, 1, GL_FALSE, model.as_ptr());
 
       glDrawArrays(GL_TRIANGLES, 0, 36);
-
-      win.swap_window();
     }
+    win.swap_window();
   }
 }

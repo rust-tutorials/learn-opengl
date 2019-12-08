@@ -256,7 +256,7 @@ fn main() {
       glClear(GL_COLOR_BUFFER_BIT);
       glUniformMatrix4fv(model_loc, 1, GL_FALSE, model.as_ptr());
       glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, null());
-      win.swap_window();
     }
+    win.swap_window();
   }
 }

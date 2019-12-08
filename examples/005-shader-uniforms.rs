@@ -129,7 +129,7 @@ fn main() {
       glClear(GL_COLOR_BUFFER_BIT);
       glUniform4f(uni_color_loc, 0.1, green, 0.1, 1.0);
       glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, null());
-      win.swap_window();
     }
+    win.swap_window();
   }
 }
