@@ -15,8 +15,8 @@ use learn::{
   null_str, Buffer, BufferType, Shader, ShaderProgram, ShaderType, VertexArray,
 };
 use learn_opengl as learn;
+use learn_opengl::math::*;
 use ogl33::*;
-use ultraviolet::mat::Mat4;
 
 type Vertex = [f32; 3 + 2];
 type TriIndexes = [u32; 3];
@@ -219,7 +219,7 @@ fn main() {
 
     // update the "world state".
     let time = sdl.get_ticks() as f32 / 1000.0_f32;
-    let transform = Mat4::from_rotation_z(time);
+    let transform = Mat4::rotate_z(time);
 
     // and then draw!
     unsafe {

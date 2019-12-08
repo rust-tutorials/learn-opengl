@@ -70,6 +70,7 @@ fn main() {
 
     let mut vbo = 0;
     glGenBuffers(1, &mut vbo);
+    assert_ne!(vbo, 0);
     glBindBuffer(GL_ARRAY_BUFFER, vbo);
     glBufferData(
       GL_ARRAY_BUFFER,

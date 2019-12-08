@@ -53,12 +53,11 @@ As I start this project, this is what my Cargo.toml looks like.
 ```toml
 [dependencies]
 bytemuck = "1"
-ogl33 = { version = "0.1", features = ["debug_error_checks", "debug_trace_messages"]}
+ogl33 = { version = "0.2.0-alpha.2", features = ["debug_error_checks"]}
 
 [dev-dependencies]
-beryllium = "0.2.0-alpha.2"
-imagine = "0.0.2"
-ultraviolet = "0.3"
+beryllium = "0.2.0-alpha.4"
+imagine = "0.0.5"
 ```
 
 So the library itself, where we'll put our useful GL helpers, will depend on

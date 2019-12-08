@@ -1,13 +1,16 @@
 # Creating A Window
 
-So, this part of the tutorial is very library specific, so I won't focus on it
-too much.
+This part of the tutorial is very library specific, so I won't focus on it too
+much. Basically, we have to open a window, and we also need a GL context to go
+with that window. The details for this depend on what OS and windowing system
+you're using. In my case, `beryllium` is based on SDL2, so we have a nice
+cross-platform abstraction going for us.
 
-Basically, we have to open a window, and we also need a GL context to go with that window.
+## Pre-Window Setup
 
 On most platforms, you have to specify that you'll be using GL _before_ you create the window, so that the window itself can be created with the correct settings to support GL once it's made.
 
-In our case, first we turn on SDL itself:
+First we turn on SDL itself:
 
 ```rust
 use beryllium::*;
@@ -16,7 +19,7 @@ fn main() {
   let sdl = SDL::init(InitFlags::Everything).expect("couldn't start SDL");
 ```
 
-Then we set some GL attributes about the [OpenGL
+Then we set some attributes for the [OpenGL
 Context](https://www.khronos.org/opengl/wiki/OpenGL_Context) that we want to
 use:
 
@@ -42,6 +45,8 @@ use:
   systems you can have it or not and it doesn't make a big difference. The
   Khronos wiki suggest to only set it if you're on Mac, so that's what I did.
 
+## Make The Window
+
 Finally, once GL is all set, we can make our window.
 
 In some libs you might make the window and then make the GL Context as a
@@ -60,6 +65,8 @@ works this way, I don't know about `glfw`).
     )
     .expect("couldn't make a window and context");
 ```
+
+## Processing Events
 
 Once we have a window, we can poll for events. In fact if we _don't_ always poll
 for events promptly the OS will usually think that our application has stalled
@@ -85,7 +92,11 @@ pressed Alt+F4, etc) and then quit when that happens.
 }
 ```
 
-That's all there is to it. Just a milk run.
+## Done!
+
+That's all there is to it for this lesson. Just a milk run.
+
+* Example Code: [000-basic-window](https://github.com/rust-tutorials/learn-opengl/blob/master/examples/000-basic-window.rs)
 
 ## Extras
 

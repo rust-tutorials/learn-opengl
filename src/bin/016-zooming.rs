@@ -3,7 +3,7 @@
 #![allow(clippy::single_match)]
 #![allow(clippy::zero_ptr)]
 
-const WINDOW_TITLE: &str = "Depth Buffer Cube";
+const WINDOW_TITLE: &str = "Movement";
 const WINDOW_WIDTH: u32 = 800;
 const WINDOW_HEIGHT: u32 = 800;
 
@@ -19,6 +19,7 @@ use learn::{
 use learn_opengl as learn;
 use learn_opengl::math::*;
 use ogl33::*;
+use std::collections::HashSet;
 
 type Vertex = [f32; 3 + 2];
 /// Draw this with glDrawArrays(GL_TRIANGLES, 0, 36)
@@ -65,6 +66,19 @@ const CUBE_VERTICES: [Vertex; 6 * 6] = [
   [0.5, 0.5, 0.5, 1.0, 0.0],
   [-0.5, 0.5, 0.5, 0.0, 0.0],
   [-0.5, 0.5, -0.5, 0.0, 1.0],
+];
+
+const CUBE_POSITIONS: [Vec3; 10] = [
+  Vec3 { x: 0.0, y: 0.0, z: 0.0 },
+  Vec3 { x: 2.0, y: 5.0, z: -15.0 },
+  Vec3 { x: -1.5, y: -2.2, z: -2.5 },
+  Vec3 { x: -3.8, y: -2.0, z: -12.3 },
+  Vec3 { x: 2.4, y: -0.4, z: -3.5 },
+  Vec3 { x: -1.7, y: 3.0, z: -7.5 },
+  Vec3 { x: 1.3, y: -2.0, z: -2.5 },
+  Vec3 { x: 1.5, y: 2.0, z: -2.5 },
+  Vec3 { x: 1.5, y: 0.2, z: -1.5 },
+  Vec3 { x: -1.3, y: 1.0, z: -1.5 },
 ];
 
 const VERT_SHADER: &str = r#"#version 330 core
@@ -249,9 +263,6 @@ fn main() {
     glGetUniformLocation(shader_program.0, name)
   };
 
-  let view = Mat4::translate(vec3(0.0, 0.0, -2.0));
-  unsafe { glUniformMatrix4fv(view_loc, 1, GL_FALSE, view.as_ptr()) };
-
   let projection = perspective_view(
     45.0_f32.to_radians(),
     (WINDOW_WIDTH as f32) / (WINDOW_HEIGHT as f32),
@@ -262,30 +273,130 @@ fn main() {
     glUniformMatrix4fv(projection_loc, 1, GL_FALSE, projection.as_ptr())
   };
 
+  let mut camera =
+    EulerFPSCamera::at_position(Vec3 { x: 0.0, y: 0.0, z: -3.0 });
+  let camera_speed = 100.0;
+  sdl.set_relative_mouse_mode(true).unwrap();
+  let mut keys_held = HashSet::new();
+  let mut last_time = 0.0;
+
   'main_loop: loop {
     // handle events this frame
     while let Some(event) = sdl.poll_events().and_then(Result::ok) {
       match event {
         Event::Quit(_) => break 'main_loop,
+        Event::MouseMotion(MouseMotionEvent { x_delta, y_delta, .. }) => {
+          let d_yaw_deg = -x_delta as f32 * 0.1;
+          let d_pitch_deg = -y_delta as f32 * 0.1;
+          camera.update_orientation(d_pitch_deg, d_yaw_deg);
+        }
+        Event::Keyboard(KeyboardEvent {
+          is_pressed,
+          key: KeyInfo { keycode, .. },
+          ..
+        }) => {
+          if is_pressed {
+            keys_held.insert(keycode);
+          } else {
+            keys_held.remove(&keycode);
+          }
+        }
         _ => (),
       }
     }
     // now the events are clear.
 
     // update the "world state".
-    let time = sdl.get_ticks() as f32 / 1000.0_f32;
-    let model =
-      Mat4::rotate_y(1.0) * Mat4::rotate_x(0.5) * Mat4::rotate_z(time);
+    let time = sdl.get_ticks() as f32 / 10_000.0_f32;
+    let delta_time = time - last_time;
+    last_time = time;
+
+    camera.update_position(&keys_held, camera_speed * delta_time);
+
+    let view: Mat4 = camera.make_view_matrix();
 
     // and then draw!
     unsafe {
       glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-      glUniformMatrix4fv(model_loc, 1, GL_FALSE, model.as_ptr());
+      glUniformMatrix4fv(view_loc, 1, GL_FALSE, view.as_ptr());
 
-      glDrawArrays(GL_TRIANGLES, 0, 36);
+      for (i, position) in CUBE_POSITIONS.iter().copied().enumerate() {
+        let model = Mat4::translate(position)
+          * Mat4::rotate_y(3.0)
+          * Mat4::rotate_x((1.0 + i as f32) * 0.8)
+          * Mat4::rotate_z(time * (1.0 + i as f32));
+
+        glUniformMatrix4fv(model_loc, 1, GL_FALSE, model.as_ptr());
+
+        glDrawArrays(GL_TRIANGLES, 0, 36);
+      }
 
       win.swap_window();
     }
+  }
+}
+
+/// Acts like a normal "FPS" camera, capped at +/- 89 degrees, no roll.
+#[derive(Debug, Clone, Copy)]
+pub struct EulerFPSCamera {
+  /// Camera position, free free to directly update at any time.
+  pub position: Vec3,
+  pitch_deg: f32,
+  yaw_deg: f32,
+}
+impl EulerFPSCamera {
+  const UP: Vec3 = Vec3 { x: 0.0, y: 1.0, z: 0.0 };
+
+  fn make_front(&self) -> Vec3 {
+    let pitch_rad = f32::to_radians(self.pitch_deg);
+    let yaw_rad = f32::to_radians(self.yaw_deg);
+    Vec3 {
+      x: yaw_rad.sin() * pitch_rad.cos(),
+      y: pitch_rad.sin(),
+      z: yaw_rad.cos() * pitch_rad.cos(),
+    }
+  }
+
+  /// Adjusts the camera's orientation.
+  ///
+  /// Input deltas should be in _degrees_, pitch is capped at +/- 89 degrees.
+  pub fn update_orientation(&mut self, d_pitch_deg: f32, d_yaw_deg: f32) {
+    self.pitch_deg = (self.pitch_deg + d_pitch_deg).max(-89.0).min(89.0);
+    self.yaw_deg = (self.yaw_deg + d_yaw_deg) % 360.0;
+  }
+
+  /// Updates the position using WASDQE controls.
+  ///
+  /// The "forward" vector is relative to the current orientation.
+  pub fn update_position(&mut self, keys: &HashSet<Keycode>, distance: f32) {
+    let forward = self.make_front();
+    let cross_normalized = forward.cross(Self::UP).normalized();
+    let mut move_vector =
+      keys.iter().copied().fold(Vec3 { x: 0.0, y: 0.0, z: 0.0 }, |vec, key| {
+        match key {
+          Keycode::W => vec + forward,
+          Keycode::S => vec - forward,
+          Keycode::A => vec - cross_normalized,
+          Keycode::D => vec + cross_normalized,
+          Keycode::E => vec + Self::UP,
+          Keycode::Q => vec - Self::UP,
+          _ => vec,
+        }
+      });
+    if !(move_vector.x == 0.0 && move_vector.y == 0.0 && move_vector.z == 0.0) {
+      move_vector = move_vector.normalized();
+      self.position += move_vector * distance;
+    }
+  }
+
+  /// Generates the current view matrix for this camera.
+  pub fn make_view_matrix(&self) -> Mat4 {
+    Mat4::look_at(self.position, self.position + self.make_front(), Self::UP)
+  }
+
+  /// Makes a new camera at the position specified and Pitch/Yaw of `0.0`.
+  pub const fn at_position(position: Vec3) -> Self {
+    Self { position, pitch_deg: 0.0, yaw_deg: 0.0 }
   }
 }

@@ -24,15 +24,16 @@ texture id variables should go inside the block because we don't use them later.
 
 TODO:
 
-015 add WASDQE movement
 016 mouse-wheel Zoom on the camera
-017 Quaternion Camera
+017 Free Camera? (allowing roll)
 --- end of arc 1
 
 */
 
 use core::convert::{TryFrom, TryInto};
 use ogl33::*;
+
+pub mod math;
 
 /// Takes a string literal and concatenates a null byte onto the end.
 #[macro_export]

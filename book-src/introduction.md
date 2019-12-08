@@ -24,3 +24,5 @@ something you don't get and I'll try to improve that part of the book.
 
 Also, you can maybe read `LearnOpenGL.com` to understand the thing, while you
 wait for me to get back to you.
+
+You can [get the code on GitHub](https://github.com/rust-tutorials/learn-opengl)!
