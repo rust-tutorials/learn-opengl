@@ -97,6 +97,12 @@ to make it the active VAO. This is a _context wide_ effect, so now all GL
 functions in our GL context will do whatever they do with this VAO as the VAO to
 work with.
 
+As a note: you can also bind the value 0 at any time, which clears the vertex
+array binding. This might sound a little silly, but it can help spot bugs in
+some situations. If you have no VAO bound when you try to call VAO affected
+functions it'll generate an error, which usually means that you forgot to bind
+the VAO that you really did want to affect.
+
 ### Generate A Vertex Buffer Object
 
 To actually get some bytes of data to the video card we need a [Vertex Buffer
@@ -119,13 +125,75 @@ unsafe {
 }
 ```
 
-Now that we have a buffer, we can bind it to the binding target that we want. [`glBindBuffer`](https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glBindBuffer.xhtml) takes a target name and a buffer. As you can see on that page, there's a whole lot of options, but for now we just want `GL_ARRAY_BUFFER`.
+Now that we have a buffer, we can bind it to the binding target that we want.
+[`glBindBuffer`](https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glBindBuffer.xhtml)
+takes a target name and a buffer. As you can see on that page, there's a whole
+lot of options, but for now we just want to use the `GL_ARRAY_BUFFER` target.
 
 ```rust
 unsafe {
   glBindBuffer(GL_ARRAY_BUFFER, vbo);
 }
 ```
+
+And, similar to the VAO's binding process, now that our vertex buffer object is
+bound to the the `GL_ARRAY_BUFFER` target, all commands using that target will
+operate on the buffer that we just made.
+
+(Is this whole binding thing a dumb way to design an API? Yeah, it is. Oh well.)
+
+Now that we have a buffer bound as the `GL_ARRAY_BUFFER`, we can finally use [`glBufferData`](https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glBufferData.xhtml) to actually send over some data bytes. We have to specify the binding target we want to buffer to, the `isize` of the number of bytes we want to buffer, the const pointer to the start of the data we're buffering, and the usage hint.
+
+Most of that is self explanatory, except the usage hint. Basically there's
+memory that's faster or slower for the GPU to use or the CPU to use. If we hint
+to the GPU how we intend to use the data and how often we intend to update it
+then it has a chance to make a smarter choice of where to put the data. You can
+see all the options on the `glBufferData` spec page. For our first demo we want
+`GL_STATIC_DRAW`, since we'll just be sending the data once, and then GL will
+draw with it many times.
+
+But what data do we send?
+
+#### Demo Vertex Data
+
+We're going to be sending this data:
+
+```rust
+type Vertex = [f32; 3];
+const VERTICES: [Vertex; 3] =
+  [[-0.5, -0.5, 0.0], [0.5, -0.5, 0.0], [0.0, 0.5, 0.0]];
+```
+
+It describes a triangle in Normalized Device Context (NDC) coordinates. Each
+vertex is an [X, Y, Z] triple, and we have three vertices.
+
+We can also use
+[`size_of_val`](https://doc.rust-lang.org/core/mem/fn.size_of_val.html) to get
+the byte count, and
+[`as_ptr`](https://doc.rust-lang.org/std/primitive.slice.html#method.as_ptr)
+followed by
+[`cast`](https://doc.rust-lang.org/std/primitive.pointer.html#method.cast) to
+get a pointer of the right type. In this case, GL wants a "void pointer", which
+isn't a type that exists in Rust, but it's what C calls a "pointer to anything".
+Since the buffer function need to be able to accept anything you want to buffer,
+it takes a void pointer.
+
+```rust
+unsafe {
+  glBufferData(
+    GL_ARRAY_BUFFER,
+    size_of_val(&VERTICES) as isize,
+    VERTICES.as_ptr().cast(),
+    GL_STATIC_DRAW,
+  );
+}
+```
+
+
+
+## Using `glGetError`
+
+TODO
 
 ## Vsync
 

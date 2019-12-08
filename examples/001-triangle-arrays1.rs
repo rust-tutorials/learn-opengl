@@ -79,6 +79,16 @@ fn main() {
       GL_STATIC_DRAW,
     );
 
+    glVertexAttribPointer(
+      0,
+      3,
+      GL_FLOAT,
+      GL_FALSE,
+      size_of::<Vertex>().try_into().unwrap(),
+      0 as *const _,
+    );
+    glEnableVertexAttribArray(0);
+
     let vertex_shader = glCreateShader(GL_VERTEX_SHADER);
     assert_ne!(vertex_shader, 0);
     glShaderSource(
@@ -147,16 +157,6 @@ fn main() {
     }
     glDeleteShader(vertex_shader);
     glDeleteShader(fragment_shader);
-
-    glVertexAttribPointer(
-      0,
-      3,
-      GL_FLOAT,
-      GL_FALSE,
-      size_of::<Vertex>().try_into().unwrap(),
-      0 as *const _,
-    );
-    glEnableVertexAttribArray(0);
 
     glUseProgram(shader_program);
   }

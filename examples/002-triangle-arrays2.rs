@@ -77,10 +77,6 @@ fn main() {
     GL_STATIC_DRAW,
   );
 
-  let shader_program =
-    ShaderProgram::from_vert_frag(VERT_SHADER, FRAG_SHADER).unwrap();
-  shader_program.use_program();
-
   unsafe {
     glVertexAttribPointer(
       0,
@@ -92,6 +88,10 @@ fn main() {
     );
     glEnableVertexAttribArray(0);
   }
+
+  let shader_program =
+    ShaderProgram::from_vert_frag(VERT_SHADER, FRAG_SHADER).unwrap();
+  shader_program.use_program();
 
   'main_loop: loop {
     // handle events this frame
