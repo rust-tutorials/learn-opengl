@@ -1,3 +1,4 @@
+#![allow(missing_docs)]
 
 //! Module for Math that's needed during the Learn OpenGL Rust tutorials.
 //!

@@ -12,7 +12,7 @@ use core::{
   ptr::null,
 };
 use learn::{
-  Buffer, BufferType, Shader, ShaderProgram, ShaderType, VertexArray,
+  Buffer, BufferType, Shader, ShaderProgram, ShaderType, VertexArray, PolygonMode,
 };
 use learn_opengl as learn;
 use ogl33::*;
@@ -105,6 +105,8 @@ fn main() {
     glEnableVertexAttribArray(0);
   }
 
+  learn::polygon_mode(PolygonMode::Line);
+
   'main_loop: loop {
     // handle events this frame
     while let Some(event) = sdl.poll_events().and_then(Result::ok) {
@@ -120,7 +122,7 @@ fn main() {
     // and then draw!
     unsafe {
       glClear(GL_COLOR_BUFFER_BIT);
-      glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, null());
+      glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0 as *const _);
     }
     win.swap_window();
   }
