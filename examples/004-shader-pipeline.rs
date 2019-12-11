@@ -3,7 +3,7 @@
 #![allow(clippy::single_match)]
 #![allow(clippy::zero_ptr)]
 
-const WINDOW_TITLE: &str = "Shader Basics";
+const WINDOW_TITLE: &str = "Shader Pipeline";
 
 use beryllium::*;
 use core::{
