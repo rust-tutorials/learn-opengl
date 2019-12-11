@@ -18,6 +18,12 @@ probably written kinda badly. At the moment I'm more concerned with getting
 lessons out so that you can see the working code and the kinda explaining in
 text what's going on after the fact.
 
+* **Current Goal:** The current goal is to get example program for the "basics"
+  lessons from LearnOpenGL.com into Rust versions, along with lesson explanation
+  text for all example programs. At that point, development will probably take a
+  break, but readers will have seen enough so that they can begin adapting other
+  OpenGL books and blogs to continue their education on their own.
+
 Please [file an issue in the
 repo](https://github.com/rust-tutorials/learn-opengl/issues) if there's
 something you don't get and I'll try to improve that part of the book.
