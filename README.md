@@ -1,7 +1,5 @@
 
-# https://rust-tutorials.github.io/learn-opengl/
-
-# learn-opengl
+# [learn-opengl](https://rust-tutorials.github.io/learn-opengl/)
 
 Learn OpenGL lessons in Rust.
 
