@@ -1,0 +1,1648 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Learn OpenGL Rust</title>
+        
+        <meta name="robots" content="noindex" />
+        
+        
+
+
+        <!-- Custom HTML head -->
+        
+
+
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="A version of the LearnOpenGL book for Rust.">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        
+        <link rel="icon" href="favicon.svg">
+        
+        
+        <link rel="shortcut icon" href="favicon.png">
+        
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        
+        <link rel="stylesheet" href="css/print.css" media="print">
+        
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        
+        <link rel="stylesheet" href="fonts/fonts.css">
+        
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        
+
+        
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="introduction.html">Introduction</a></li><li class="chapter-item expanded "><a href="basics/index.html"><strong aria-hidden="true">1.</strong> Basics</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="basics/000-creating-a-window.html"><strong aria-hidden="true">1.1.</strong> Creating A Window</a></li><li class="chapter-item expanded "><a href="basics/001-drawing-a-triangle.html"><strong aria-hidden="true">1.2.</strong> Drawing A Triangle</a></li><li class="chapter-item expanded "><a href="basics/002-triangle-cleanup.html"><strong aria-hidden="true">1.3.</strong> Triangle Cleanup</a></li><li class="chapter-item expanded "><a href="basics/003-rectangle.html"><strong aria-hidden="true">1.4.</strong> Rectangle Elements</a></li></ol></li><li class="chapter-item expanded "><a href="appendix-math/index.html"><strong aria-hidden="true">2.</strong> Appendix: Math</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="appendix-math/vectors.html"><strong aria-hidden="true">2.1.</strong> Vectors</a></li><li class="chapter-item expanded "><a href="appendix-math/matrices.html"><strong aria-hidden="true">2.2.</strong> Matrices</a></li><li class="chapter-item expanded "><a href="appendix-math/transform.html"><strong aria-hidden="true">2.3.</strong> Transforms</a></li></ol></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                        
+                    </div>
+
+                    <h1 class="menu-title">Learn OpenGL Rust</h1>
+
+                    <div class="right-buttons">
+                        
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        
+                        
+                    </div>
+                </div>
+
+                
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" name="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1><a class="header" href="#introduction" id="introduction">Introduction</a></h1>
+<p>This is a book (well, &quot;book&quot;), about learning OpenGL usage with Rust.</p>
+<p>It's based on <a href="https://learnopengl.com/">LearnOpenGL.com</a>, by Joey de Vries,
+which is for C++ OpenGL. I'm not associated with Joey at all, I just think that
+they made a cool thing and I want to spread the knowledge to Rust folks as well.</p>
+<p>OpenGL (OGL), is one particular flavor of GL within the larger GL family.
+There's also OpenGL ES (GLES), which is for embedded systems like phones and
+raspberry pi, and there's WebGL which is for GL in the browser.</p>
+<p>OpenGL lets you draw things. 3D things. Actually if you orient a 3D thing
+properly it'll look 2D, so you can also draw 2D things if you want.</p>
+<p>This book is a work in progress! Even the lessons that are &quot;written&quot; are
+probably written kinda badly. At the moment I'm more concerned with getting
+lessons out so that you can see the working code and the kinda explaining in
+text what's going on after the fact.</p>
+<ul>
+<li><strong>Current Goal:</strong> The current goal is to get example program for the &quot;basics&quot;
+lessons from LearnOpenGL.com into Rust versions, along with lesson explanation
+text for all example programs. At that point, development will probably take a
+break, but readers will have seen enough so that they can begin adapting other
+OpenGL books and blogs to continue their education on their own.</li>
+</ul>
+<p>Please <a href="https://github.com/rust-tutorials/learn-opengl/issues">file an issue in the
+repo</a> if there's
+something you don't get and I'll try to improve that part of the book.</p>
+<p>Also, you can maybe read <code>LearnOpenGL.com</code> to understand the thing, while you
+wait for me to get back to you.</p>
+<p>You can <a href="https://github.com/rust-tutorials/learn-opengl">get the code on GitHub</a>!</p>
+<h1><a class="header" href="#basics" id="basics">Basics</a></h1>
+<p>TODO: maybe some of this can go into the Introduction? whatever.</p>
+<p>We'll be using OpenGL 3.3. The latest version is 4.6, but we'll still be using
+3.3. The main reason for this is because if we take a quick look at Mac's
+<a href="https://support.apple.com/en-us/HT202823">supported OpenGL versions</a> we can see
+that they support 3.3 on older stuff and 4.1 on newer stuff. Macs don't get
+OpenGL 4.6 like Windows and Linux have. Oh well. Feel free to use this book and
+then learn the stuff that got added after 3.3 if you don't care about supporting
+old macs.</p>
+<p>OpenGL is a <em>specification</em>. Not a specific implementation, just a
+specification. Each graphics card has its own driver, which has its own
+implementation of OpenGL. This means that you can run in to bugs on one card
+that doesn't show up on other cards. Fun!</p>
+<p>OpenGL is specified in terms of a series of C functions that you can call. They
+all affect a &quot;Context&quot;. A GL context has all sorts of state inside. There's GL
+calls to draw things, but there's also a lot of calls to carefully set the state
+before the drawing happens. Both types of call are equally important to getting
+a picture on the screen.</p>
+<p>So we'll be doing a <em>lot</em> of FFI calls. FFI calls are naturally <code>unsafe</code>,
+because the Rust compiler can't see what's going on over there.</p>
+<p>If you don't want to have to call <code>unsafe</code> code you can try
+<a href="https://github.com/rust-tutorials/learn-luminance">luminance</a>, or
+<a href="https://docs.rs/glium">glium</a>, or <a href="https://docs.rs/wgpu">wgpu</a> or, something
+like that. You don't <em>have</em> to call <code>unsafe</code> code to get a picture on the
+screen.</p>
+<p>But if you want to know how people <em>built</em> those other libraries that let you do
+those cool things, you gotta learn this direct usage stuff.</p>
+<h2><a class="header" href="#prior-knowledge" id="prior-knowledge">Prior Knowledge</a></h2>
+<p>You should generally be familiar with all the topics covered in <a href="https://doc.rust-lang.org/book/">The Rust
+Programming Language</a>, but you don't need to
+have them memorized. You can look things up again if you need to.</p>
+<p>I usually tell folks that they should read <a href="https://doc.rust-lang.org/nomicon/">The
+Rustonomicon</a> before doing a lot of unsafe
+code. However, with GL you're not really doing a lot of hackery <em>within Rust</em>
+that could go wrong. It's just that the driver could explode in your face if you
+look at it funny. Or even if you don't, because drivers are just buggy
+sometimes. Oh well, that's life.</p>
+<h2><a class="header" href="#libraries-used" id="libraries-used">Libraries Used</a></h2>
+<p>As I start this project, this is what my Cargo.toml looks like.</p>
+<pre><code class="language-toml">[dependencies]
+bytemuck = &quot;1&quot;
+ogl33 = { version = &quot;0.2.0&quot;, features = [&quot;debug_error_checks&quot;]}
+
+[dev-dependencies]
+beryllium = &quot;0.2.0-alpha.4&quot;
+imagine = &quot;0.0.5&quot;
+</code></pre>
+<p>So the library itself, where we'll put our useful GL helpers, will depend on</p>
+<ul>
+<li><a href="https://docs.rs/ogl33">ogl33</a>, which gives us bindings to OpenGL.
+<ul>
+<li>It's similar to the <a href="https://docs.rs/gl">gl</a> crate (which loads OpenGL 4.6),
+but all functions and constants use their real names exactly as you'd see in
+C code. It makes it a lot easier to read books and blogs about OpenGL that
+are written for C (which is essentially all of them), and then quickly
+translate it to Rust.</li>
+</ul>
+</li>
+<li><a href="https://docs.rs/bytemuck">bytemuck</a>, which is a handy crate for casting
+around plain data types.</li>
+</ul>
+<p>And then if you're not familiar with &quot;dev-dependencies&quot;, that's bonus
+dependencies that tests and examples can use (but not bins!). Since our example
+programs will be examples in the <code>examples/</code> directory, they'll be able to use
+&quot;dev-dependencies&quot; without that affecting the lib itself. That way if someone
+else wants to use the lib they can use <em>just</em> the lib in their own program,
+without having to also build the stuff we're using for our examples.</p>
+<ul>
+<li><a href="https://docs.rs/beryllium">beryllium</a> is an SDL2 wrapper. It will dynamic
+link by default so you'll need <code>SDL2.dll</code> in your path to run a program. You
+can swap this to static linking, I describe that at the end of the first
+lesson.
+<ul>
+<li>Other options: <a href="https://docs.rs/glutin">glutin</a>, <a href="https://docs.rs/glfw">glfw</a></li>
+</ul>
+</li>
+<li><a href="https://docs.rs/imagine">imagine</a> is a PNG parser (not used right away, but
+soon enough).
+<ul>
+<li>Other options: <a href="https://docs.rs/image">image</a>, which uses
+<a href="https://docs.rs/png">png</a></li>
+</ul>
+</li>
+<li><a href="https://docs.rs/ultraviolet">ultraviolet</a> is a graphics linear algebra crate.
+<ul>
+<li>Other options: <a href="https://docs.rs/glam">glam</a>,
+<a href="https://docs.rs/nalgebra-glm">nalgebra-glm</a></li>
+</ul>
+</li>
+</ul>
+<p>Full disclosure: I wrote almost all of the crates on the list. Other than
+<code>ultraviolet</code>, which was done by <a href="https://github.com/termhn">Fusha</a>, because I'm
+a dummy who can't do math.</p>
+<p>However, I'm writing the book, so I get to use my own crates while I do it. I
+think this is fair, and I'm also providing alternative suggestions for each one,
+so I don't feel bad about it.</p>
+<h1><a class="header" href="#creating-a-window" id="creating-a-window">Creating A Window</a></h1>
+<p>This part of the tutorial is very library specific, so I won't focus on it too
+much. Basically, we have to open a window, and we also need a GL context to go
+with that window. The details for this depend on what OS and windowing system
+you're using. In my case, <code>beryllium</code> is based on SDL2, so we have a nice
+cross-platform abstraction going for us.</p>
+<h2><a class="header" href="#pre-window-setup" id="pre-window-setup">Pre-Window Setup</a></h2>
+<p>On most platforms, you have to specify that you'll be using GL <em>before</em> you create the window, so that the window itself can be created with the correct settings to support GL once it's made.</p>
+<p>First we turn on SDL itself:</p>
+<pre><pre class="playground"><code class="language-rust">use beryllium::*;
+
+fn main() {
+  let sdl = SDL::init(InitFlags::Everything).expect(&quot;couldn't start SDL&quot;);
+</code></pre></pre>
+<p>Then we set some attributes for the <a href="https://www.khronos.org/opengl/wiki/OpenGL_Context">OpenGL
+Context</a> that we want to
+use:</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>  sdl.gl_set_attribute(SdlGlAttr::MajorVersion, 3).unwrap();
+  sdl.gl_set_attribute(SdlGlAttr::MinorVersion, 3).unwrap();
+  sdl.gl_set_attribute(SdlGlAttr::Profile, GlProfile::Core).unwrap();
+  #[cfg(target_os = &quot;macos&quot;)]
+  {
+    sdl
+      .gl_set_attribute(SdlGlAttr::Flags, ContextFlag::ForwardCompatible)
+      .unwrap();
+  }
+<span class="boring">}
+</span></code></pre></pre>
+<ul>
+<li>The Core profile is a subset of the full features that the spec allows. An
+implementation must provide the Core profile, but it can also provide a
+Compatibility profile, which is the current spec version's features <em>plus</em> all
+the old stuff from previous versions.</li>
+<li>The Forward Compatible flag means that all functions that a particular version
+considers to be &quot;deprecated but available&quot; are instead immediately
+unavailable. It's needed for Mac if you want to have a Core profile. On other
+systems you can have it or not and it doesn't make a big difference. The
+Khronos wiki suggest to only set it if you're on Mac, so that's what I did.</li>
+</ul>
+<h2><a class="header" href="#make-the-window" id="make-the-window">Make The Window</a></h2>
+<p>Finally, once GL is all set, we can make our window.</p>
+<p>In some libs you might make the window and then make the GL Context as a
+separate step (technically SDL2 lets you do this), but with <code>beryllium</code> it just
+sticks the window and the GL Context together as a single thing (<code>glutin</code> also
+works this way, I don't know about <code>glfw</code>).</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>  let _win = sdl
+    .create_gl_window(
+      &quot;Hello Window&quot;,
+      WindowPosition::Centered,
+      800,
+      600,
+      WindowFlags::Shown,
+    )
+    .expect(&quot;couldn't make a window and context&quot;);
+<span class="boring">}
+</span></code></pre></pre>
+<h2><a class="header" href="#processing-events" id="processing-events">Processing Events</a></h2>
+<p>Once we have a window, we can poll for events. In fact if we <em>don't</em> always poll
+for events promptly the OS will usually think that our application has stalled
+and tell the user they should kill the program. So we want to always be polling
+for those events.</p>
+<p>Right now we just wait for a quit event (user clicked the X on the window,
+pressed Alt+F4, etc) and then quit when that happens.</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>  'main_loop: loop {
+    // handle events this frame
+    while let Some(event) = sdl.poll_events().and_then(Result::ok) {
+      match event {
+        Event::Quit(_) =&gt; break 'main_loop,
+        _ =&gt; (),
+      }
+    }
+    // now the events are clear
+
+    // here's where we could change the world state and draw.
+  }
+}
+<span class="boring">}
+</span></code></pre></pre>
+<h2><a class="header" href="#done" id="done">Done!</a></h2>
+<p>That's all there is to it for this lesson. Just a milk run.</p>
+<ul>
+<li>Example Code: <a href="https://github.com/rust-tutorials/learn-opengl/blob/master/examples/000-basic-window.rs">000-basic-window</a></li>
+</ul>
+<h2><a class="header" href="#extras" id="extras">Extras</a></h2>
+<p>I'm developing mostly on Windows, and Windows is where most of your market share of users will end up being, so here's some bonus Windows tips:</p>
+<h3><a class="header" href="#windows-subsystem" id="windows-subsystem">Windows Subsystem</a></h3>
+<p>I'm going to put the following attribute at the top of the file:</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span>#![cfg_attr(not(debug_assertions), windows_subsystem = &quot;windows&quot;)]
+<span class="boring">fn main() {
+</span><span class="boring">}
+</span></code></pre></pre>
+<p>This will make is to that a &quot;release&quot; build (with the <code>--release</code> flag) will use the &quot;windows&quot; subsystem on Windows, instead of the &quot;console&quot; subsystem. This makes the process not have a console by default, which prevents a little terminal window from running in the background when the program runs on its own. However, we only want that in release mode because we want the ability to print debug message in debug mode.</p>
+<h3><a class="header" href="#static-c-runtime" id="static-c-runtime">Static C Runtime</a></h3>
+<p>Also, I'm going to add a <code>.cargo/</code> folder to the project and put a <code>config</code> file inside.</p>
+<pre><code class="language-toml">[build]
+rustflags = [&quot;-C&quot;,&quot;target-feature=+crt-static&quot;]
+</code></pre>
+<p>This will make Rust compile in a static C runtime when it builds the binaries, so that the binaries can be sent to others without them needing to have the MSVC redistributable DLLs or other files like that on their machine. It's not on by default because I don't even know why. I think it makes programs marginally larger, but it doesn't seem to make them compile slower so whatever.</p>
+<p>We could instead make a totally <code>no_std</code> program if we wanted to, but that's a whole set of steps and not really OpenGL related at all, so for this tutorial book we'll use the &quot;quick and dirty&quot; way to get our programs to be easily portable.</p>
+<h3><a class="header" href="#static-linking-sdl2" id="static-linking-sdl2">Static Linking SDL2</a></h3>
+<p>Finally, instead of dynamic linking with SDL2 we could static link with it.</p>
+<p>All we have to static link SDL2 instead is change our Cargo.toml file so that instead of saying</p>
+<pre><code class="language-toml">beryllium = &quot;0.2.0-alpha.2&quot;
+</code></pre>
+<p>it says</p>
+<pre><code class="language-toml">beryllium = { version = &quot;0.2.0-alpha.1&quot;, default-features = false, features = [&quot;link_static&quot;] }
+</code></pre>
+<p>However, when we do this, we have to build the SDL2 static lib, which takes longer (about +30 seconds). So I leave it in dynamic link during development because it makes CI go faster.</p>
+<h1><a class="header" href="#drawing-a-triangle" id="drawing-a-triangle">Drawing A Triangle</a></h1>
+<p>In this lesson, we'll do a lot of setup just to be able to draw a single
+triangle.</p>
+<p>Don't worry, once you do the first batch of setup, drawing that <em>second</em>
+triangle is easy.</p>
+<h2><a class="header" href="#load-the-opengl-functions" id="load-the-opengl-functions">Load The Opengl Functions</a></h2>
+<p>Unlike most libraries that you can use in a program, OpenGL cannot be statically
+linked to. Well, you can static link to very old versions, but any sort of newer
+OpenGL library is installed on the user's system as a dynamic library that you
+load at runtime. This way the user can get their video driver updates and then your program just loads in the new driver file the next time it turns on.</p>
+<p>The details aren't too important to the rest of what we want to do, so I won't
+discuss it here. Perhaps an appendix page or something at some point in the
+future. The <code>ogl33</code> crate handles it for us. As a reminder, you could also use
+the <code>gl</code> or <code>glow</code> crates.</p>
+<p>After we open the window, we just say that we want to load up every OpenGL
+function.</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>unsafe {
+  load_gl_with(|f_name| win.get_proc_address(f_name));
+}
+<span class="boring">}
+</span></code></pre></pre>
+<h2><a class="header" href="#set-the-clear-screen-color" id="set-the-clear-screen-color">Set The &quot;Clear&quot; Screen Color</a></h2>
+<p>When we clear the previous image's data at the start of our drawing, by default it would clear to black. Since we'll only have one thing at a time to draw for a little bit, let's use a slightly softer sort of color.</p>
+<p>We just need to call
+<a href="https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glClearColor.xhtml"><code>glClearColor</code></a>
+with the red, green, blue, and alpha intensities that we want to use.</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>unsafe {
+  glClearColor(0.2, 0.3, 0.3, 1.0);
+}
+<span class="boring">}
+</span></code></pre></pre>
+<p>This is a blue-green sort of color that's only a little bit away from being
+gray. You can <em>kinda</em> tell that even before we open the window. The channel
+values are all close (which is gray), but there's a little less red, so it tilts
+towards being a blue-green.</p>
+<p>The alpha value isn't important for now because our window itself isn't
+transparent (so you can't see pixels behind it) and we're not doing any color
+blending yet (so the alpha of the clear color compared to some other color
+doesn't come into play). Eventually it might matter, so we'll just leave it on
+&quot;fully opaque&quot; for now.</p>
+<h2><a class="header" href="#send-a-triangle" id="send-a-triangle">Send A Triangle</a></h2>
+<p>At this point there's two main actions we need to take before we're ready for our triangle to be drawn.</p>
+<ul>
+<li>We need to get some triangle data to the video card in a way it understands.</li>
+<li>We need to get a program to the video card so that it can make use of the data.</li>
+</ul>
+<p>Neither task depends on the other, so we'll send our triangle data first and
+then send our program.</p>
+<h3><a class="header" href="#generate-a-vertex-array-object" id="generate-a-vertex-array-object">Generate A Vertex Array Object</a></h3>
+<p>A <a href="https://www.khronos.org/opengl/wiki/Vertex_Specification#Vertex_Array_Object">Vertex Array
+Object</a>
+(VAO) is an object that collects together a few different bits of stuff.
+Basically, at any given moment there either is a Vertex Array Object &quot;bound&quot;,
+meaning it's the active one, or there is not one bound, which makes basically
+all commands that relate to buffering data and describing data invalid. Since we
+want to buffer some data and describe it, we need to have a VAO bound.</p>
+<p>You make a vertex array object with
+<a href="https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glGenVertexArrays.xhtml"><code>glGenVertexArrays</code></a>.
+It takes the length of an array to fill, and a pointer to the start of that
+array. Then it fills the array with the names of a bunch of new VAOs. You're
+allowed to make a lot of vertex arrays at once if you want, but we just need one
+for now. Luckily, a pointer to just one thing is the same as a pointer to an
+array of length 1.</p>
+<p>Also, <code>glGenVertexArrays</code> <em>shouldn't</em> ever return 0, but if some sort of bug
+happened it could, so we'll throw in a little assert just to check that.</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>unsafe {
+  let mut vao = 0;
+  glGenVertexArrays(1, &amp;mut vao);
+  assert_ne!(vao, 0);
+}
+<span class="boring">}
+</span></code></pre></pre>
+<p>Once we have a VAO we can &quot;bind&quot; it with
+<a href="https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glBindVertexArray.xhtml"><code>glBindVertexArray</code></a>
+to make it the active VAO. This is a <em>context wide</em> effect, so now all GL
+functions in our GL context will do whatever they do with this VAO as the VAO to
+work with.</p>
+<p>As a note: you can also bind the value 0 at any time, which clears the vertex
+array binding. This might sound a little silly, but it can help spot bugs in
+some situations. If you have no VAO bound when you try to call VAO affected
+functions it'll generate an error, which usually means that you forgot to bind
+the VAO that you really did want to affect.</p>
+<h3><a class="header" href="#generate-a-vertex-buffer-object" id="generate-a-vertex-buffer-object">Generate A Vertex Buffer Object</a></h3>
+<p>To actually get some bytes of data to the video card we need a <a href="https://www.khronos.org/opengl/wiki/Vertex_Specification#Vertex_Buffer_Object">Vertex Buffer
+Object</a>
+(VBO) to go with our Vertex Array Object. You might get sick of the words
+&quot;vertex&quot; and &quot;object&quot; by the time you've read this whole book.</p>
+<p>This time things are a little different than with the VAO. Instead of calling a
+function to make and bind specifically a <em>vertex</em> buffer object, there's just a
+common function to make and bind buffers of all sorts. It's called
+<a href="https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glGenBuffers.xhtml"><code>glGenBuffers</code></a>,
+and it works mostly the same as <code>glGenVertexArrays</code> did, you pass a length and a
+pointer and it fills an array.</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>unsafe {
+  let mut vbo = 0;
+  glGenBuffers(1, &amp;mut vbo);
+  assert_ne!(vbo, 0);
+}
+<span class="boring">}
+</span></code></pre></pre>
+<p>Now that we have a buffer, we can bind it to the binding target that we want.
+<a href="https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glBindBuffer.xhtml"><code>glBindBuffer</code></a>
+takes a target name and a buffer. As you can see on that page, there's a whole
+lot of options, but for now we just want to use the <code>GL_ARRAY_BUFFER</code> target.</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>unsafe {
+  glBindBuffer(GL_ARRAY_BUFFER, vbo);
+}
+<span class="boring">}
+</span></code></pre></pre>
+<p>And, similar to the VAO's binding process, now that our vertex buffer object is
+bound to the the <code>GL_ARRAY_BUFFER</code> target, all commands using that target will
+operate on the buffer that we just made.</p>
+<p>(Is this whole binding thing a dumb way to design an API? Yeah, it is. Oh well.)</p>
+<p>Now that we have a buffer bound as the <code>GL_ARRAY_BUFFER</code>, we can finally use <a href="https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glBufferData.xhtml"><code>glBufferData</code></a> to actually send over some data bytes. We have to specify the binding target we want to buffer to, the <code>isize</code> of the number of bytes we want to buffer, the const pointer to the start of the data we're buffering, and the usage hint.</p>
+<p>Most of that is self explanatory, except the usage hint. Basically there's
+memory that's faster or slower for the GPU to use or the CPU to use. If we hint
+to the GPU how we intend to use the data and how often we intend to update it
+then it has a chance to make a smarter choice of where to put the data. You can
+see all the options on the <code>glBufferData</code> spec page. For our first demo we want
+<code>GL_STATIC_DRAW</code>, since we'll just be sending the data once, and then GL will
+draw with it many times.</p>
+<p>But what data do we send?</p>
+<h4><a class="header" href="#demo-vertex-data" id="demo-vertex-data">Demo Vertex Data</a></h4>
+<p>We're going to be sending this data:</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>type Vertex = [f32; 3];
+const VERTICES: [Vertex; 3] =
+  [[-0.5, -0.5, 0.0], [0.5, -0.5, 0.0], [0.0, 0.5, 0.0]];
+<span class="boring">}
+</span></code></pre></pre>
+<p>It describes a triangle in Normalized Device Context (NDC) coordinates. Each
+vertex is an [X, Y, Z] triple, and we have three vertices.</p>
+<p>We can also use
+<a href="https://doc.rust-lang.org/core/mem/fn.size_of_val.html"><code>size_of_val</code></a> to get
+the byte count, and
+<a href="https://doc.rust-lang.org/std/primitive.slice.html#method.as_ptr"><code>as_ptr</code></a>
+followed by
+<a href="https://doc.rust-lang.org/std/primitive.pointer.html#method.cast"><code>cast</code></a> to
+get a pointer of the right type. In this case, GL wants a &quot;void pointer&quot;, which
+isn't a type that exists in Rust, but it's what C calls a &quot;pointer to anything&quot;.
+Since the buffer function need to be able to accept anything you want to buffer,
+it takes a void pointer.</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>unsafe {
+  glBufferData(
+    GL_ARRAY_BUFFER,
+    size_of_val(&amp;VERTICES) as isize,
+    VERTICES.as_ptr().cast(),
+    GL_STATIC_DRAW,
+  );
+}
+<span class="boring">}
+</span></code></pre></pre>
+<p>Good to go!</p>
+<h3><a class="header" href="#enable-a-vertex-attribute" id="enable-a-vertex-attribute">Enable A Vertex Attribute</a></h3>
+<p>How will the GPU know the correct way to use the bytes we just sent it? Good
+question. We describe the &quot;vertex attributes&quot; and then it'll be able to
+interpret the bytes correctly.</p>
+<p>For each vertex attribute we want to describe we call <a href="https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glVertexAttribPointer.xhtml"><code>glVertexAttribPointer</code></a>. There's just one attribute for now (the position of the vertex), so we'll make just one call.</p>
+<ul>
+<li>The <code>index</code> is the attribute we're describing. Your selection here has to
+match with the shader program that we make later on. We'll just use 0.</li>
+<li>The <code>size</code> is the number of components in the attribute. Since each position
+is a 3D XYZ position, we put 3.</li>
+<li>The <code>type</code> is the type of data for the attribute. Since we're using <code>f32</code> we
+pass <code>GL_FLOAT</code>.</li>
+<li>The <code>normalized</code> setting has to do with fixed-point data values. That's not
+related to us right now, so we just leave it as <code>GL_FALSE</code>.</li>
+<li>The <code>stride</code> is the number of bytes from the start of this attribute in one
+vertex to the start of the same attribute in the next vertex. Since we have
+only one attribute right now, that's just <code>size_of::&lt;f32&gt;() * 3</code>. Alternately,
+we can use <code>size_of::&lt;Vertex&gt;()</code> and when we edit our type alias at the top
+later on this vertex attribute value will automatically be updated for us.</li>
+<li>The <code>pointer</code> value is, a little confusingly, not a pointer to anywhere in
+<em>our</em> memory space. Instead, it's a pointer to the start of this vertex
+attribute within the buffer <em>as if</em> the buffer itself were starting at memory
+location 0. Little strange, but whatever. Since this attribute is at the start
+of the vertex, we use 0. When we have more attributes later all the attributes
+will usually end up with the same <code>stride</code> but different <code>pointer</code> values. I'll be sure to review this point again later, because it's a little weird.</li>
+</ul>
+<p>Once we've described the vertex attribute pointer, we also need to enable it
+with
+<a href="https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glEnableVertexAttribArray.xhtml"><code>glEnableVertexAttribArray</code></a>.
+It just takes the name of the <code>index</code> to enable, so we pass 0.</p>
+<p>Also, when we provide the stride it wants <code>isize</code> and Rust always uses <code>usize</code>
+for sizes, so we have to convert there. In this case we'll use the
+<a href="https://doc.rust-lang.org/core/convert/trait.TryInto.html"><code>TryInto::try_into</code></a>
+trait method, along with an <code>unwrap</code>. It should work, but if somehow it would
+have overflowed, it's better to explode in a controlled manner <em>now</em> than cause
+the GPU to read memory way out of bounds at some unknown point <em>later</em>.</p>
+<p>Also also, we have to convert the pointer location using <code>usize</code> values <em>and
+then</em> cast to a const pointer once we have our <code>usize</code>. We <strong>do not</strong> want to
+make a null pointer and then offset it with the <code>offset</code> method. That's gonna
+generate an out of bounds pointer, which is UB. We could try to remember to use
+the <code>wrapping_offset</code> method, or we could just do all the math in <code>usize</code> and
+then cast at the end. I sure know which one I prefer.</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>unsafe {
+  glVertexAttribPointer(
+    0,
+    3,
+    GL_FLOAT,
+    GL_FALSE,
+    size_of::&lt;Vertex&gt;().try_into().unwrap(),
+    0 as *const _,
+  );
+  glEnableVertexAttribArray(0);
+}
+<span class="boring">}
+</span></code></pre></pre>
+<h2><a class="header" href="#send-a-program" id="send-a-program">Send A Program</a></h2>
+<p>Okay, we have some bytes sent to the GPU, and the GPU knows that it's a series
+of vertexes which are each three <code>f32</code> values. How does it know what to do from
+there? Again, with these good questions.</p>
+<p>When your GPU draws a picture, that's called the &quot;graphics pipeline&quot;. Some parts
+of the pipeline are totally fixed, or you can pick from one of a few options.
+The rest is done by a &quot;shader program&quot;.</p>
+<p>We need to make a <a href="https://www.khronos.org/opengl/wiki/GLSL_Object#Program_objects">Program
+Object</a>,
+compile and attach some shader stages to it, link the stages together, and then
+use that program.</p>
+<p>Of course, to attach those compiled shader stages we need to make some <a href="https://www.khronos.org/opengl/wiki/GLSL_Object#Shader_objects">Shader
+Objects</a> too.
+It's objects all the way down!</p>
+<h3><a class="header" href="#create-a-vertex-shader" id="create-a-vertex-shader">Create A Vertex Shader</a></h3>
+<p>First we want a <a href="https://www.khronos.org/opengl/wiki/Vertex_Shader">Vertex Shader</a>.</p>
+<p>This time we're <em>not</em> calling a &quot;gen&quot; style method with an array to fill and
+getting a huge array of new shaders. GL assumes that you'll use sufficiently few
+shaders that you can make them one at a time, so we call
+<a href="https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glCreateShader.xhtml"><code>glCreateShader</code></a> with a shader type and we get just one shader back. Or 0 if there was an error.</p>
+<p>If you look at the spec page there (and you should naturally have at least a
+quick look at <em>all</em> of the spec pages I'm linking for you!), then you'll see
+that there's a lot of types of shader! We only actually need <em>two</em> of them to
+get our program going. Actually most GL programs will just use the Vertex and
+Fragment shader. Even like complete products that aren't just demos. Vertex and
+Fragment are essential, the others are optional and specialized.</p>
+<p>One vertex shader please.</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>unsafe {
+  let vertex_shader = glCreateShader(GL_VERTEX_SHADER);
+  assert_ne!(vertex_shader, 0);
+}
+<span class="boring">}
+</span></code></pre></pre>
+<p>Thank you.</p>
+<p>Now we need to upload some source code for this shader. The source code needs to
+be written in a language called
+<a href="https://www.khronos.org/opengl/wiki/Core_Language_(GLSL)">GLSL</a>. Let's go with
+a vertex shader that's about as simple as you can possibly get with a vertex
+shader:</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>const VERT_SHADER: &amp;str = r#&quot;#version 330 core
+  layout (location = 0) in vec3 pos;
+  void main() {
+    gl_Position = vec4(pos.x, pos.y, pos.z, 1.0);
+  }
+&quot;#;
+<span class="boring">}
+</span></code></pre></pre>
+<p>That's one long string literal with a lot of stuff inside it.</p>
+<h4><a class="header" href="#inspecting-the-vertex-source" id="inspecting-the-vertex-source">Inspecting The Vertex Source</a></h4>
+<p>The first line of the vertex shader is a <code>#version 330 core</code>. You have to have
+this line on the very first line, it identifies the version of the GLSL language
+that your program is written for. In the same way that each version of OpenGL
+adds a little more stuff you can do, each version of GLSL has a little more you
+can do too. Version 330 is the version that goes with OpenGL 3.3, and we're using the core profile.</p>
+<p>Now we get to the actual interesting bits. The job of the vertex shader is to
+read in the vertex attribute values from the buffer, do whatever, and then write
+to <code>gl_Position</code> with the position that this vertex should end up at.</p>
+<pre><code class="language-glsl">layout (location = 0) in vec3 pos;
+</code></pre>
+<p>This specifies that at attribute index 0 within the buffer (remember how we set
+vertex attribute 0 before?) there's an <code>in</code> variable, of type <code>vec3</code>, which
+we're going to call <code>pos</code>.</p>
+<pre><code class="language-glsl">void main() {
+  gl_Position = vec4(pos.x, pos.y, pos.z, 1.0);
+}
+</code></pre>
+<p>Like with Rust and C, GLSL programs start at <code>main</code>. Our main function reads the
+<code>x</code>, <code>y</code>, and <code>z</code> of the vertex position, and then sticks a <code>1.0</code> on the end,
+and writes that <code>vec4</code> into the <code>gl_Position</code> variable. It just copies over the
+data, no math or anything. Not the most exciting. We'll have plenty of math
+later, don't worry.</p>
+<h4><a class="header" href="#upload-the-vertex-shader-source-and-compile" id="upload-the-vertex-shader-source-and-compile">Upload The Vertex Shader Source, and Compile</a></h4>
+<p>Now that we've got some source, we need to send it over. For this we use
+<a href="https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glShaderSource.xhtml"><code>glShaderSource</code></a>,
+which is a little tricky to get right the first time. The first argument is the
+name of a shader to set the source for. Next we have to describe the string data
+sorta like with <code>glBufferData</code>, but the format is a little wonky. They're
+expecting a length of two different arrays, and the first array is full of
+string data, while the second array is full of the lengths of each string. This is supposed to allow you to... I dunno. It's some sort of C nonsense.</p>
+<p>What we do in Rust is this:</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>unsafe {
+  glShaderSource(
+    vertex_shader,
+    1,
+    &amp;(VERT_SHADER.as_bytes().as_ptr().cast()),
+    &amp;(VERT_SHADER.len().try_into().unwrap()),
+  );
+}
+<span class="boring">}
+</span></code></pre></pre>
+<p>Ah, look a little weird? Yeah it's still a little weird. So what's happening is that first we're saying that out array of strings and our array of string lengths will both have length 1. Like with <code>glGenBuffer</code>.</p>
+<p>Then we're passing a pointer <em>to the pointer</em> of the start of the string. So we write <code>&amp;(expr)</code>, with a <code>&amp;</code> forced to the outside of our expression by the parentheses. If you don't have those parentheses then the order of operations goes wrong: it takes a reference to <code>VERTEX_SHADER</code>, calls <code>as_bytes</code> on that, and then you get a very wrong value at the end.</p>
+<p>Then, for the length we do basically the same thing. We take a pointer <em>to the length</em> after getting the string length as an <code>i32</code> value.</p>
+<p>Once that string data is uploaded we call <a href="https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glCompileShader.xhtml"><code>glCompileShader</code></a> to tell GL to compile it, and we're home free.</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>unsafe {
+  glCompileShader(vertex_shader);
+}
+<span class="boring">}
+</span></code></pre></pre>
+<h4><a class="header" href="#check-for-an-error" id="check-for-an-error">Check For An Error</a></h4>
+<p>I lied just now, we're not home free.</p>
+<p>Obviously, the one thing I'm very sure that you know about programming, is that sometimes when you compile a program there's an error. Maybe you spelled a word wrong, maybe a type didn't match, whatever. Anything could go wrong, so we have to check for that.</p>
+<p>The checking process is actually more annoying than the compilation!</p>
+<p>First we use
+<a href="https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glGetShader.xhtml"><code>glGetShaderiv</code></a>.
+The <code>iv</code> part means &quot;int&quot; &quot;vector&quot;, so the output value will be that they'll
+write to a pointer we send them. We have to pass the name of the shader we want
+info on, the <code>GL_COMPILE_STATUS</code> specifier to get the compile status, and a
+pointer that they can write to so we can get a value back. Side note:
+out-parameter pointers are terrible, please never design your API this way.</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>unsafe {
+  let mut success = 0;
+  glGetShaderiv(vertex_shader, GL_COMPILE_STATUS, &amp;mut success);
+}
+<span class="boring">}
+</span></code></pre></pre>
+<p>So this <code>success</code> value is bool-style 1 for yes and 0 for no. You can also use
+<code>GL_TRUE</code> and <code>GL_FALSE</code> but the types won't match up and in C you don't get
+automatic conversion, so we'll just check for 0 (no success).</p>
+<p>If there was not a success, then then <em>real</em> fun begins. That means we have to get a message out of the shader log.</p>
+<p>We <em>could</em> check the info log length with <code>GL_INFO_LOG_LENGTH</code>, then allocate a
+perfectly sized buffer and have them write to the buffer. However, that gives us
+a <code>Vec&lt;u8&gt;</code> (or <code>Vec&lt;c_char&gt;</code> if you want), and then we convert that to
+<code>String</code>. I like to use <code>String::from_utf8_lossy</code> when I've got unknown bytes,
+which allocates its own buffer anyway, so we'll just allocate 1k of <code>Vec</code> and assume that the log length is 1024 or less.</p>
+<p>So we call
+<a href="https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glGetShaderInfoLog.xhtml"><code>glGetShaderInfoLog</code></a>,
+with the shader we want the info log for, the maximum capacity of our buffer, a
+pointer to the spot where it will store the number of bytes written, and the
+pointer to the buffer of course. Then we set the length of the <code>Vec</code>, convert to
+<code>String</code>, and <code>panic!</code> (at the disco) with that error message.</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>unsafe {
+  if success == 0 {
+    let mut v: Vec&lt;u8&gt; = Vec::with_capacity(1024);
+    let mut log_len = 0_i32;
+    glGetShaderInfoLog(
+      vertex_shader,
+      1024,
+      &amp;mut log_len,
+      v.as_mut_ptr().cast(),
+    );
+    v.set_len(log_len.try_into().unwrap());
+    panic!(&quot;Vertex Compile Error: {}&quot;, String::from_utf8_lossy(&amp;v));
+  }
+}
+<span class="boring">}
+</span></code></pre></pre>
+<h3><a class="header" href="#create-a-fragment-shader" id="create-a-fragment-shader">Create A Fragment Shader</a></h3>
+<p>Making a <a href="https://www.khronos.org/opengl/wiki/Fragment_Shader">Fragment Shader</a>
+is nearly identical to making a vertex shader, except we pass a different shader
+type. Also, we have some different source code of course.</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>unsafe {
+  let fragment_shader = glCreateShader(GL_FRAGMENT_SHADER);
+  assert_ne!(fragment_shader, 0);
+}
+<span class="boring">}
+</span></code></pre></pre>
+<p>And the fragment source looks like this</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>const FRAG_SHADER: &amp;str = r#&quot;#version 330 core
+  out vec4 final_color;
+
+  void main() {
+    final_color = vec4(1.0, 0.5, 0.2, 1.0);
+  }
+&quot;#;
+<span class="boring">}
+</span></code></pre></pre>
+<h4><a class="header" href="#inspecting-the-fragment-source" id="inspecting-the-fragment-source">Inspecting The Fragment Source</a></h4>
+<p>Again we have a version line, always nice to have versions.</p>
+<pre><code class="language-glsl">out vec4 final_color;
+</code></pre>
+<p>This says that we're going to output a <code>vec4</code>, and we'll call it <code>final_color</code>.
+With the <code>gl_Position</code> value in the vertex shader, it's just assumed to be there
+since every vertex shader needs to write a position out. With fragment shaders,
+the system will just assume that whatever <code>vec4</code> your fragment shader puts out,
+with any name, is the output color.</p>
+<pre><code class="language-glsl">void main() {
+  final_color = vec4(1.0, 0.5, 0.2, 1.0);
+}
+</code></pre>
+<p>Here, the color is a kind of orange color, and it's the same everywhere.
+Anywhere we have a fragment, we'll have an orange pixel.</p>
+<p>I assure you that both vertex and fragment shaders will become more complex as
+we go, but if you just want to draw <em>anything</em> it's this simple.</p>
+<h4><a class="header" href="#upload-the-fragment-shader-source" id="upload-the-fragment-shader-source">Upload The Fragment Shader Source</a></h4>
+<p>And we upload and compile like before:</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>unsafe {
+  glShaderSource(
+    fragment_shader,
+    1,
+    &amp;(FRAG_SHADER.as_bytes().as_ptr().cast()),
+    &amp;(FRAG_SHADER.len().try_into().unwrap()),
+  );
+  glCompileShader(fragment_shader);
+}
+<span class="boring">}
+</span></code></pre></pre>
+<h4><a class="header" href="#check-for-an-error-again" id="check-for-an-error-again">Check For An Error, Again</a></h4>
+<p>And we check for an error like before:</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>unsafe {
+  let mut success = 0;
+  glGetShaderiv(fragment_shader, GL_COMPILE_STATUS, &amp;mut success);
+  if success == 0 {
+    let mut v: Vec&lt;u8&gt; = Vec::with_capacity(1024);
+    let mut log_len = 0_i32;
+    glGetShaderInfoLog(
+      fragment_shader,
+      1024,
+      &amp;mut log_len,
+      v.as_mut_ptr().cast(),
+    );
+    v.set_len(log_len.try_into().unwrap());
+    panic!(&quot;Fragment Compile Error: {}&quot;, String::from_utf8_lossy(&amp;v));
+  }
+}
+<span class="boring">}
+</span></code></pre></pre>
+<p>This is all a very good candidate for wrapping into an easier to use function,
+but we'll get to that after we can at least see a triangle.</p>
+<h3><a class="header" href="#create-a-program" id="create-a-program">Create A Program</a></h3>
+<p>A program combines several shader &quot;stages&quot; such as vertex and fragment, and lets you have a completed graphics pipeline.</p>
+<p>We use <a href="https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glCreateProgram.xhtml"><code>glCreateProgram</code></a> to create one, and then we use <a href="https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glAttachShader.xhtml"><code>glAttachShader</code></a> to connect both shaders we have so far. Finally we call <a href="https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glLinkProgram.xhtml"><code>glLinkProgram</code></a> to connect the shader stages into a single, usable whole.</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>unsafe {
+  let shader_program = glCreateProgram();
+  glAttachShader(shader_program, vertex_shader);
+  glAttachShader(shader_program, fragment_shader);
+  glLinkProgram(shader_program);
+}
+<span class="boring">}
+</span></code></pre></pre>
+<p>And we have to check the <code>GL_LINK_STATUS</code> with <a href="https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glGetProgram.xhtml"><code>glGetProgramiv</code></a>, and grab the link error log if there was a link error.</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>unsafe {
+  let mut success = 0;
+  glGetProgramiv(shader_program, GL_LINK_STATUS, &amp;mut success);
+  if success == 0 {
+    let mut v: Vec&lt;u8&gt; = Vec::with_capacity(1024);
+    let mut log_len = 0_i32;
+    glGetProgramInfoLog(
+      shader_program,
+      1024,
+      &amp;mut log_len,
+      v.as_mut_ptr().cast(),
+    );
+    v.set_len(log_len.try_into().unwrap());
+    panic!(&quot;Program Link Error: {}&quot;, String::from_utf8_lossy(&amp;v));
+  }
+}
+<span class="boring">}
+</span></code></pre></pre>
+<p>Finally, and this part <em>is</em> a little weird, we can mark the shaders to be deleted with <a href="https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glDeleteShader.xhtml"><code>glDeleteShader</code></a>. They won't <em>actually</em> get deleted until they're unattached from the program we have, but we can call delete now and worry about one less thing later on.</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>unsafe {
+  glDeleteShader(vertex_shader);
+  glDeleteShader(fragment_shader);
+}
+<span class="boring">}
+</span></code></pre></pre>
+<p>Finally, after all that, we can call
+<a href="https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glUseProgram.xhtml"><code>glUseProgram</code></a>
+to set our program as the one to use during drawing.</p>
+<h2><a class="header" href="#vsync" id="vsync">Vsync</a></h2>
+<p>Last thing before we move on to the main loop, let's turn on
+<a href="https://en.wikipedia.org/wiki/Screen_tearing#Vertical_synchronization">vsync</a>,
+which will make our <code>swap_window</code> call block the program until the image has
+actually been presented to the user. This makes the whole program run no faster
+than the screen's refresh rate, usually at least 60fps (sometimes more these
+days). This is usually a good thing. We can't show them images faster than the
+screen will present them anyway, so we can let the CPU cool down a bit, maybe
+save the battery even if they're on a laptop.</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// this goes any time after window creation.
+win.set_swap_interval(SwapInterval::Vsync);
+<span class="boring">}
+</span></code></pre></pre>
+<h2><a class="header" href="#clear-the-screen" id="clear-the-screen">Clear The Screen</a></h2>
+<p>In the main loop, after we process our events, we start our drawing with a call
+to
+<a href="https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glClear.xhtml"><code>glClear</code></a>.
+In this case we specify the <code>GL_COLOR_BUFFER_BIT</code>, since we want to clear the
+color values. You could clear the other bits too, but since we're not using them right now we'll just clear the colors.</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>unsafe {
+  glClear(GL_COLOR_BUFFER_BIT);
+}
+<span class="boring">}
+</span></code></pre></pre>
+<h2><a class="header" href="#draw-the-triangle" id="draw-the-triangle">Draw The Triangle</a></h2>
+<p>To actually draw our triangle we call <a href="https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glDrawArrays.xhtml"><code>glDrawArrays</code></a>.</p>
+<ul>
+<li>The <code>mode</code> is how to connect the vertexes together. We use <code>GL_TRIANGLES</code>
+which makes it process the vertexes in batches of 3 units each into however
+many triangles that gets you.</li>
+<li>The <code>first</code> value is the first vertex index to use within our vertex buffer
+data. Since we want to draw all three of our vertexes, we start at index 0.</li>
+<li>The <code>count</code> value it the number of indices to be drawn. Since we want to draw
+all three of our vertexes, we use 3.</li>
+</ul>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>unsafe {
+  glDrawArrays(GL_TRIANGLES, 0, 3);
+}
+<span class="boring">}
+</span></code></pre></pre>
+<p>Be <em>extra careful</em> with this call. If you tell it to draw too many triangles the
+GPU will run right off the end of the array and segfault the program.</p>
+<h2><a class="header" href="#swap-the-window-buffers" id="swap-the-window-buffers">Swap The Window Buffers</a></h2>
+<p>Once the drawing is done, we have to swap the window's draw buffer and display
+buffer, with <code>swap_window</code>. This will make the picture we just drew actually be
+displayed to the user. With vsync on it'll also block until the image is actually displayed.</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>win.swap_window();
+<span class="boring">}
+</span></code></pre></pre>
+<h2><a class="header" href="#done-1" id="done-1">Done!</a></h2>
+<ul>
+<li>Example Code: <a href="https://github.com/rust-tutorials/learn-opengl/blob/master/examples/001-triangle-arrays1.rs">001-triangle-arrays1</a></li>
+</ul>
+<h1><a class="header" href="#triangle-cleanup" id="triangle-cleanup">Triangle Cleanup</a></h1>
+<p>Now that we can see the basics of what's going on we're going to do a bit of
+clean up. This won't change what we're drawing, it'll just help us sort out the
+easy stuff (which we can mark safe and then worry about a lot less) from the
+unsafe stuff (which we will always have to pay attention to).</p>
+<p>From here on, the examples will all have</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use learn_opengl as learn;
+<span class="boring">}
+</span></code></pre></pre>
+<p>We'll use our helpers via <code>learn::func_name()</code>. You could of course import the
+functions and then leave off the prefix, but in tutorial code you always want to
+aim for a little more clarity than is strictly necessary.</p>
+<h2><a class="header" href="#first-a-note-on-using-glgeterror" id="first-a-note-on-using-glgeterror">First, A Note On Using <code>glGetError</code></a></h2>
+<p>The <code>ogl33</code> crate will <em>automatically</em> call
+<a href="https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glGetError.xhtml"><code>glGetError</code></a>
+after each GL call if the <code>debug_error_checks</code> is enabled along with
+<code>debug_assertions</code>. This means that we don't have to call <code>glGetError</code> ourselves
+to see any errors get reported when we're testing the program. However, if we
+wanted to check errors without <code>debug_assertions</code> on then we'd have to call
+<code>glGetError</code> manually. Or if you were using a crate to load and call GL other
+than <code>ogl33</code> I guess.</p>
+<p>The way that <code>glGetError</code> works is pretty simple: You call it, and you get a
+value back. If there's no pending errors you get <code>GL_NO_ERROR</code>, if there's a
+pending error you get some other value. However, depending on driver there might
+be more than one error pending at once. So you should call <code>glGetError</code> <em>until</em>
+you finally get a <code>GL_NO_ERROR</code>.</p>
+<h2><a class="header" href="#setting-the-clear-color" id="setting-the-clear-color">Setting The Clear Color</a></h2>
+<p>Making <code>glClearColor</code> safe is easy, there's nothing that can go wrong:</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>/// Sets the color to clear to when clearing the screen.
+pub fn clear_color(r: f32, g: f32, b: f32, a: f32) {
+  unsafe { glClearColor(r, g, b, a) }
+}
+<span class="boring">}
+</span></code></pre></pre>
+<p>and then in the example we'd call it like this:</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>learn::clear_color(0.2, 0.3, 0.3, 1.0);
+<span class="boring">}
+</span></code></pre></pre>
+<h2><a class="header" href="#vertex-array-objects" id="vertex-array-objects">Vertex Array Objects</a></h2>
+<p>With the Vertex Array Object stuff, we're just wrapping the name in our own type
+and then giving methods for the operations that go with it. However, we don't
+yet know all of the functions that we might need to use, so we'll keep the inner
+value public and we can just pull that out at any time if we need to.</p>
+<p>We'll want a way to make them, and to bind them.</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>/// Basic wrapper for a [Vertex Array
+/// Object](https://www.khronos.org/opengl/wiki/Vertex_Specification#Vertex_Array_Object).
+pub struct VertexArray(pub GLuint);
+impl VertexArray {
+  /// Creates a new vertex array object
+  pub fn new() -&gt; Option&lt;Self&gt; {
+    let mut vao = 0;
+    unsafe { glGenVertexArrays(1, &amp;mut vao) };
+    if vao != 0 {
+      Some(Self(vao))
+    } else {
+      None
+    }
+  }
+
+  /// Bind this vertex array as the current vertex array object
+  pub fn bind(&amp;self) {
+    unsafe { glBindVertexArray(self.0) }
+  }
+
+  /// Clear the current vertex array object binding.
+  pub fn clear_binding() {
+    unsafe { glBindVertexArray(0) }
+  }
+}
+<span class="boring">}
+</span></code></pre></pre>
+<p>Then we use it like this:</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let vao = VertexArray::new().expect(&quot;Couldn't make a VAO&quot;);
+vao.bind();
+<span class="boring">}
+</span></code></pre></pre>
+<h2><a class="header" href="#buffers" id="buffers">Buffers</a></h2>
+<p>For buffers it's a little more tricky because we have to make sure that we don't
+design to heavily for just Vertex Buffers and block ourselves from easily using
+other types of buffers. In fact since we'll want to use ElementArray buffers in
+the next lesson we can add that now to a <code>BufferType</code>.</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>/// The types of buffer object that you can have.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum BufferType {
+  /// Array Buffers holds arrays of vertex data for drawing.
+  Array = GL_ARRAY_BUFFER as isize,
+  /// Element Array Buffers hold indexes of what vertexes to use for drawing.
+  ElementArray = GL_ELEMENT_ARRAY_BUFFER as isize,
+}
+<span class="boring">}
+</span></code></pre></pre>
+<p>Then the buffers themselves will accept a BufferType argument when we bind.</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>/// Basic wrapper for a [Buffer
+/// Object](https://www.khronos.org/opengl/wiki/Buffer_Object).
+pub struct Buffer(pub GLuint);
+impl Buffer {
+  /// Makes a new vertex buffer
+  pub fn new() -&gt; Option&lt;Self&gt; {
+    let mut vbo = 0;
+    unsafe {
+      glGenBuffers(1, &amp;mut vbo);
+    }
+    if vbo != 0 {
+      Some(Self(vbo))
+    } else {
+      None
+    }
+  }
+
+  /// Bind this vertex buffer for the given type
+  pub fn bind(&amp;self, ty: BufferType) {
+    unsafe { glBindBuffer(ty as GLenum, self.0) }
+  }
+
+  /// Clear the current vertex buffer binding for the given type.
+  pub fn clear_binding(ty: BufferType) {
+    unsafe { glBindBuffer(ty as GLenum, 0) }
+  }
+}
+<span class="boring">}
+</span></code></pre></pre>
+<p>Finally, to buffer some data, we'll leave that as a free function. It'll take a
+buffer type and a slice of bytes, and a usage. I don't think we really need to
+make a special enum for usage values, so we'll just keep using <code>GLenum</code> for
+the usage argument.</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>/// Places a slice of data into a previously-bound buffer.
+pub fn buffer_data(ty: BufferType, data: &amp;[u8], usage: GLenum) {
+  unsafe {
+    glBufferData(
+      ty as GLenum,
+      data.len().try_into().unwrap(),
+      data.as_ptr().cast(),
+      usage,
+    );
+  }
+}
+<span class="boring">}
+</span></code></pre></pre>
+<p>And the usage code looks like this:</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let vbo = Buffer::new().expect(&quot;Couldn't make a VBO&quot;);
+vbo.bind(BufferType::Array);
+learn::buffer_data(
+  BufferType::Array,
+  bytemuck::cast_slice(&amp;VERTICES),
+  GL_STATIC_DRAW,
+);
+<span class="boring">}
+</span></code></pre></pre>
+<p>The <a href="https://docs.rs/bytemuck"><code>bytemuck</code></a> crate is a handy crate for safe casting operations. In this case, it's letting us cast our <code>&amp;[[f32;3]]</code> into <code>&amp;[u8]</code>.</p>
+<h2><a class="header" href="#vertex-attribute-pointers" id="vertex-attribute-pointers">Vertex Attribute Pointers</a></h2>
+<p>This stuff is wild!</p>
+<p>It's actually really hard to come up with a general vertex attribute pointer
+system that works with arbitrary rust data type inputs and also always lines up
+with the shaders you're using... so I'm <em>not even going to bother</em>.</p>
+<p>It's okay to have a few unsafe parts where you just always pay attention to what
+you're doing.</p>
+<h2><a class="header" href="#shaders-and-programs" id="shaders-and-programs">Shaders and Programs</a></h2>
+<p>So obviously we want a shader type enum:</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>/// The types of shader object.
+pub enum ShaderType {
+  /// Vertex shaders determine the position of geometry within the screen.
+  Vertex = GL_VERTEX_SHADER as isize,
+  /// Fragment shaders determine the color output of geometry.
+  ///
+  /// Also other values, but mostly color.
+  Fragment = GL_FRAGMENT_SHADER as isize,
+}
+<span class="boring">}
+</span></code></pre></pre>
+<p>And then... well what we really want is to say to our library: &quot;I have this string and it's a shader of this type, just make it happen&quot;.</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>/// A handle to a [Shader
+/// Object](https://www.khronos.org/opengl/wiki/GLSL_Object#Shader_objects)
+pub struct Shader(pub GLuint);
+impl Shader {
+  pub fn from_source(ty: ShaderType, source: &amp;str) -&gt; Result&lt;Self, String&gt; {
+    unimplemented!()
+  }
+}
+<span class="boring">}
+</span></code></pre></pre>
+<p>Like that's the final interface we want to have, right? But to support that
+operation we probably want to make each individual operation a little easier to
+use. That way we can think about the bigger operation in terms of easy to use
+smaller operations. Sometimes having too many middle layers can hide a detail
+that you don't want hidden, but this is just a little extra in the middle so
+it's fine.</p>
+<p>I'm just gonna throw it all down because you've seen it before and there's not
+much new to comment on.</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>impl Shader {
+  /// Makes a new shader.
+  ///
+  /// Prefer the [`Shader::from_source`](Shader::from_source) method.
+  ///
+  /// Possibly skip the direct creation of the shader object and use
+  /// [`ShaderProgram::from_vert_frag`](ShaderProgram::from_vert_frag).
+  pub fn new(ty: ShaderType) -&gt; Option&lt;Self&gt; {
+    let shader = unsafe { glCreateShader(ty as GLenum) };
+    if shader != 0 {
+      Some(Self(shader))
+    } else {
+      None
+    }
+  }
+
+  /// Assigns a source string to the shader.
+  ///
+  /// Replaces any previously assigned source.
+  pub fn set_source(&amp;self, src: &amp;str) {
+    unsafe {
+      glShaderSource(
+        self.0,
+        1,
+        &amp;(src.as_bytes().as_ptr().cast()),
+        &amp;(src.len().try_into().unwrap()),
+      );
+    }
+  }
+
+  /// Compiles the shader based on the current source.
+  pub fn compile(&amp;self) {
+    unsafe { glCompileShader(self.0) };
+  }
+
+  /// Checks if the last compile was successful or not.
+  pub fn compile_success(&amp;self) -&gt; bool {
+    let mut compiled = 0;
+    unsafe { glGetShaderiv(self.0, GL_COMPILE_STATUS, &amp;mut compiled) };
+    compiled == i32::from(GL_TRUE)
+  }
+
+  /// Gets the info log for the shader.
+  ///
+  /// Usually you use this to get the compilation log when a compile failed.
+  pub fn info_log(&amp;self) -&gt; String {
+    let mut needed_len = 0;
+    unsafe { glGetShaderiv(self.0, GL_INFO_LOG_LENGTH, &amp;mut needed_len) };
+    let mut v: Vec&lt;u8&gt; = Vec::with_capacity(needed_len.try_into().unwrap());
+    let mut len_written = 0_i32;
+    unsafe {
+      glGetShaderInfoLog(
+        self.0,
+        v.capacity().try_into().unwrap(),
+        &amp;mut len_written,
+        v.as_mut_ptr().cast(),
+      );
+      v.set_len(len_written.try_into().unwrap());
+    }
+    String::from_utf8_lossy(&amp;v).into_owned()
+  }
+
+  /// Marks a shader for deletion.
+  ///
+  /// Note: This _does not_ immediately delete the shader. It only marks it for
+  /// deletion. If the shader has been previously attached to a program then the
+  /// shader will stay allocated until it's unattached from that program.
+  pub fn delete(self) {
+    unsafe { glDeleteShader(self.0) };
+  }
+
+  /// Takes a shader type and source string and produces either the compiled
+  /// shader or an error message.
+  ///
+  /// Prefer [`ShaderProgram::from_vert_frag`](ShaderProgram::from_vert_frag),
+  /// it makes a complete program from the vertex and fragment sources all at
+  /// once.
+  pub fn from_source(ty: ShaderType, source: &amp;str) -&gt; Result&lt;Self, String&gt; {
+    let id = Self::new(ty)
+      .ok_or_else(|| &quot;Couldn't allocate new shader&quot;.to_string())?;
+    id.set_source(source);
+    id.compile();
+    if id.compile_success() {
+      Ok(id)
+    } else {
+      let out = id.info_log();
+      id.delete();
+      Err(out)
+    }
+  }
+}
+<span class="boring">}
+</span></code></pre></pre>
+<p>So with the Program, again we want to have some sort of thing where we just hand over two source strings and it makes it and we don't worry about all the middle steps.</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>pub struct ShaderProgram(pub GLuint);
+impl ShaderProgram {
+  pub fn from_vert_frag(vert: &amp;str, frag: &amp;str) -&gt; Result&lt;Self, String&gt; {
+    unimplemented!()
+  }
+}
+<span class="boring">}
+</span></code></pre></pre>
+<p>But to do that we need to support all the middle steps:</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>/// A handle to a [Program
+/// Object](https://www.khronos.org/opengl/wiki/GLSL_Object#Program_objects)
+pub struct ShaderProgram(pub GLuint);
+impl ShaderProgram {
+  /// Allocates a new program object.
+  ///
+  /// Prefer [`ShaderProgram::from_vert_frag`](ShaderProgram::from_vert_frag),
+  /// it makes a complete program from the vertex and fragment sources all at
+  /// once.
+  pub fn new() -&gt; Option&lt;Self&gt; {
+    let prog = unsafe { glCreateProgram() };
+    if prog != 0 {
+      Some(Self(prog))
+    } else {
+      None
+    }
+  }
+
+  /// Attaches a shader object to this program object.
+  pub fn attach_shader(&amp;self, shader: &amp;Shader) {
+    unsafe { glAttachShader(self.0, shader.0) };
+  }
+
+  /// Links the various attached, compiled shader objects into a usable program.
+  pub fn link_program(&amp;self) {
+    unsafe { glLinkProgram(self.0) };
+  }
+
+  /// Checks if the last linking operation was successful.
+  pub fn link_success(&amp;self) -&gt; bool {
+    let mut success = 0;
+    unsafe { glGetProgramiv(self.0, GL_LINK_STATUS, &amp;mut success) };
+    success == i32::from(GL_TRUE)
+  }
+
+  /// Gets the log data for this program.
+  ///
+  /// This is usually used to check the message when a program failed to link.
+  pub fn info_log(&amp;self) -&gt; String {
+    let mut needed_len = 0;
+    unsafe { glGetProgramiv(self.0, GL_INFO_LOG_LENGTH, &amp;mut needed_len) };
+    let mut v: Vec&lt;u8&gt; = Vec::with_capacity(needed_len.try_into().unwrap());
+    let mut len_written = 0_i32;
+    unsafe {
+      glGetProgramInfoLog(
+        self.0,
+        v.capacity().try_into().unwrap(),
+        &amp;mut len_written,
+        v.as_mut_ptr().cast(),
+      );
+      v.set_len(len_written.try_into().unwrap());
+    }
+    String::from_utf8_lossy(&amp;v).into_owned()
+  }
+
+  /// Sets the program as the program to use when drawing.
+  pub fn use_program(&amp;self) {
+    unsafe { glUseProgram(self.0) };
+  }
+
+  /// Marks the program for deletion.
+  ///
+  /// Note: This _does not_ immediately delete the program. If the program is
+  /// currently in use it won't be deleted until it's not the active program.
+  /// When a program is finally deleted and attached shaders are unattached.
+  pub fn delete(self) {
+    unsafe { glDeleteProgram(self.0) };
+  }
+
+  /// Takes a vertex shader source string and a fragment shader source string
+  /// and either gets you a working program object or gets you an error message.
+  ///
+  /// This is the preferred way to create a simple shader program in the common
+  /// case. It's just less error prone than doing all the steps yourself.
+  pub fn from_vert_frag(vert: &amp;str, frag: &amp;str) -&gt; Result&lt;Self, String&gt; {
+    let p =
+      Self::new().ok_or_else(|| &quot;Couldn't allocate a program&quot;.to_string())?;
+    let v = Shader::from_source(ShaderType::Vertex, vert)
+      .map_err(|e| format!(&quot;Vertex Compile Error: {}&quot;, e))?;
+    let f = Shader::from_source(ShaderType::Fragment, frag)
+      .map_err(|e| format!(&quot;Fragment Compile Error: {}&quot;, e))?;
+    p.attach_shader(&amp;v);
+    p.attach_shader(&amp;f);
+    p.link_program();
+    v.delete();
+    f.delete();
+    if p.link_success() {
+      Ok(p)
+    } else {
+      let out = format!(&quot;Program Link Error: {}&quot;, p.info_log());
+      p.delete();
+      Err(out)
+    }
+  }
+}
+<span class="boring">}
+</span></code></pre></pre>
+<p>Our final usage becomes:</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let shader_program =
+  ShaderProgram::from_vert_frag(VERT_SHADER, FRAG_SHADER).unwrap();
+shader_program.use_program();
+<span class="boring">}
+</span></code></pre></pre>
+<p>That's so much smaller! Very nice.</p>
+<h2><a class="header" href="#clearing-and-drawing-arrays" id="clearing-and-drawing-arrays">Clearing And Drawing Arrays?</a></h2>
+<p>We could also wrap the clearing function, but it's small and has to go with other unsafe calls, so we'll skip it for now. We could always add it later.</p>
+<p>We <em>can't</em> easily make <code>glDrawArrays</code> safe, because we'd have to carefully
+monitor the size of the buffer in the actively bound array buffer in the
+actively bound vertex array to make sure that the call didn't make the GPU go
+out of bounds. Or we could make it something like &quot;draw these arrays&quot;, and you
+pass a slice and it buffers the slice and draws it immediately. I don't really
+care for either of those, so we'll just let that be unsafe too.</p>
+<h2><a class="header" href="#done-2" id="done-2">Done!</a></h2>
+<ul>
+<li>Example Code: <a href="https://github.com/rust-tutorials/learn-opengl/blob/master/examples/002-triangle-arrays2.rs">002-triangle-arrays2</a></li>
+</ul>
+<h1><a class="header" href="#rectangle-elements" id="rectangle-elements">Rectangle Elements</a></h1>
+<p>Naturally we don't want just one triangle. When you're playing The Witcher 3,
+there's at least two triangles on the screen (maybe more!).</p>
+<p>Let's move on to drawing a rectangle. For this we need a second triangle.</p>
+<p>We could just add three more vertex entries and call it a day. If we wanted two
+triangles that were each on their own that's what we might do. However, since
+these two triangles making up our rectangle are going to be directly touching,
+that means we'd have six vertexes making up only four &quot;real&quot; points. That's 50%
+more space used than we want! It may seem small now, but a complete model for a
+tree or a person or something like that can easily end up being thousands of
+triangles. Making that be 50% more space used is a bad time.</p>
+<p>Of course this problem of duplicate vertices is a fairly easy problem to solve,
+and GL has it covered. What we do is specify an <a href="https://www.khronos.org/opengl/wiki/Vertex_Specification#Index_buffers">Index
+Buffer</a>.
+It holds the indexes of the vertex buffer entries we want to use to form each
+geometry element (in this case triangles). Then the vertex buffer doesn't need
+to have any duplicates, we just have more than one triangle index the same
+vertex.</p>
+<p>Note: What we'll be drawing is usually called a &quot;quad&quot;, because the important
+part is that it has four outside edges. It's not really important that the edges
+are in two pairs of parallel lines at right angles with each other like a true
+rectangle has.</p>
+<h2><a class="header" href="#data" id="data">Data</a></h2>
+<p>So we've got some new data. We're going to have 4 vertex entries that describes
+the points we want to use, and an index buffer with 2 entries where each entry
+describes a triangle using the points.</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>type Vertex = [f32; 3];
+type TriIndexes = [u32; 3];
+
+const VERTICES: [Vertex; 4] =
+  [[0.5, 0.5, 0.0], [0.5, -0.5, 0.0], [-0.5, -0.5, 0.0], [-0.5, 0.5, 0.0]];
+
+const INDICES: [TriIndexes; 2] = [[0, 1, 3], [1, 2, 3]];
+<span class="boring">}
+</span></code></pre></pre>
+<h2><a class="header" href="#element-buffer-object" id="element-buffer-object">Element Buffer Object</a></h2>
+<p>Our indexes go into a separate kind of buffer. This is that <code>ElementArray</code>
+buffer type that I snuck into the cleanup lesson.</p>
+<p>After we make and bind our vertex data we also bind a buffer for the element
+data and upload it, the code looks nearly identical:</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let ebo = Buffer::new().expect(&quot;Couldn't make the element buffer.&quot;);
+ebo.bind(BufferType::ElementArray);
+learn::buffer_data(
+  BufferType::ElementArray,
+  bytemuck::cast_slice(&amp;INDICES),
+  GL_STATIC_DRAW,
+);
+<span class="boring">}
+</span></code></pre></pre>
+<h2><a class="header" href="#draw-it" id="draw-it">Draw It!</a></h2>
+<p>Finally, instead of calling <code>glDrawArrays</code>, we use a separate function called <a href="https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glDrawElements.xhtml"><code>glDrawElements</code></a>.</p>
+<ul>
+<li><code>mode</code>: The style of drawing. We're still drawing triangles so we keep that
+from before.</li>
+<li><code>count</code>: The number of index elements to draw. We want two triangles to form
+our quad, and there's three indexes per triangle, so we put 6.</li>
+<li><code>type</code>: This is the type of the index data. The <code>u32</code> type is specified with
+<code>GL_UNSIGNED_INT</code>. I used <code>u32</code> out of habit, we could have made our indexes
+be <code>u16</code> or <code>u8</code> as well.</li>
+<li><code>indices</code>: is a pointer to the position within the index buffer to start the
+drawing with. Similar to the attribute specification, you pretend the index
+buffer starts at address 0 and then you decide the offset you want, and then
+cast that to a <code>*const</code> pointer.</li>
+</ul>
+<p>So the usage looks like this:</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// and then draw!
+unsafe {
+  glClear(GL_COLOR_BUFFER_BIT);
+  glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0 as *const _);
+}
+win.swap_window();
+<span class="boring">}
+</span></code></pre></pre>
+<h2><a class="header" href="#bonus-wireframe-mode" id="bonus-wireframe-mode">Bonus: Wireframe Mode</a></h2>
+<p>Since this lesson is really short let's look at one extra ability we can use.</p>
+<p>You often see 3d models with just the outlines of each triangle. &quot;Wireframe
+mode&quot; it's sometimes called. We can easily do that with
+<a href="https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glPolygonMode.xhtml"><code>glPolygonMode</code></a>.</p>
+<ul>
+<li>We can specify the <code>face</code>, but in the Core profile the only valid value is
+<code>GL_FRONT_AND_BACK</code> (in Compatibility profile you can also use <code>GL_FRONT</code> or
+<code>GL_BACK</code>).</li>
+<li>We also specify the <code>mode</code>. The default is <code>GL_FILL</code>, but With <code>GL_LINE</code> we
+get the wireframe effect. <code>GL_POINT</code> is also allowed, but makes it pretty hard
+to see what's going on.</li>
+</ul>
+<p>All this can go in our <code>lib.rs</code> file:</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>/// The polygon display modes you can set.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum PolygonMode {
+  /// Just show the points.
+  Point = GL_POINT as isize,
+  /// Just show the lines.
+  Line = GL_LINE as isize,
+  /// Fill in the polygons.
+  Fill = GL_FILL as isize,
+}
+
+/// Sets the font and back polygon mode to the mode given.
+pub fn polygon_mode(mode: PolygonMode) {
+  unsafe { glPolygonMode(GL_FRONT_AND_BACK, mode as GLenum) };
+}
+<span class="boring">}
+</span></code></pre></pre>
+<p>And then before our main loop we can turn it on:</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>learn::polygon_mode(PolygonMode::Line);
+<span class="boring">}
+</span></code></pre></pre>
+<p>Now we get a wireframe quad! and it looks like two triangles just like it should!</p>
+<h2><a class="header" href="#done-3" id="done-3">Done!</a></h2>
+<ul>
+<li>Code <a href="https://github.com/rust-tutorials/learn-opengl/blob/master/examples/003-rectangle-elements.rs">003-rectangle-elements</a></li>
+</ul>
+<h1><a class="header" href="#appendix-math" id="appendix-math">Appendix: Math</a></h1>
+<h1><a class="header" href="#vectors" id="vectors">Vectors</a></h1>
+<h1><a class="header" href="#matrices" id="matrices">Matrices</a></h1>
+<h1><a class="header" href="#transforms" id="transforms">Transforms</a></h1>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                        
+
+                        
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                
+
+                
+            </nav>
+
+        </div>
+
+        
+
+        
+
+        
+
+        
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+        
+
+        
+
+        
+        <script src="elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="searcher.js" type="text/javascript" charset="utf-8"></script>
+        
+
+        <script src="clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+        
+
+        
+        
+        <script type="text/javascript">
+        window.addEventListener('load', function() {
+            window.setTimeout(window.print, 100);
+        });
+        </script>
+        
+        
+
+    </body>
+</html>

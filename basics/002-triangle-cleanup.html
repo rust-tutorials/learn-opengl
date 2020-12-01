@@ -1,0 +1,686 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Triangle Cleanup - Learn OpenGL Rust</title>
+        
+        
+
+
+        <!-- Custom HTML head -->
+        
+
+
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="A version of the LearnOpenGL book for Rust.">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        
+        <link rel="icon" href="../favicon.svg">
+        
+        
+        <link rel="shortcut icon" href="../favicon.png">
+        
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        
+        <link rel="stylesheet" href="../css/print.css" media="print">
+        
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        
+        <link rel="stylesheet" href="../fonts/fonts.css">
+        
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        
+
+        
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../introduction.html">Introduction</a></li><li class="chapter-item expanded "><a href="../basics/index.html"><strong aria-hidden="true">1.</strong> Basics</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../basics/000-creating-a-window.html"><strong aria-hidden="true">1.1.</strong> Creating A Window</a></li><li class="chapter-item expanded "><a href="../basics/001-drawing-a-triangle.html"><strong aria-hidden="true">1.2.</strong> Drawing A Triangle</a></li><li class="chapter-item expanded "><a href="../basics/002-triangle-cleanup.html" class="active"><strong aria-hidden="true">1.3.</strong> Triangle Cleanup</a></li><li class="chapter-item expanded "><a href="../basics/003-rectangle.html"><strong aria-hidden="true">1.4.</strong> Rectangle Elements</a></li></ol></li><li class="chapter-item expanded "><a href="../appendix-math/index.html"><strong aria-hidden="true">2.</strong> Appendix: Math</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../appendix-math/vectors.html"><strong aria-hidden="true">2.1.</strong> Vectors</a></li><li class="chapter-item expanded "><a href="../appendix-math/matrices.html"><strong aria-hidden="true">2.2.</strong> Matrices</a></li><li class="chapter-item expanded "><a href="../appendix-math/transform.html"><strong aria-hidden="true">2.3.</strong> Transforms</a></li></ol></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                        
+                    </div>
+
+                    <h1 class="menu-title">Learn OpenGL Rust</h1>
+
+                    <div class="right-buttons">
+                        
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        
+                        
+                    </div>
+                </div>
+
+                
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" name="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1><a class="header" href="#triangle-cleanup" id="triangle-cleanup">Triangle Cleanup</a></h1>
+<p>Now that we can see the basics of what's going on we're going to do a bit of
+clean up. This won't change what we're drawing, it'll just help us sort out the
+easy stuff (which we can mark safe and then worry about a lot less) from the
+unsafe stuff (which we will always have to pay attention to).</p>
+<p>From here on, the examples will all have</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use learn_opengl as learn;
+<span class="boring">}
+</span></code></pre></pre>
+<p>We'll use our helpers via <code>learn::func_name()</code>. You could of course import the
+functions and then leave off the prefix, but in tutorial code you always want to
+aim for a little more clarity than is strictly necessary.</p>
+<h2><a class="header" href="#first-a-note-on-using-glgeterror" id="first-a-note-on-using-glgeterror">First, A Note On Using <code>glGetError</code></a></h2>
+<p>The <code>ogl33</code> crate will <em>automatically</em> call
+<a href="https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glGetError.xhtml"><code>glGetError</code></a>
+after each GL call if the <code>debug_error_checks</code> is enabled along with
+<code>debug_assertions</code>. This means that we don't have to call <code>glGetError</code> ourselves
+to see any errors get reported when we're testing the program. However, if we
+wanted to check errors without <code>debug_assertions</code> on then we'd have to call
+<code>glGetError</code> manually. Or if you were using a crate to load and call GL other
+than <code>ogl33</code> I guess.</p>
+<p>The way that <code>glGetError</code> works is pretty simple: You call it, and you get a
+value back. If there's no pending errors you get <code>GL_NO_ERROR</code>, if there's a
+pending error you get some other value. However, depending on driver there might
+be more than one error pending at once. So you should call <code>glGetError</code> <em>until</em>
+you finally get a <code>GL_NO_ERROR</code>.</p>
+<h2><a class="header" href="#setting-the-clear-color" id="setting-the-clear-color">Setting The Clear Color</a></h2>
+<p>Making <code>glClearColor</code> safe is easy, there's nothing that can go wrong:</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>/// Sets the color to clear to when clearing the screen.
+pub fn clear_color(r: f32, g: f32, b: f32, a: f32) {
+  unsafe { glClearColor(r, g, b, a) }
+}
+<span class="boring">}
+</span></code></pre></pre>
+<p>and then in the example we'd call it like this:</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>learn::clear_color(0.2, 0.3, 0.3, 1.0);
+<span class="boring">}
+</span></code></pre></pre>
+<h2><a class="header" href="#vertex-array-objects" id="vertex-array-objects">Vertex Array Objects</a></h2>
+<p>With the Vertex Array Object stuff, we're just wrapping the name in our own type
+and then giving methods for the operations that go with it. However, we don't
+yet know all of the functions that we might need to use, so we'll keep the inner
+value public and we can just pull that out at any time if we need to.</p>
+<p>We'll want a way to make them, and to bind them.</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>/// Basic wrapper for a [Vertex Array
+/// Object](https://www.khronos.org/opengl/wiki/Vertex_Specification#Vertex_Array_Object).
+pub struct VertexArray(pub GLuint);
+impl VertexArray {
+  /// Creates a new vertex array object
+  pub fn new() -&gt; Option&lt;Self&gt; {
+    let mut vao = 0;
+    unsafe { glGenVertexArrays(1, &amp;mut vao) };
+    if vao != 0 {
+      Some(Self(vao))
+    } else {
+      None
+    }
+  }
+
+  /// Bind this vertex array as the current vertex array object
+  pub fn bind(&amp;self) {
+    unsafe { glBindVertexArray(self.0) }
+  }
+
+  /// Clear the current vertex array object binding.
+  pub fn clear_binding() {
+    unsafe { glBindVertexArray(0) }
+  }
+}
+<span class="boring">}
+</span></code></pre></pre>
+<p>Then we use it like this:</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let vao = VertexArray::new().expect(&quot;Couldn't make a VAO&quot;);
+vao.bind();
+<span class="boring">}
+</span></code></pre></pre>
+<h2><a class="header" href="#buffers" id="buffers">Buffers</a></h2>
+<p>For buffers it's a little more tricky because we have to make sure that we don't
+design to heavily for just Vertex Buffers and block ourselves from easily using
+other types of buffers. In fact since we'll want to use ElementArray buffers in
+the next lesson we can add that now to a <code>BufferType</code>.</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>/// The types of buffer object that you can have.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum BufferType {
+  /// Array Buffers holds arrays of vertex data for drawing.
+  Array = GL_ARRAY_BUFFER as isize,
+  /// Element Array Buffers hold indexes of what vertexes to use for drawing.
+  ElementArray = GL_ELEMENT_ARRAY_BUFFER as isize,
+}
+<span class="boring">}
+</span></code></pre></pre>
+<p>Then the buffers themselves will accept a BufferType argument when we bind.</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>/// Basic wrapper for a [Buffer
+/// Object](https://www.khronos.org/opengl/wiki/Buffer_Object).
+pub struct Buffer(pub GLuint);
+impl Buffer {
+  /// Makes a new vertex buffer
+  pub fn new() -&gt; Option&lt;Self&gt; {
+    let mut vbo = 0;
+    unsafe {
+      glGenBuffers(1, &amp;mut vbo);
+    }
+    if vbo != 0 {
+      Some(Self(vbo))
+    } else {
+      None
+    }
+  }
+
+  /// Bind this vertex buffer for the given type
+  pub fn bind(&amp;self, ty: BufferType) {
+    unsafe { glBindBuffer(ty as GLenum, self.0) }
+  }
+
+  /// Clear the current vertex buffer binding for the given type.
+  pub fn clear_binding(ty: BufferType) {
+    unsafe { glBindBuffer(ty as GLenum, 0) }
+  }
+}
+<span class="boring">}
+</span></code></pre></pre>
+<p>Finally, to buffer some data, we'll leave that as a free function. It'll take a
+buffer type and a slice of bytes, and a usage. I don't think we really need to
+make a special enum for usage values, so we'll just keep using <code>GLenum</code> for
+the usage argument.</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>/// Places a slice of data into a previously-bound buffer.
+pub fn buffer_data(ty: BufferType, data: &amp;[u8], usage: GLenum) {
+  unsafe {
+    glBufferData(
+      ty as GLenum,
+      data.len().try_into().unwrap(),
+      data.as_ptr().cast(),
+      usage,
+    );
+  }
+}
+<span class="boring">}
+</span></code></pre></pre>
+<p>And the usage code looks like this:</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let vbo = Buffer::new().expect(&quot;Couldn't make a VBO&quot;);
+vbo.bind(BufferType::Array);
+learn::buffer_data(
+  BufferType::Array,
+  bytemuck::cast_slice(&amp;VERTICES),
+  GL_STATIC_DRAW,
+);
+<span class="boring">}
+</span></code></pre></pre>
+<p>The <a href="https://docs.rs/bytemuck"><code>bytemuck</code></a> crate is a handy crate for safe casting operations. In this case, it's letting us cast our <code>&amp;[[f32;3]]</code> into <code>&amp;[u8]</code>.</p>
+<h2><a class="header" href="#vertex-attribute-pointers" id="vertex-attribute-pointers">Vertex Attribute Pointers</a></h2>
+<p>This stuff is wild!</p>
+<p>It's actually really hard to come up with a general vertex attribute pointer
+system that works with arbitrary rust data type inputs and also always lines up
+with the shaders you're using... so I'm <em>not even going to bother</em>.</p>
+<p>It's okay to have a few unsafe parts where you just always pay attention to what
+you're doing.</p>
+<h2><a class="header" href="#shaders-and-programs" id="shaders-and-programs">Shaders and Programs</a></h2>
+<p>So obviously we want a shader type enum:</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>/// The types of shader object.
+pub enum ShaderType {
+  /// Vertex shaders determine the position of geometry within the screen.
+  Vertex = GL_VERTEX_SHADER as isize,
+  /// Fragment shaders determine the color output of geometry.
+  ///
+  /// Also other values, but mostly color.
+  Fragment = GL_FRAGMENT_SHADER as isize,
+}
+<span class="boring">}
+</span></code></pre></pre>
+<p>And then... well what we really want is to say to our library: &quot;I have this string and it's a shader of this type, just make it happen&quot;.</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>/// A handle to a [Shader
+/// Object](https://www.khronos.org/opengl/wiki/GLSL_Object#Shader_objects)
+pub struct Shader(pub GLuint);
+impl Shader {
+  pub fn from_source(ty: ShaderType, source: &amp;str) -&gt; Result&lt;Self, String&gt; {
+    unimplemented!()
+  }
+}
+<span class="boring">}
+</span></code></pre></pre>
+<p>Like that's the final interface we want to have, right? But to support that
+operation we probably want to make each individual operation a little easier to
+use. That way we can think about the bigger operation in terms of easy to use
+smaller operations. Sometimes having too many middle layers can hide a detail
+that you don't want hidden, but this is just a little extra in the middle so
+it's fine.</p>
+<p>I'm just gonna throw it all down because you've seen it before and there's not
+much new to comment on.</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>impl Shader {
+  /// Makes a new shader.
+  ///
+  /// Prefer the [`Shader::from_source`](Shader::from_source) method.
+  ///
+  /// Possibly skip the direct creation of the shader object and use
+  /// [`ShaderProgram::from_vert_frag`](ShaderProgram::from_vert_frag).
+  pub fn new(ty: ShaderType) -&gt; Option&lt;Self&gt; {
+    let shader = unsafe { glCreateShader(ty as GLenum) };
+    if shader != 0 {
+      Some(Self(shader))
+    } else {
+      None
+    }
+  }
+
+  /// Assigns a source string to the shader.
+  ///
+  /// Replaces any previously assigned source.
+  pub fn set_source(&amp;self, src: &amp;str) {
+    unsafe {
+      glShaderSource(
+        self.0,
+        1,
+        &amp;(src.as_bytes().as_ptr().cast()),
+        &amp;(src.len().try_into().unwrap()),
+      );
+    }
+  }
+
+  /// Compiles the shader based on the current source.
+  pub fn compile(&amp;self) {
+    unsafe { glCompileShader(self.0) };
+  }
+
+  /// Checks if the last compile was successful or not.
+  pub fn compile_success(&amp;self) -&gt; bool {
+    let mut compiled = 0;
+    unsafe { glGetShaderiv(self.0, GL_COMPILE_STATUS, &amp;mut compiled) };
+    compiled == i32::from(GL_TRUE)
+  }
+
+  /// Gets the info log for the shader.
+  ///
+  /// Usually you use this to get the compilation log when a compile failed.
+  pub fn info_log(&amp;self) -&gt; String {
+    let mut needed_len = 0;
+    unsafe { glGetShaderiv(self.0, GL_INFO_LOG_LENGTH, &amp;mut needed_len) };
+    let mut v: Vec&lt;u8&gt; = Vec::with_capacity(needed_len.try_into().unwrap());
+    let mut len_written = 0_i32;
+    unsafe {
+      glGetShaderInfoLog(
+        self.0,
+        v.capacity().try_into().unwrap(),
+        &amp;mut len_written,
+        v.as_mut_ptr().cast(),
+      );
+      v.set_len(len_written.try_into().unwrap());
+    }
+    String::from_utf8_lossy(&amp;v).into_owned()
+  }
+
+  /// Marks a shader for deletion.
+  ///
+  /// Note: This _does not_ immediately delete the shader. It only marks it for
+  /// deletion. If the shader has been previously attached to a program then the
+  /// shader will stay allocated until it's unattached from that program.
+  pub fn delete(self) {
+    unsafe { glDeleteShader(self.0) };
+  }
+
+  /// Takes a shader type and source string and produces either the compiled
+  /// shader or an error message.
+  ///
+  /// Prefer [`ShaderProgram::from_vert_frag`](ShaderProgram::from_vert_frag),
+  /// it makes a complete program from the vertex and fragment sources all at
+  /// once.
+  pub fn from_source(ty: ShaderType, source: &amp;str) -&gt; Result&lt;Self, String&gt; {
+    let id = Self::new(ty)
+      .ok_or_else(|| &quot;Couldn't allocate new shader&quot;.to_string())?;
+    id.set_source(source);
+    id.compile();
+    if id.compile_success() {
+      Ok(id)
+    } else {
+      let out = id.info_log();
+      id.delete();
+      Err(out)
+    }
+  }
+}
+<span class="boring">}
+</span></code></pre></pre>
+<p>So with the Program, again we want to have some sort of thing where we just hand over two source strings and it makes it and we don't worry about all the middle steps.</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>pub struct ShaderProgram(pub GLuint);
+impl ShaderProgram {
+  pub fn from_vert_frag(vert: &amp;str, frag: &amp;str) -&gt; Result&lt;Self, String&gt; {
+    unimplemented!()
+  }
+}
+<span class="boring">}
+</span></code></pre></pre>
+<p>But to do that we need to support all the middle steps:</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>/// A handle to a [Program
+/// Object](https://www.khronos.org/opengl/wiki/GLSL_Object#Program_objects)
+pub struct ShaderProgram(pub GLuint);
+impl ShaderProgram {
+  /// Allocates a new program object.
+  ///
+  /// Prefer [`ShaderProgram::from_vert_frag`](ShaderProgram::from_vert_frag),
+  /// it makes a complete program from the vertex and fragment sources all at
+  /// once.
+  pub fn new() -&gt; Option&lt;Self&gt; {
+    let prog = unsafe { glCreateProgram() };
+    if prog != 0 {
+      Some(Self(prog))
+    } else {
+      None
+    }
+  }
+
+  /// Attaches a shader object to this program object.
+  pub fn attach_shader(&amp;self, shader: &amp;Shader) {
+    unsafe { glAttachShader(self.0, shader.0) };
+  }
+
+  /// Links the various attached, compiled shader objects into a usable program.
+  pub fn link_program(&amp;self) {
+    unsafe { glLinkProgram(self.0) };
+  }
+
+  /// Checks if the last linking operation was successful.
+  pub fn link_success(&amp;self) -&gt; bool {
+    let mut success = 0;
+    unsafe { glGetProgramiv(self.0, GL_LINK_STATUS, &amp;mut success) };
+    success == i32::from(GL_TRUE)
+  }
+
+  /// Gets the log data for this program.
+  ///
+  /// This is usually used to check the message when a program failed to link.
+  pub fn info_log(&amp;self) -&gt; String {
+    let mut needed_len = 0;
+    unsafe { glGetProgramiv(self.0, GL_INFO_LOG_LENGTH, &amp;mut needed_len) };
+    let mut v: Vec&lt;u8&gt; = Vec::with_capacity(needed_len.try_into().unwrap());
+    let mut len_written = 0_i32;
+    unsafe {
+      glGetProgramInfoLog(
+        self.0,
+        v.capacity().try_into().unwrap(),
+        &amp;mut len_written,
+        v.as_mut_ptr().cast(),
+      );
+      v.set_len(len_written.try_into().unwrap());
+    }
+    String::from_utf8_lossy(&amp;v).into_owned()
+  }
+
+  /// Sets the program as the program to use when drawing.
+  pub fn use_program(&amp;self) {
+    unsafe { glUseProgram(self.0) };
+  }
+
+  /// Marks the program for deletion.
+  ///
+  /// Note: This _does not_ immediately delete the program. If the program is
+  /// currently in use it won't be deleted until it's not the active program.
+  /// When a program is finally deleted and attached shaders are unattached.
+  pub fn delete(self) {
+    unsafe { glDeleteProgram(self.0) };
+  }
+
+  /// Takes a vertex shader source string and a fragment shader source string
+  /// and either gets you a working program object or gets you an error message.
+  ///
+  /// This is the preferred way to create a simple shader program in the common
+  /// case. It's just less error prone than doing all the steps yourself.
+  pub fn from_vert_frag(vert: &amp;str, frag: &amp;str) -&gt; Result&lt;Self, String&gt; {
+    let p =
+      Self::new().ok_or_else(|| &quot;Couldn't allocate a program&quot;.to_string())?;
+    let v = Shader::from_source(ShaderType::Vertex, vert)
+      .map_err(|e| format!(&quot;Vertex Compile Error: {}&quot;, e))?;
+    let f = Shader::from_source(ShaderType::Fragment, frag)
+      .map_err(|e| format!(&quot;Fragment Compile Error: {}&quot;, e))?;
+    p.attach_shader(&amp;v);
+    p.attach_shader(&amp;f);
+    p.link_program();
+    v.delete();
+    f.delete();
+    if p.link_success() {
+      Ok(p)
+    } else {
+      let out = format!(&quot;Program Link Error: {}&quot;, p.info_log());
+      p.delete();
+      Err(out)
+    }
+  }
+}
+<span class="boring">}
+</span></code></pre></pre>
+<p>Our final usage becomes:</p>
+<pre><pre class="playground"><code class="language-rust">
+<span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let shader_program =
+  ShaderProgram::from_vert_frag(VERT_SHADER, FRAG_SHADER).unwrap();
+shader_program.use_program();
+<span class="boring">}
+</span></code></pre></pre>
+<p>That's so much smaller! Very nice.</p>
+<h2><a class="header" href="#clearing-and-drawing-arrays" id="clearing-and-drawing-arrays">Clearing And Drawing Arrays?</a></h2>
+<p>We could also wrap the clearing function, but it's small and has to go with other unsafe calls, so we'll skip it for now. We could always add it later.</p>
+<p>We <em>can't</em> easily make <code>glDrawArrays</code> safe, because we'd have to carefully
+monitor the size of the buffer in the actively bound array buffer in the
+actively bound vertex array to make sure that the call didn't make the GPU go
+out of bounds. Or we could make it something like &quot;draw these arrays&quot;, and you
+pass a slice and it buffers the slice and draws it immediately. I don't really
+care for either of those, so we'll just let that be unsafe too.</p>
+<h2><a class="header" href="#done" id="done">Done!</a></h2>
+<ul>
+<li>Example Code: <a href="https://github.com/rust-tutorials/learn-opengl/blob/master/examples/002-triangle-arrays2.rs">002-triangle-arrays2</a></li>
+</ul>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                        
+                            <a rel="prev" href="../basics/001-drawing-a-triangle.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                        
+
+                        
+                            <a rel="next" href="../basics/003-rectangle.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                
+                    <a rel="prev" href="../basics/001-drawing-a-triangle.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                
+
+                
+                    <a rel="next" href="../basics/003-rectangle.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                
+            </nav>
+
+        </div>
+
+        
+
+        
+
+        
+
+        
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+        
+
+        
+
+        
+        <script src="../elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../searcher.js" type="text/javascript" charset="utf-8"></script>
+        
+
+        <script src="../clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+        
+
+        
+
+    </body>
+</html>
