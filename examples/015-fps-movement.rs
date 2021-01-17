@@ -17,9 +17,9 @@ use learn::{
   null_str, Buffer, BufferType, Shader, ShaderProgram, ShaderType, VertexArray,
 };
 use learn_opengl as learn;
-use learn_opengl::math::*;
 use ogl33::*;
 use std::collections::HashSet;
+use ultraviolet::*;
 
 type Vertex = [f32; 3 + 2];
 /// Draw this with glDrawArrays(GL_TRIANGLES, 0, 36)
@@ -263,7 +263,7 @@ fn main() {
     glGetUniformLocation(shader_program.0, name)
   };
 
-  let projection = perspective_view(
+  let projection = ultraviolet::projection::lh_yup::perspective_gl(
     45.0_f32.to_radians(),
     (WINDOW_WIDTH as f32) / (WINDOW_HEIGHT as f32),
     0.1,
@@ -322,10 +322,10 @@ fn main() {
       glUniformMatrix4fv(view_loc, 1, GL_FALSE, view.as_ptr());
 
       for (i, position) in CUBE_POSITIONS.iter().copied().enumerate() {
-        let model = Mat4::translate(position)
-          * Mat4::rotate_y(3.0)
-          * Mat4::rotate_x((1.0 + i as f32) * 0.8)
-          * Mat4::rotate_z(time * (1.0 + i as f32));
+        let model = Mat4::from_translation(position)
+          * Mat4::from_rotation_y(3.0)
+          * Mat4::from_rotation_x((1.0 + i as f32) * 0.8)
+          * Mat4::from_rotation_z(time * (1.0 + i as f32));
 
         glUniformMatrix4fv(model_loc, 1, GL_FALSE, model.as_ptr());
 

@@ -33,8 +33,6 @@ TODO:
 use core::convert::{TryFrom, TryInto};
 use ogl33::*;
 
-pub mod math;
-
 /// Takes a string literal and concatenates a null byte onto the end.
 #[macro_export]
 macro_rules! null_str {

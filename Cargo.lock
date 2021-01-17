@@ -4,77 +4,104 @@
 name = "beryllium"
 version = "0.2.0-alpha.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "b0067ab165ff878b6beab38edceb0436753a9a5b7a0b7b820e8400c7015d2beb"
 dependencies = [
- "fermium 0.1.4 (registry+https://github.com/rust-lang/crates.io-index)",
- "objc 0.2.7 (registry+https://github.com/rust-lang/crates.io-index)",
+ "fermium",
+ "objc",
 ]
 
 [[package]]
 name = "bytemuck"
-version = "1.1.0"
+version = "1.5.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "5a4bad0c5981acc24bc09e532f35160f952e35422603f0563cd7a73c2c2e65a0"
 
 [[package]]
 name = "fermium"
 version = "0.1.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "e0db7d98893b18bff24e14593a05ff0dccba8cc6ed795dce5623213acffda87d"
 dependencies = [
- "libc 0.2.66 (registry+https://github.com/rust-lang/crates.io-index)",
+ "libc",
 ]
 
 [[package]]
 name = "imagine"
 version = "0.0.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "b66f20ef575a7087eed611a0d4ff4bd624d24bf9c63b4d614d2d8823090af75b"
 dependencies = [
- "bytemuck 1.1.0 (registry+https://github.com/rust-lang/crates.io-index)",
+ "bytemuck",
 ]
 
 [[package]]
 name = "learn-opengl"
 version = "0.0.1-alpha.0"
 dependencies = [
- "beryllium 0.2.0-alpha.5 (registry+https://github.com/rust-lang/crates.io-index)",
- "bytemuck 1.1.0 (registry+https://github.com/rust-lang/crates.io-index)",
- "imagine 0.0.5 (registry+https://github.com/rust-lang/crates.io-index)",
- "ogl33 0.2.0 (registry+https://github.com/rust-lang/crates.io-index)",
+ "beryllium",
+ "bytemuck",
+ "imagine",
+ "ogl33",
+ "ultraviolet",
 ]
 
 [[package]]
 name = "libc"
 version = "0.2.66"
 source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "d515b1f41455adea1313a4a2ac8a8a477634fbae63cc6100e3aebb207ce61558"
 
 [[package]]
 name = "malloc_buf"
 version = "0.0.6"
 source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "62bb907fe88d54d8d9ce32a3cceab4218ed2f6b7d35617cafe9adf84e43919cb"
 dependencies = [
- "libc 0.2.66 (registry+https://github.com/rust-lang/crates.io-index)",
+ "libc",
 ]
 
 [[package]]
 name = "objc"
 version = "0.2.7"
 source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "915b1b472bc21c53464d6c8461c9d3af805ba1ef837e1cac254428f4a77177b1"
 dependencies = [
- "malloc_buf 0.0.6 (registry+https://github.com/rust-lang/crates.io-index)",
+ "malloc_buf",
 ]
 
 [[package]]
 name = "ogl33"
 version = "0.2.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "824cf1a81ae16877f90e9cdc4dcb51c833a0f8da6a7ca36a782a3a970fcd3e32"
 dependencies = [
- "libc 0.2.66 (registry+https://github.com/rust-lang/crates.io-index)",
+ "libc",
 ]
 
-[metadata]
-"checksum beryllium 0.2.0-alpha.5 (registry+https://github.com/rust-lang/crates.io-index)" = "b0067ab165ff878b6beab38edceb0436753a9a5b7a0b7b820e8400c7015d2beb"
-"checksum bytemuck 1.1.0 (registry+https://github.com/rust-lang/crates.io-index)" = "fe8d506cf580b813b52e2ff73ea8e96df94c3842ec3ab5278be2cbdd196d91f7"
-"checksum fermium 0.1.4 (registry+https://github.com/rust-lang/crates.io-index)" = "e0db7d98893b18bff24e14593a05ff0dccba8cc6ed795dce5623213acffda87d"
-"checksum imagine 0.0.5 (registry+https://github.com/rust-lang/crates.io-index)" = "b66f20ef575a7087eed611a0d4ff4bd624d24bf9c63b4d614d2d8823090af75b"
-"checksum libc 0.2.66 (registry+https://github.com/rust-lang/crates.io-index)" = "d515b1f41455adea1313a4a2ac8a8a477634fbae63cc6100e3aebb207ce61558"
-"checksum malloc_buf 0.0.6 (registry+https://github.com/rust-lang/crates.io-index)" = "62bb907fe88d54d8d9ce32a3cceab4218ed2f6b7d35617cafe9adf84e43919cb"
-"checksum objc 0.2.7 (registry+https://github.com/rust-lang/crates.io-index)" = "915b1b472bc21c53464d6c8461c9d3af805ba1ef837e1cac254428f4a77177b1"
-"checksum ogl33 0.2.0 (registry+https://github.com/rust-lang/crates.io-index)" = "824cf1a81ae16877f90e9cdc4dcb51c833a0f8da6a7ca36a782a3a970fcd3e32"
+[[package]]
+name = "safe_arch"
+version = "0.5.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "c1ff3d6d9696af502cc3110dacce942840fb06ff4514cad92236ecc455f2ce05"
+dependencies = [
+ "bytemuck",
+]
+
+[[package]]
+name = "ultraviolet"
+version = "0.7.5"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "c6650a58414f856056ccc651abd3b9d80c384206250c3a621224497503a0f9f2"
+dependencies = [
+ "wide",
+]
+
+[[package]]
+name = "wide"
+version = "0.5.5"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "80b27c76ecc22bd81fe681d9c9eac81e002d7b7048105ee4608f57c4e92e9211"
+dependencies = [
+ "bytemuck",
+ "safe_arch",
+]
