@@ -262,7 +262,7 @@ fn main() {
     glGetUniformLocation(shader_program.0, name)
   };
 
-  let projection = ultraviolet::projection::lh_yup::perspective_gl(
+  let projection = ultraviolet::projection::perspective_gl(
     45.0_f32.to_radians(),
     (WINDOW_WIDTH as f32) / (WINDOW_HEIGHT as f32),
     0.1,
