@@ -265,7 +265,7 @@ fn main() {
   let view = Mat4::from_translation(Vec3::new(0.0, 0.0, -3.0));
   unsafe { glUniformMatrix4fv(view_loc, 1, GL_FALSE, view.as_ptr()) };
 
-  let projection = ultraviolet::projection::lh_yup::perspective_gl(
+  let projection = ultraviolet::projection::perspective_gl(
     45.0_f32.to_radians(),
     (WINDOW_WIDTH as f32) / (WINDOW_HEIGHT as f32),
     0.1,
