@@ -112,19 +112,6 @@ I'm going to put the following attribute at the top of the file:
 
 This will make is to that a "release" build (with the `--release` flag) will use the "windows" subsystem on Windows, instead of the "console" subsystem. This makes the process not have a console by default, which prevents a little terminal window from running in the background when the program runs on its own. However, we only want that in release mode because we want the ability to print debug message in debug mode.
 
-### Static C Runtime
-
-Also, I'm going to add a `.cargo/` folder to the project and put a `config` file inside.
-
-```toml
-[build]
-rustflags = ["-C","target-feature=+crt-static"]
-```
-
-This will make Rust compile in a static C runtime when it builds the binaries, so that the binaries can be sent to others without them needing to have the MSVC redistributable DLLs or other files like that on their machine. It's not on by default because I don't even know why. I think it makes programs marginally larger, but it doesn't seem to make them compile slower so whatever.
-
-We could instead make a totally `no_std` program if we wanted to, but that's a whole set of steps and not really OpenGL related at all, so for this tutorial book we'll use the "quick and dirty" way to get our programs to be easily portable.
-
 ### Static Linking SDL2
 
 Finally, instead of dynamic linking with SDL2 we could static link with it.
