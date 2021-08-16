@@ -4,47 +4,27 @@
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
         <title>Creating A Window - Learn OpenGL Rust</title>
-        
-        
-
-
         <!-- Custom HTML head -->
-        
-
-
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="A version of the LearnOpenGL book for Rust.">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#ffffff" />
 
-        
         <link rel="icon" href="../favicon.svg">
-        
-        
         <link rel="shortcut icon" href="../favicon.png">
-        
         <link rel="stylesheet" href="../css/variables.css">
         <link rel="stylesheet" href="../css/general.css">
         <link rel="stylesheet" href="../css/chrome.css">
-        
         <link rel="stylesheet" href="../css/print.css" media="print">
-        
-
         <!-- Fonts -->
         <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
-        
         <link rel="stylesheet" href="../fonts/fonts.css">
-        
-
         <!-- Highlight.js Stylesheets -->
         <link rel="stylesheet" href="../highlight.css">
         <link rel="stylesheet" href="../tomorrow-night.css">
         <link rel="stylesheet" href="../ayu-highlight.css">
 
         <!-- Custom theme stylesheets -->
-        
-
-        
     </head>
     <body>
         <!-- Provide site root to javascript -->
@@ -103,7 +83,6 @@
         <div id="page-wrapper" class="page-wrapper">
 
             <div class="page">
-                
                 <div id="menu-bar-hover-placeholder"></div>
                 <div id="menu-bar" class="menu-bar sticky bordered">
                     <div class="left-buttons">
@@ -120,29 +99,23 @@
                             <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
                         </ul>
-                        
                         <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
                             <i class="fa fa-search"></i>
                         </button>
-                        
                     </div>
 
                     <h1 class="menu-title">Learn OpenGL Rust</h1>
 
                     <div class="right-buttons">
-                        
                         <a href="../print.html" title="Print this book" aria-label="Print this book">
                             <i id="print-button" class="fa fa-print"></i>
                         </a>
-                        
-                        
                     </div>
                 </div>
 
-                
                 <div id="search-wrapper" class="hidden">
                     <form id="searchbar-outer" class="searchbar-outer">
-                        <input type="search" name="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
                     </form>
                     <div id="searchresults-outer" class="searchresults-outer hidden">
                         <div id="searchresults-header" class="searchresults-header"></div>
@@ -150,8 +123,6 @@
                         </ul>
                     </div>
                 </div>
-                
-
                 <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
                 <script type="text/javascript">
                     document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
@@ -163,13 +134,13 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1><a class="header" href="#creating-a-window" id="creating-a-window">Creating A Window</a></h1>
+                        <h1 id="creating-a-window"><a class="header" href="#creating-a-window">Creating A Window</a></h1>
 <p>This part of the tutorial is very library specific, so I won't focus on it too
 much. Basically, we have to open a window, and we also need a GL context to go
 with that window. The details for this depend on what OS and windowing system
 you're using. In my case, <code>beryllium</code> is based on SDL2, so we have a nice
 cross-platform abstraction going for us.</p>
-<h2><a class="header" href="#pre-window-setup" id="pre-window-setup">Pre-Window Setup</a></h2>
+<h2 id="pre-window-setup"><a class="header" href="#pre-window-setup">Pre-Window Setup</a></h2>
 <p>On most platforms, you have to specify that you'll be using GL <em>before</em> you create the window, so that the window itself can be created with the correct settings to support GL once it's made.</p>
 <p>First we turn on SDL itself:</p>
 <pre><pre class="playground"><code class="language-rust">use beryllium::*;
@@ -205,7 +176,7 @@ unavailable. It's needed for Mac if you want to have a Core profile. On other
 systems you can have it or not and it doesn't make a big difference. The
 Khronos wiki suggest to only set it if you're on Mac, so that's what I did.</li>
 </ul>
-<h2><a class="header" href="#make-the-window" id="make-the-window">Make The Window</a></h2>
+<h2 id="make-the-window"><a class="header" href="#make-the-window">Make The Window</a></h2>
 <p>Finally, once GL is all set, we can make our window.</p>
 <p>In some libs you might make the window and then make the GL Context as a
 separate step (technically SDL2 lets you do this), but with <code>beryllium</code> it just
@@ -225,7 +196,7 @@ works this way, I don't know about <code>glfw</code>).</p>
     .expect(&quot;couldn't make a window and context&quot;);
 <span class="boring">}
 </span></code></pre></pre>
-<h2><a class="header" href="#processing-events" id="processing-events">Processing Events</a></h2>
+<h2 id="processing-events"><a class="header" href="#processing-events">Processing Events</a></h2>
 <p>Once we have a window, we can poll for events. In fact if we <em>don't</em> always poll
 for events promptly the OS will usually think that our application has stalled
 and tell the user they should kill the program. So we want to always be polling
@@ -250,14 +221,14 @@ pressed Alt+F4, etc) and then quit when that happens.</p>
 }
 <span class="boring">}
 </span></code></pre></pre>
-<h2><a class="header" href="#done" id="done">Done!</a></h2>
+<h2 id="done"><a class="header" href="#done">Done!</a></h2>
 <p>That's all there is to it for this lesson. Just a milk run.</p>
 <ul>
 <li>Example Code: <a href="https://github.com/rust-tutorials/learn-opengl/blob/master/examples/000-basic-window.rs">000-basic-window</a></li>
 </ul>
-<h2><a class="header" href="#extras" id="extras">Extras</a></h2>
+<h2 id="extras"><a class="header" href="#extras">Extras</a></h2>
 <p>I'm developing mostly on Windows, and Windows is where most of your market share of users will end up being, so here's some bonus Windows tips:</p>
-<h3><a class="header" href="#windows-subsystem" id="windows-subsystem">Windows Subsystem</a></h3>
+<h3 id="windows-subsystem"><a class="header" href="#windows-subsystem">Windows Subsystem</a></h3>
 <p>I'm going to put the following attribute at the top of the file:</p>
 <pre><pre class="playground"><code class="language-rust">
 <span class="boring">#![allow(unused)]
@@ -266,14 +237,7 @@ pressed Alt+F4, etc) and then quit when that happens.</p>
 </span><span class="boring">}
 </span></code></pre></pre>
 <p>This will make is to that a &quot;release&quot; build (with the <code>--release</code> flag) will use the &quot;windows&quot; subsystem on Windows, instead of the &quot;console&quot; subsystem. This makes the process not have a console by default, which prevents a little terminal window from running in the background when the program runs on its own. However, we only want that in release mode because we want the ability to print debug message in debug mode.</p>
-<h3><a class="header" href="#static-c-runtime" id="static-c-runtime">Static C Runtime</a></h3>
-<p>Also, I'm going to add a <code>.cargo/</code> folder to the project and put a <code>config</code> file inside.</p>
-<pre><code class="language-toml">[build]
-rustflags = [&quot;-C&quot;,&quot;target-feature=+crt-static&quot;]
-</code></pre>
-<p>This will make Rust compile in a static C runtime when it builds the binaries, so that the binaries can be sent to others without them needing to have the MSVC redistributable DLLs or other files like that on their machine. It's not on by default because I don't even know why. I think it makes programs marginally larger, but it doesn't seem to make them compile slower so whatever.</p>
-<p>We could instead make a totally <code>no_std</code> program if we wanted to, but that's a whole set of steps and not really OpenGL related at all, so for this tutorial book we'll use the &quot;quick and dirty&quot; way to get our programs to be easily portable.</p>
-<h3><a class="header" href="#static-linking-sdl2" id="static-linking-sdl2">Static Linking SDL2</a></h3>
+<h3 id="static-linking-sdl2"><a class="header" href="#static-linking-sdl2">Static Linking SDL2</a></h3>
 <p>Finally, instead of dynamic linking with SDL2 we could static link with it.</p>
 <p>All we have to static link SDL2 instead is change our Cargo.toml file so that instead of saying</p>
 <pre><code class="language-toml">beryllium = &quot;0.2.0-alpha.2&quot;
@@ -287,67 +251,38 @@ rustflags = [&quot;-C&quot;,&quot;target-feature=+crt-static&quot;]
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                        
                             <a rel="prev" href="../basics/index.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
-                        
-
-                        
                             <a rel="next" href="../basics/001-drawing-a-triangle.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
-                        
-
                         <div style="clear: both"></div>
                     </nav>
                 </div>
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                
                     <a rel="prev" href="../basics/index.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
-                
-
-                
                     <a rel="next" href="../basics/001-drawing-a-triangle.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
-                
             </nav>
 
         </div>
 
-        
-
-        
-
-        
-
-        
         <script type="text/javascript">
             window.playground_copyable = true;
         </script>
-        
-
-        
-
-        
         <script src="../elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
         <script src="../mark.min.js" type="text/javascript" charset="utf-8"></script>
         <script src="../searcher.js" type="text/javascript" charset="utf-8"></script>
-        
-
         <script src="../clipboard.min.js" type="text/javascript" charset="utf-8"></script>
         <script src="../highlight.js" type="text/javascript" charset="utf-8"></script>
         <script src="../book.js" type="text/javascript" charset="utf-8"></script>
 
         <!-- Custom JS scripts -->
-        
-
-        
-
     </body>
 </html>

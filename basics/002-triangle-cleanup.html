@@ -4,47 +4,27 @@
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
         <title>Triangle Cleanup - Learn OpenGL Rust</title>
-        
-        
-
-
         <!-- Custom HTML head -->
-        
-
-
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="A version of the LearnOpenGL book for Rust.">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#ffffff" />
 
-        
         <link rel="icon" href="../favicon.svg">
-        
-        
         <link rel="shortcut icon" href="../favicon.png">
-        
         <link rel="stylesheet" href="../css/variables.css">
         <link rel="stylesheet" href="../css/general.css">
         <link rel="stylesheet" href="../css/chrome.css">
-        
         <link rel="stylesheet" href="../css/print.css" media="print">
-        
-
         <!-- Fonts -->
         <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
-        
         <link rel="stylesheet" href="../fonts/fonts.css">
-        
-
         <!-- Highlight.js Stylesheets -->
         <link rel="stylesheet" href="../highlight.css">
         <link rel="stylesheet" href="../tomorrow-night.css">
         <link rel="stylesheet" href="../ayu-highlight.css">
 
         <!-- Custom theme stylesheets -->
-        
-
-        
     </head>
     <body>
         <!-- Provide site root to javascript -->
@@ -103,7 +83,6 @@
         <div id="page-wrapper" class="page-wrapper">
 
             <div class="page">
-                
                 <div id="menu-bar-hover-placeholder"></div>
                 <div id="menu-bar" class="menu-bar sticky bordered">
                     <div class="left-buttons">
@@ -120,29 +99,23 @@
                             <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
                         </ul>
-                        
                         <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
                             <i class="fa fa-search"></i>
                         </button>
-                        
                     </div>
 
                     <h1 class="menu-title">Learn OpenGL Rust</h1>
 
                     <div class="right-buttons">
-                        
                         <a href="../print.html" title="Print this book" aria-label="Print this book">
                             <i id="print-button" class="fa fa-print"></i>
                         </a>
-                        
-                        
                     </div>
                 </div>
 
-                
                 <div id="search-wrapper" class="hidden">
                     <form id="searchbar-outer" class="searchbar-outer">
-                        <input type="search" name="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
                     </form>
                     <div id="searchresults-outer" class="searchresults-outer hidden">
                         <div id="searchresults-header" class="searchresults-header"></div>
@@ -150,8 +123,6 @@
                         </ul>
                     </div>
                 </div>
-                
-
                 <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
                 <script type="text/javascript">
                     document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
@@ -163,7 +134,7 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1><a class="header" href="#triangle-cleanup" id="triangle-cleanup">Triangle Cleanup</a></h1>
+                        <h1 id="triangle-cleanup"><a class="header" href="#triangle-cleanup">Triangle Cleanup</a></h1>
 <p>Now that we can see the basics of what's going on we're going to do a bit of
 clean up. This won't change what we're drawing, it'll just help us sort out the
 easy stuff (which we can mark safe and then worry about a lot less) from the
@@ -178,7 +149,7 @@ unsafe stuff (which we will always have to pay attention to).</p>
 <p>We'll use our helpers via <code>learn::func_name()</code>. You could of course import the
 functions and then leave off the prefix, but in tutorial code you always want to
 aim for a little more clarity than is strictly necessary.</p>
-<h2><a class="header" href="#first-a-note-on-using-glgeterror" id="first-a-note-on-using-glgeterror">First, A Note On Using <code>glGetError</code></a></h2>
+<h2 id="first-a-note-on-using-glgeterror"><a class="header" href="#first-a-note-on-using-glgeterror">First, A Note On Using <code>glGetError</code></a></h2>
 <p>The <code>ogl33</code> crate will <em>automatically</em> call
 <a href="https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glGetError.xhtml"><code>glGetError</code></a>
 after each GL call if the <code>debug_error_checks</code> is enabled along with
@@ -192,7 +163,7 @@ value back. If there's no pending errors you get <code>GL_NO_ERROR</code>, if th
 pending error you get some other value. However, depending on driver there might
 be more than one error pending at once. So you should call <code>glGetError</code> <em>until</em>
 you finally get a <code>GL_NO_ERROR</code>.</p>
-<h2><a class="header" href="#setting-the-clear-color" id="setting-the-clear-color">Setting The Clear Color</a></h2>
+<h2 id="setting-the-clear-color"><a class="header" href="#setting-the-clear-color">Setting The Clear Color</a></h2>
 <p>Making <code>glClearColor</code> safe is easy, there's nothing that can go wrong:</p>
 <pre><pre class="playground"><code class="language-rust">
 <span class="boring">#![allow(unused)]
@@ -210,7 +181,7 @@ pub fn clear_color(r: f32, g: f32, b: f32, a: f32) {
 </span>learn::clear_color(0.2, 0.3, 0.3, 1.0);
 <span class="boring">}
 </span></code></pre></pre>
-<h2><a class="header" href="#vertex-array-objects" id="vertex-array-objects">Vertex Array Objects</a></h2>
+<h2 id="vertex-array-objects"><a class="header" href="#vertex-array-objects">Vertex Array Objects</a></h2>
 <p>With the Vertex Array Object stuff, we're just wrapping the name in our own type
 and then giving methods for the operations that go with it. However, we don't
 yet know all of the functions that we might need to use, so we'll keep the inner
@@ -254,7 +225,7 @@ impl VertexArray {
 vao.bind();
 <span class="boring">}
 </span></code></pre></pre>
-<h2><a class="header" href="#buffers" id="buffers">Buffers</a></h2>
+<h2 id="buffers"><a class="header" href="#buffers">Buffers</a></h2>
 <p>For buffers it's a little more tricky because we have to make sure that we don't
 design to heavily for just Vertex Buffers and block ourselves from easily using
 other types of buffers. In fact since we'll want to use ElementArray buffers in
@@ -339,14 +310,14 @@ learn::buffer_data(
 <span class="boring">}
 </span></code></pre></pre>
 <p>The <a href="https://docs.rs/bytemuck"><code>bytemuck</code></a> crate is a handy crate for safe casting operations. In this case, it's letting us cast our <code>&amp;[[f32;3]]</code> into <code>&amp;[u8]</code>.</p>
-<h2><a class="header" href="#vertex-attribute-pointers" id="vertex-attribute-pointers">Vertex Attribute Pointers</a></h2>
+<h2 id="vertex-attribute-pointers"><a class="header" href="#vertex-attribute-pointers">Vertex Attribute Pointers</a></h2>
 <p>This stuff is wild!</p>
 <p>It's actually really hard to come up with a general vertex attribute pointer
 system that works with arbitrary rust data type inputs and also always lines up
 with the shaders you're using... so I'm <em>not even going to bother</em>.</p>
 <p>It's okay to have a few unsafe parts where you just always pay attention to what
 you're doing.</p>
-<h2><a class="header" href="#shaders-and-programs" id="shaders-and-programs">Shaders and Programs</a></h2>
+<h2 id="shaders-and-programs"><a class="header" href="#shaders-and-programs">Shaders and Programs</a></h2>
 <p>So obviously we want a shader type enum:</p>
 <pre><pre class="playground"><code class="language-rust">
 <span class="boring">#![allow(unused)]
@@ -603,7 +574,7 @@ shader_program.use_program();
 <span class="boring">}
 </span></code></pre></pre>
 <p>That's so much smaller! Very nice.</p>
-<h2><a class="header" href="#clearing-and-drawing-arrays" id="clearing-and-drawing-arrays">Clearing And Drawing Arrays?</a></h2>
+<h2 id="clearing-and-drawing-arrays"><a class="header" href="#clearing-and-drawing-arrays">Clearing And Drawing Arrays?</a></h2>
 <p>We could also wrap the clearing function, but it's small and has to go with other unsafe calls, so we'll skip it for now. We could always add it later.</p>
 <p>We <em>can't</em> easily make <code>glDrawArrays</code> safe, because we'd have to carefully
 monitor the size of the buffer in the actively bound array buffer in the
@@ -611,7 +582,7 @@ actively bound vertex array to make sure that the call didn't make the GPU go
 out of bounds. Or we could make it something like &quot;draw these arrays&quot;, and you
 pass a slice and it buffers the slice and draws it immediately. I don't really
 care for either of those, so we'll just let that be unsafe too.</p>
-<h2><a class="header" href="#done" id="done">Done!</a></h2>
+<h2 id="done"><a class="header" href="#done">Done!</a></h2>
 <ul>
 <li>Example Code: <a href="https://github.com/rust-tutorials/learn-opengl/blob/master/examples/002-triangle-arrays2.rs">002-triangle-arrays2</a></li>
 </ul>
@@ -620,67 +591,38 @@ care for either of those, so we'll just let that be unsafe too.</p>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                        
                             <a rel="prev" href="../basics/001-drawing-a-triangle.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
-                        
-
-                        
                             <a rel="next" href="../basics/003-rectangle.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
-                        
-
                         <div style="clear: both"></div>
                     </nav>
                 </div>
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                
                     <a rel="prev" href="../basics/001-drawing-a-triangle.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
-                
-
-                
                     <a rel="next" href="../basics/003-rectangle.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
-                
             </nav>
 
         </div>
 
-        
-
-        
-
-        
-
-        
         <script type="text/javascript">
             window.playground_copyable = true;
         </script>
-        
-
-        
-
-        
         <script src="../elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
         <script src="../mark.min.js" type="text/javascript" charset="utf-8"></script>
         <script src="../searcher.js" type="text/javascript" charset="utf-8"></script>
-        
-
         <script src="../clipboard.min.js" type="text/javascript" charset="utf-8"></script>
         <script src="../highlight.js" type="text/javascript" charset="utf-8"></script>
         <script src="../book.js" type="text/javascript" charset="utf-8"></script>
 
         <!-- Custom JS scripts -->
-        
-
-        
-
     </body>
 </html>

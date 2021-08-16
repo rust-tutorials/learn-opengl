@@ -4,47 +4,27 @@
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
         <title>Drawing A Triangle - Learn OpenGL Rust</title>
-        
-        
-
-
         <!-- Custom HTML head -->
-        
-
-
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="A version of the LearnOpenGL book for Rust.">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#ffffff" />
 
-        
         <link rel="icon" href="../favicon.svg">
-        
-        
         <link rel="shortcut icon" href="../favicon.png">
-        
         <link rel="stylesheet" href="../css/variables.css">
         <link rel="stylesheet" href="../css/general.css">
         <link rel="stylesheet" href="../css/chrome.css">
-        
         <link rel="stylesheet" href="../css/print.css" media="print">
-        
-
         <!-- Fonts -->
         <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
-        
         <link rel="stylesheet" href="../fonts/fonts.css">
-        
-
         <!-- Highlight.js Stylesheets -->
         <link rel="stylesheet" href="../highlight.css">
         <link rel="stylesheet" href="../tomorrow-night.css">
         <link rel="stylesheet" href="../ayu-highlight.css">
 
         <!-- Custom theme stylesheets -->
-        
-
-        
     </head>
     <body>
         <!-- Provide site root to javascript -->
@@ -103,7 +83,6 @@
         <div id="page-wrapper" class="page-wrapper">
 
             <div class="page">
-                
                 <div id="menu-bar-hover-placeholder"></div>
                 <div id="menu-bar" class="menu-bar sticky bordered">
                     <div class="left-buttons">
@@ -120,29 +99,23 @@
                             <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
                         </ul>
-                        
                         <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
                             <i class="fa fa-search"></i>
                         </button>
-                        
                     </div>
 
                     <h1 class="menu-title">Learn OpenGL Rust</h1>
 
                     <div class="right-buttons">
-                        
                         <a href="../print.html" title="Print this book" aria-label="Print this book">
                             <i id="print-button" class="fa fa-print"></i>
                         </a>
-                        
-                        
                     </div>
                 </div>
 
-                
                 <div id="search-wrapper" class="hidden">
                     <form id="searchbar-outer" class="searchbar-outer">
-                        <input type="search" name="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
                     </form>
                     <div id="searchresults-outer" class="searchresults-outer hidden">
                         <div id="searchresults-header" class="searchresults-header"></div>
@@ -150,8 +123,6 @@
                         </ul>
                     </div>
                 </div>
-                
-
                 <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
                 <script type="text/javascript">
                     document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
@@ -163,12 +134,12 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1><a class="header" href="#drawing-a-triangle" id="drawing-a-triangle">Drawing A Triangle</a></h1>
+                        <h1 id="drawing-a-triangle"><a class="header" href="#drawing-a-triangle">Drawing A Triangle</a></h1>
 <p>In this lesson, we'll do a lot of setup just to be able to draw a single
 triangle.</p>
 <p>Don't worry, once you do the first batch of setup, drawing that <em>second</em>
 triangle is easy.</p>
-<h2><a class="header" href="#load-the-opengl-functions" id="load-the-opengl-functions">Load The Opengl Functions</a></h2>
+<h2 id="load-the-opengl-functions"><a class="header" href="#load-the-opengl-functions">Load The Opengl Functions</a></h2>
 <p>Unlike most libraries that you can use in a program, OpenGL cannot be statically
 linked to. Well, you can static link to very old versions, but any sort of newer
 OpenGL library is installed on the user's system as a dynamic library that you
@@ -187,7 +158,7 @@ function.</p>
 }
 <span class="boring">}
 </span></code></pre></pre>
-<h2><a class="header" href="#set-the-clear-screen-color" id="set-the-clear-screen-color">Set The &quot;Clear&quot; Screen Color</a></h2>
+<h2 id="set-the-clear-screen-color"><a class="header" href="#set-the-clear-screen-color">Set The &quot;Clear&quot; Screen Color</a></h2>
 <p>When we clear the previous image's data at the start of our drawing, by default it would clear to black. Since we'll only have one thing at a time to draw for a little bit, let's use a slightly softer sort of color.</p>
 <p>We just need to call
 <a href="https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glClearColor.xhtml"><code>glClearColor</code></a>
@@ -209,7 +180,7 @@ transparent (so you can't see pixels behind it) and we're not doing any color
 blending yet (so the alpha of the clear color compared to some other color
 doesn't come into play). Eventually it might matter, so we'll just leave it on
 &quot;fully opaque&quot; for now.</p>
-<h2><a class="header" href="#send-a-triangle" id="send-a-triangle">Send A Triangle</a></h2>
+<h2 id="send-a-triangle"><a class="header" href="#send-a-triangle">Send A Triangle</a></h2>
 <p>At this point there's two main actions we need to take before we're ready for our triangle to be drawn.</p>
 <ul>
 <li>We need to get some triangle data to the video card in a way it understands.</li>
@@ -217,7 +188,7 @@ doesn't come into play). Eventually it might matter, so we'll just leave it on
 </ul>
 <p>Neither task depends on the other, so we'll send our triangle data first and
 then send our program.</p>
-<h3><a class="header" href="#generate-a-vertex-array-object" id="generate-a-vertex-array-object">Generate A Vertex Array Object</a></h3>
+<h3 id="generate-a-vertex-array-object"><a class="header" href="#generate-a-vertex-array-object">Generate A Vertex Array Object</a></h3>
 <p>A <a href="https://www.khronos.org/opengl/wiki/Vertex_Specification#Vertex_Array_Object">Vertex Array
 Object</a>
 (VAO) is an object that collects together a few different bits of stuff.
@@ -254,7 +225,7 @@ array binding. This might sound a little silly, but it can help spot bugs in
 some situations. If you have no VAO bound when you try to call VAO affected
 functions it'll generate an error, which usually means that you forgot to bind
 the VAO that you really did want to affect.</p>
-<h3><a class="header" href="#generate-a-vertex-buffer-object" id="generate-a-vertex-buffer-object">Generate A Vertex Buffer Object</a></h3>
+<h3 id="generate-a-vertex-buffer-object"><a class="header" href="#generate-a-vertex-buffer-object">Generate A Vertex Buffer Object</a></h3>
 <p>To actually get some bytes of data to the video card we need a <a href="https://www.khronos.org/opengl/wiki/Vertex_Specification#Vertex_Buffer_Object">Vertex Buffer
 Object</a>
 (VBO) to go with our Vertex Array Object. You might get sick of the words
@@ -300,7 +271,7 @@ see all the options on the <code>glBufferData</code> spec page. For our first de
 <code>GL_STATIC_DRAW</code>, since we'll just be sending the data once, and then GL will
 draw with it many times.</p>
 <p>But what data do we send?</p>
-<h4><a class="header" href="#demo-vertex-data" id="demo-vertex-data">Demo Vertex Data</a></h4>
+<h4 id="demo-vertex-data"><a class="header" href="#demo-vertex-data">Demo Vertex Data</a></h4>
 <p>We're going to be sending this data:</p>
 <pre><pre class="playground"><code class="language-rust">
 <span class="boring">#![allow(unused)]
@@ -336,7 +307,7 @@ it takes a void pointer.</p>
 <span class="boring">}
 </span></code></pre></pre>
 <p>Good to go!</p>
-<h3><a class="header" href="#enable-a-vertex-attribute" id="enable-a-vertex-attribute">Enable A Vertex Attribute</a></h3>
+<h3 id="enable-a-vertex-attribute"><a class="header" href="#enable-a-vertex-attribute">Enable A Vertex Attribute</a></h3>
 <p>How will the GPU know the correct way to use the bytes we just sent it? Good
 question. We describe the &quot;vertex attributes&quot; and then it'll be able to
 interpret the bytes correctly.</p>
@@ -394,7 +365,7 @@ then cast at the end. I sure know which one I prefer.</p>
 }
 <span class="boring">}
 </span></code></pre></pre>
-<h2><a class="header" href="#send-a-program" id="send-a-program">Send A Program</a></h2>
+<h2 id="send-a-program"><a class="header" href="#send-a-program">Send A Program</a></h2>
 <p>Okay, we have some bytes sent to the GPU, and the GPU knows that it's a series
 of vertexes which are each three <code>f32</code> values. How does it know what to do from
 there? Again, with these good questions.</p>
@@ -408,7 +379,7 @@ use that program.</p>
 <p>Of course, to attach those compiled shader stages we need to make some <a href="https://www.khronos.org/opengl/wiki/GLSL_Object#Shader_objects">Shader
 Objects</a> too.
 It's objects all the way down!</p>
-<h3><a class="header" href="#create-a-vertex-shader" id="create-a-vertex-shader">Create A Vertex Shader</a></h3>
+<h3 id="create-a-vertex-shader"><a class="header" href="#create-a-vertex-shader">Create A Vertex Shader</a></h3>
 <p>First we want a <a href="https://www.khronos.org/opengl/wiki/Vertex_Shader">Vertex Shader</a>.</p>
 <p>This time we're <em>not</em> calling a &quot;gen&quot; style method with an array to fill and
 getting a huge array of new shaders. GL assumes that you'll use sufficiently few
@@ -448,7 +419,7 @@ shader:</p>
 <span class="boring">}
 </span></code></pre></pre>
 <p>That's one long string literal with a lot of stuff inside it.</p>
-<h4><a class="header" href="#inspecting-the-vertex-source" id="inspecting-the-vertex-source">Inspecting The Vertex Source</a></h4>
+<h4 id="inspecting-the-vertex-source"><a class="header" href="#inspecting-the-vertex-source">Inspecting The Vertex Source</a></h4>
 <p>The first line of the vertex shader is a <code>#version 330 core</code>. You have to have
 this line on the very first line, it identifies the version of the GLSL language
 that your program is written for. In the same way that each version of OpenGL
@@ -471,7 +442,7 @@ we're going to call <code>pos</code>.</p>
 and writes that <code>vec4</code> into the <code>gl_Position</code> variable. It just copies over the
 data, no math or anything. Not the most exciting. We'll have plenty of math
 later, don't worry.</p>
-<h4><a class="header" href="#upload-the-vertex-shader-source-and-compile" id="upload-the-vertex-shader-source-and-compile">Upload The Vertex Shader Source, and Compile</a></h4>
+<h4 id="upload-the-vertex-shader-source-and-compile"><a class="header" href="#upload-the-vertex-shader-source-and-compile">Upload The Vertex Shader Source, and Compile</a></h4>
 <p>Now that we've got some source, we need to send it over. For this we use
 <a href="https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glShaderSource.xhtml"><code>glShaderSource</code></a>,
 which is a little tricky to get right the first time. The first argument is the
@@ -505,7 +476,7 @@ string data, while the second array is full of the lengths of each string. This 
 }
 <span class="boring">}
 </span></code></pre></pre>
-<h4><a class="header" href="#check-for-an-error" id="check-for-an-error">Check For An Error</a></h4>
+<h4 id="check-for-an-error"><a class="header" href="#check-for-an-error">Check For An Error</a></h4>
 <p>I lied just now, we're not home free.</p>
 <p>Obviously, the one thing I'm very sure that you know about programming, is that sometimes when you compile a program there's an error. Maybe you spelled a word wrong, maybe a type didn't match, whatever. Anything could go wrong, so we have to check for that.</p>
 <p>The checking process is actually more annoying than the compilation!</p>
@@ -559,7 +530,7 @@ pointer to the buffer of course. Then we set the length of the <code>Vec</code>,
 }
 <span class="boring">}
 </span></code></pre></pre>
-<h3><a class="header" href="#create-a-fragment-shader" id="create-a-fragment-shader">Create A Fragment Shader</a></h3>
+<h3 id="create-a-fragment-shader"><a class="header" href="#create-a-fragment-shader">Create A Fragment Shader</a></h3>
 <p>Making a <a href="https://www.khronos.org/opengl/wiki/Fragment_Shader">Fragment Shader</a>
 is nearly identical to making a vertex shader, except we pass a different shader
 type. Also, we have some different source code of course.</p>
@@ -585,7 +556,7 @@ type. Also, we have some different source code of course.</p>
 &quot;#;
 <span class="boring">}
 </span></code></pre></pre>
-<h4><a class="header" href="#inspecting-the-fragment-source" id="inspecting-the-fragment-source">Inspecting The Fragment Source</a></h4>
+<h4 id="inspecting-the-fragment-source"><a class="header" href="#inspecting-the-fragment-source">Inspecting The Fragment Source</a></h4>
 <p>Again we have a version line, always nice to have versions.</p>
 <pre><code class="language-glsl">out vec4 final_color;
 </code></pre>
@@ -602,7 +573,7 @@ with any name, is the output color.</p>
 Anywhere we have a fragment, we'll have an orange pixel.</p>
 <p>I assure you that both vertex and fragment shaders will become more complex as
 we go, but if you just want to draw <em>anything</em> it's this simple.</p>
-<h4><a class="header" href="#upload-the-fragment-shader-source" id="upload-the-fragment-shader-source">Upload The Fragment Shader Source</a></h4>
+<h4 id="upload-the-fragment-shader-source"><a class="header" href="#upload-the-fragment-shader-source">Upload The Fragment Shader Source</a></h4>
 <p>And we upload and compile like before:</p>
 <pre><pre class="playground"><code class="language-rust">
 <span class="boring">#![allow(unused)]
@@ -618,7 +589,7 @@ we go, but if you just want to draw <em>anything</em> it's this simple.</p>
 }
 <span class="boring">}
 </span></code></pre></pre>
-<h4><a class="header" href="#check-for-an-error-again" id="check-for-an-error-again">Check For An Error, Again</a></h4>
+<h4 id="check-for-an-error-again"><a class="header" href="#check-for-an-error-again">Check For An Error, Again</a></h4>
 <p>And we check for an error like before:</p>
 <pre><pre class="playground"><code class="language-rust">
 <span class="boring">#![allow(unused)]
@@ -643,7 +614,7 @@ we go, but if you just want to draw <em>anything</em> it's this simple.</p>
 </span></code></pre></pre>
 <p>This is all a very good candidate for wrapping into an easier to use function,
 but we'll get to that after we can at least see a triangle.</p>
-<h3><a class="header" href="#create-a-program" id="create-a-program">Create A Program</a></h3>
+<h3 id="create-a-program"><a class="header" href="#create-a-program">Create A Program</a></h3>
 <p>A program combines several shader &quot;stages&quot; such as vertex and fragment, and lets you have a completed graphics pipeline.</p>
 <p>We use <a href="https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glCreateProgram.xhtml"><code>glCreateProgram</code></a> to create one, and then we use <a href="https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glAttachShader.xhtml"><code>glAttachShader</code></a> to connect both shaders we have so far. Finally we call <a href="https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glLinkProgram.xhtml"><code>glLinkProgram</code></a> to connect the shader stages into a single, usable whole.</p>
 <pre><pre class="playground"><code class="language-rust">
@@ -692,7 +663,7 @@ but we'll get to that after we can at least see a triangle.</p>
 <p>Finally, after all that, we can call
 <a href="https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glUseProgram.xhtml"><code>glUseProgram</code></a>
 to set our program as the one to use during drawing.</p>
-<h2><a class="header" href="#vsync" id="vsync">Vsync</a></h2>
+<h2 id="vsync"><a class="header" href="#vsync">Vsync</a></h2>
 <p>Last thing before we move on to the main loop, let's turn on
 <a href="https://en.wikipedia.org/wiki/Screen_tearing#Vertical_synchronization">vsync</a>,
 which will make our <code>swap_window</code> call block the program until the image has
@@ -708,7 +679,7 @@ save the battery even if they're on a laptop.</p>
 win.set_swap_interval(SwapInterval::Vsync);
 <span class="boring">}
 </span></code></pre></pre>
-<h2><a class="header" href="#clear-the-screen" id="clear-the-screen">Clear The Screen</a></h2>
+<h2 id="clear-the-screen"><a class="header" href="#clear-the-screen">Clear The Screen</a></h2>
 <p>In the main loop, after we process our events, we start our drawing with a call
 to
 <a href="https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glClear.xhtml"><code>glClear</code></a>.
@@ -722,7 +693,7 @@ color values. You could clear the other bits too, but since we're not using them
 }
 <span class="boring">}
 </span></code></pre></pre>
-<h2><a class="header" href="#draw-the-triangle" id="draw-the-triangle">Draw The Triangle</a></h2>
+<h2 id="draw-the-triangle"><a class="header" href="#draw-the-triangle">Draw The Triangle</a></h2>
 <p>To actually draw our triangle we call <a href="https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glDrawArrays.xhtml"><code>glDrawArrays</code></a>.</p>
 <ul>
 <li>The <code>mode</code> is how to connect the vertexes together. We use <code>GL_TRIANGLES</code>
@@ -743,7 +714,7 @@ all three of our vertexes, we use 3.</li>
 </span></code></pre></pre>
 <p>Be <em>extra careful</em> with this call. If you tell it to draw too many triangles the
 GPU will run right off the end of the array and segfault the program.</p>
-<h2><a class="header" href="#swap-the-window-buffers" id="swap-the-window-buffers">Swap The Window Buffers</a></h2>
+<h2 id="swap-the-window-buffers"><a class="header" href="#swap-the-window-buffers">Swap The Window Buffers</a></h2>
 <p>Once the drawing is done, we have to swap the window's draw buffer and display
 buffer, with <code>swap_window</code>. This will make the picture we just drew actually be
 displayed to the user. With vsync on it'll also block until the image is actually displayed.</p>
@@ -753,7 +724,7 @@ displayed to the user. With vsync on it'll also block until the image is actuall
 </span>win.swap_window();
 <span class="boring">}
 </span></code></pre></pre>
-<h2><a class="header" href="#done" id="done">Done!</a></h2>
+<h2 id="done"><a class="header" href="#done">Done!</a></h2>
 <ul>
 <li>Example Code: <a href="https://github.com/rust-tutorials/learn-opengl/blob/master/examples/001-triangle-arrays1.rs">001-triangle-arrays1</a></li>
 </ul>
@@ -762,67 +733,38 @@ displayed to the user. With vsync on it'll also block until the image is actuall
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                        
                             <a rel="prev" href="../basics/000-creating-a-window.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
-                        
-
-                        
                             <a rel="next" href="../basics/002-triangle-cleanup.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
-                        
-
                         <div style="clear: both"></div>
                     </nav>
                 </div>
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                
                     <a rel="prev" href="../basics/000-creating-a-window.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
-                
-
-                
                     <a rel="next" href="../basics/002-triangle-cleanup.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
-                
             </nav>
 
         </div>
 
-        
-
-        
-
-        
-
-        
         <script type="text/javascript">
             window.playground_copyable = true;
         </script>
-        
-
-        
-
-        
         <script src="../elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
         <script src="../mark.min.js" type="text/javascript" charset="utf-8"></script>
         <script src="../searcher.js" type="text/javascript" charset="utf-8"></script>
-        
-
         <script src="../clipboard.min.js" type="text/javascript" charset="utf-8"></script>
         <script src="../highlight.js" type="text/javascript" charset="utf-8"></script>
         <script src="../book.js" type="text/javascript" charset="utf-8"></script>
 
         <!-- Custom JS scripts -->
-        
-
-        
-
     </body>
 </html>

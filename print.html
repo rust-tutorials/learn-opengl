@@ -4,49 +4,28 @@
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
         <title>Learn OpenGL Rust</title>
-        
         <meta name="robots" content="noindex" />
-        
-        
-
-
         <!-- Custom HTML head -->
-        
-
-
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="A version of the LearnOpenGL book for Rust.">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#ffffff" />
 
-        
         <link rel="icon" href="favicon.svg">
-        
-        
         <link rel="shortcut icon" href="favicon.png">
-        
         <link rel="stylesheet" href="css/variables.css">
         <link rel="stylesheet" href="css/general.css">
         <link rel="stylesheet" href="css/chrome.css">
-        
         <link rel="stylesheet" href="css/print.css" media="print">
-        
-
         <!-- Fonts -->
         <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
-        
         <link rel="stylesheet" href="fonts/fonts.css">
-        
-
         <!-- Highlight.js Stylesheets -->
         <link rel="stylesheet" href="highlight.css">
         <link rel="stylesheet" href="tomorrow-night.css">
         <link rel="stylesheet" href="ayu-highlight.css">
 
         <!-- Custom theme stylesheets -->
-        
-
-        
     </head>
     <body>
         <!-- Provide site root to javascript -->
@@ -105,7 +84,6 @@
         <div id="page-wrapper" class="page-wrapper">
 
             <div class="page">
-                
                 <div id="menu-bar-hover-placeholder"></div>
                 <div id="menu-bar" class="menu-bar sticky bordered">
                     <div class="left-buttons">
@@ -122,29 +100,23 @@
                             <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
                         </ul>
-                        
                         <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
                             <i class="fa fa-search"></i>
                         </button>
-                        
                     </div>
 
                     <h1 class="menu-title">Learn OpenGL Rust</h1>
 
                     <div class="right-buttons">
-                        
                         <a href="print.html" title="Print this book" aria-label="Print this book">
                             <i id="print-button" class="fa fa-print"></i>
                         </a>
-                        
-                        
                     </div>
                 </div>
 
-                
                 <div id="search-wrapper" class="hidden">
                     <form id="searchbar-outer" class="searchbar-outer">
-                        <input type="search" name="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
                     </form>
                     <div id="searchresults-outer" class="searchresults-outer hidden">
                         <div id="searchresults-header" class="searchresults-header"></div>
@@ -152,8 +124,6 @@
                         </ul>
                     </div>
                 </div>
-                
-
                 <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
                 <script type="text/javascript">
                     document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
@@ -165,7 +135,7 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1><a class="header" href="#introduction" id="introduction">Introduction</a></h1>
+                        <h1 id="introduction"><a class="header" href="#introduction">Introduction</a></h1>
 <p>This is a book (well, &quot;book&quot;), about learning OpenGL usage with Rust.</p>
 <p>It's based on <a href="https://learnopengl.com/">LearnOpenGL.com</a>, by Joey de Vries,
 which is for C++ OpenGL. I'm not associated with Joey at all, I just think that
@@ -192,7 +162,7 @@ something you don't get and I'll try to improve that part of the book.</p>
 <p>Also, you can maybe read <code>LearnOpenGL.com</code> to understand the thing, while you
 wait for me to get back to you.</p>
 <p>You can <a href="https://github.com/rust-tutorials/learn-opengl">get the code on GitHub</a>!</p>
-<h1><a class="header" href="#basics" id="basics">Basics</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="basics"><a class="header" href="#basics">Basics</a></h1>
 <p>TODO: maybe some of this can go into the Introduction? whatever.</p>
 <p>We'll be using OpenGL 3.3. The latest version is 4.6, but we'll still be using
 3.3. The main reason for this is because if we take a quick look at Mac's
@@ -219,7 +189,7 @@ like that. You don't <em>have</em> to call <code>unsafe</code> code to get a pic
 screen.</p>
 <p>But if you want to know how people <em>built</em> those other libraries that let you do
 those cool things, you gotta learn this direct usage stuff.</p>
-<h2><a class="header" href="#prior-knowledge" id="prior-knowledge">Prior Knowledge</a></h2>
+<h2 id="prior-knowledge"><a class="header" href="#prior-knowledge">Prior Knowledge</a></h2>
 <p>You should generally be familiar with all the topics covered in <a href="https://doc.rust-lang.org/book/">The Rust
 Programming Language</a>, but you don't need to
 have them memorized. You can look things up again if you need to.</p>
@@ -229,7 +199,7 @@ code. However, with GL you're not really doing a lot of hackery <em>within Rust<
 that could go wrong. It's just that the driver could explode in your face if you
 look at it funny. Or even if you don't, because drivers are just buggy
 sometimes. Oh well, that's life.</p>
-<h2><a class="header" href="#libraries-used" id="libraries-used">Libraries Used</a></h2>
+<h2 id="libraries-used"><a class="header" href="#libraries-used">Libraries Used</a></h2>
 <p>As I start this project, this is what my Cargo.toml looks like.</p>
 <pre><code class="language-toml">[dependencies]
 bytemuck = &quot;1&quot;
@@ -288,13 +258,13 @@ a dummy who can't do math.</p>
 <p>However, I'm writing the book, so I get to use my own crates while I do it. I
 think this is fair, and I'm also providing alternative suggestions for each one,
 so I don't feel bad about it.</p>
-<h1><a class="header" href="#creating-a-window" id="creating-a-window">Creating A Window</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="creating-a-window"><a class="header" href="#creating-a-window">Creating A Window</a></h1>
 <p>This part of the tutorial is very library specific, so I won't focus on it too
 much. Basically, we have to open a window, and we also need a GL context to go
 with that window. The details for this depend on what OS and windowing system
 you're using. In my case, <code>beryllium</code> is based on SDL2, so we have a nice
 cross-platform abstraction going for us.</p>
-<h2><a class="header" href="#pre-window-setup" id="pre-window-setup">Pre-Window Setup</a></h2>
+<h2 id="pre-window-setup"><a class="header" href="#pre-window-setup">Pre-Window Setup</a></h2>
 <p>On most platforms, you have to specify that you'll be using GL <em>before</em> you create the window, so that the window itself can be created with the correct settings to support GL once it's made.</p>
 <p>First we turn on SDL itself:</p>
 <pre><pre class="playground"><code class="language-rust">use beryllium::*;
@@ -330,7 +300,7 @@ unavailable. It's needed for Mac if you want to have a Core profile. On other
 systems you can have it or not and it doesn't make a big difference. The
 Khronos wiki suggest to only set it if you're on Mac, so that's what I did.</li>
 </ul>
-<h2><a class="header" href="#make-the-window" id="make-the-window">Make The Window</a></h2>
+<h2 id="make-the-window"><a class="header" href="#make-the-window">Make The Window</a></h2>
 <p>Finally, once GL is all set, we can make our window.</p>
 <p>In some libs you might make the window and then make the GL Context as a
 separate step (technically SDL2 lets you do this), but with <code>beryllium</code> it just
@@ -350,7 +320,7 @@ works this way, I don't know about <code>glfw</code>).</p>
     .expect(&quot;couldn't make a window and context&quot;);
 <span class="boring">}
 </span></code></pre></pre>
-<h2><a class="header" href="#processing-events" id="processing-events">Processing Events</a></h2>
+<h2 id="processing-events"><a class="header" href="#processing-events">Processing Events</a></h2>
 <p>Once we have a window, we can poll for events. In fact if we <em>don't</em> always poll
 for events promptly the OS will usually think that our application has stalled
 and tell the user they should kill the program. So we want to always be polling
@@ -375,14 +345,14 @@ pressed Alt+F4, etc) and then quit when that happens.</p>
 }
 <span class="boring">}
 </span></code></pre></pre>
-<h2><a class="header" href="#done" id="done">Done!</a></h2>
+<h2 id="done"><a class="header" href="#done">Done!</a></h2>
 <p>That's all there is to it for this lesson. Just a milk run.</p>
 <ul>
 <li>Example Code: <a href="https://github.com/rust-tutorials/learn-opengl/blob/master/examples/000-basic-window.rs">000-basic-window</a></li>
 </ul>
-<h2><a class="header" href="#extras" id="extras">Extras</a></h2>
+<h2 id="extras"><a class="header" href="#extras">Extras</a></h2>
 <p>I'm developing mostly on Windows, and Windows is where most of your market share of users will end up being, so here's some bonus Windows tips:</p>
-<h3><a class="header" href="#windows-subsystem" id="windows-subsystem">Windows Subsystem</a></h3>
+<h3 id="windows-subsystem"><a class="header" href="#windows-subsystem">Windows Subsystem</a></h3>
 <p>I'm going to put the following attribute at the top of the file:</p>
 <pre><pre class="playground"><code class="language-rust">
 <span class="boring">#![allow(unused)]
@@ -391,14 +361,7 @@ pressed Alt+F4, etc) and then quit when that happens.</p>
 </span><span class="boring">}
 </span></code></pre></pre>
 <p>This will make is to that a &quot;release&quot; build (with the <code>--release</code> flag) will use the &quot;windows&quot; subsystem on Windows, instead of the &quot;console&quot; subsystem. This makes the process not have a console by default, which prevents a little terminal window from running in the background when the program runs on its own. However, we only want that in release mode because we want the ability to print debug message in debug mode.</p>
-<h3><a class="header" href="#static-c-runtime" id="static-c-runtime">Static C Runtime</a></h3>
-<p>Also, I'm going to add a <code>.cargo/</code> folder to the project and put a <code>config</code> file inside.</p>
-<pre><code class="language-toml">[build]
-rustflags = [&quot;-C&quot;,&quot;target-feature=+crt-static&quot;]
-</code></pre>
-<p>This will make Rust compile in a static C runtime when it builds the binaries, so that the binaries can be sent to others without them needing to have the MSVC redistributable DLLs or other files like that on their machine. It's not on by default because I don't even know why. I think it makes programs marginally larger, but it doesn't seem to make them compile slower so whatever.</p>
-<p>We could instead make a totally <code>no_std</code> program if we wanted to, but that's a whole set of steps and not really OpenGL related at all, so for this tutorial book we'll use the &quot;quick and dirty&quot; way to get our programs to be easily portable.</p>
-<h3><a class="header" href="#static-linking-sdl2" id="static-linking-sdl2">Static Linking SDL2</a></h3>
+<h3 id="static-linking-sdl2"><a class="header" href="#static-linking-sdl2">Static Linking SDL2</a></h3>
 <p>Finally, instead of dynamic linking with SDL2 we could static link with it.</p>
 <p>All we have to static link SDL2 instead is change our Cargo.toml file so that instead of saying</p>
 <pre><code class="language-toml">beryllium = &quot;0.2.0-alpha.2&quot;
@@ -407,12 +370,12 @@ rustflags = [&quot;-C&quot;,&quot;target-feature=+crt-static&quot;]
 <pre><code class="language-toml">beryllium = { version = &quot;0.2.0-alpha.1&quot;, default-features = false, features = [&quot;link_static&quot;] }
 </code></pre>
 <p>However, when we do this, we have to build the SDL2 static lib, which takes longer (about +30 seconds). So I leave it in dynamic link during development because it makes CI go faster.</p>
-<h1><a class="header" href="#drawing-a-triangle" id="drawing-a-triangle">Drawing A Triangle</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="drawing-a-triangle"><a class="header" href="#drawing-a-triangle">Drawing A Triangle</a></h1>
 <p>In this lesson, we'll do a lot of setup just to be able to draw a single
 triangle.</p>
 <p>Don't worry, once you do the first batch of setup, drawing that <em>second</em>
 triangle is easy.</p>
-<h2><a class="header" href="#load-the-opengl-functions" id="load-the-opengl-functions">Load The Opengl Functions</a></h2>
+<h2 id="load-the-opengl-functions"><a class="header" href="#load-the-opengl-functions">Load The Opengl Functions</a></h2>
 <p>Unlike most libraries that you can use in a program, OpenGL cannot be statically
 linked to. Well, you can static link to very old versions, but any sort of newer
 OpenGL library is installed on the user's system as a dynamic library that you
@@ -431,7 +394,7 @@ function.</p>
 }
 <span class="boring">}
 </span></code></pre></pre>
-<h2><a class="header" href="#set-the-clear-screen-color" id="set-the-clear-screen-color">Set The &quot;Clear&quot; Screen Color</a></h2>
+<h2 id="set-the-clear-screen-color"><a class="header" href="#set-the-clear-screen-color">Set The &quot;Clear&quot; Screen Color</a></h2>
 <p>When we clear the previous image's data at the start of our drawing, by default it would clear to black. Since we'll only have one thing at a time to draw for a little bit, let's use a slightly softer sort of color.</p>
 <p>We just need to call
 <a href="https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glClearColor.xhtml"><code>glClearColor</code></a>
@@ -453,7 +416,7 @@ transparent (so you can't see pixels behind it) and we're not doing any color
 blending yet (so the alpha of the clear color compared to some other color
 doesn't come into play). Eventually it might matter, so we'll just leave it on
 &quot;fully opaque&quot; for now.</p>
-<h2><a class="header" href="#send-a-triangle" id="send-a-triangle">Send A Triangle</a></h2>
+<h2 id="send-a-triangle"><a class="header" href="#send-a-triangle">Send A Triangle</a></h2>
 <p>At this point there's two main actions we need to take before we're ready for our triangle to be drawn.</p>
 <ul>
 <li>We need to get some triangle data to the video card in a way it understands.</li>
@@ -461,7 +424,7 @@ doesn't come into play). Eventually it might matter, so we'll just leave it on
 </ul>
 <p>Neither task depends on the other, so we'll send our triangle data first and
 then send our program.</p>
-<h3><a class="header" href="#generate-a-vertex-array-object" id="generate-a-vertex-array-object">Generate A Vertex Array Object</a></h3>
+<h3 id="generate-a-vertex-array-object"><a class="header" href="#generate-a-vertex-array-object">Generate A Vertex Array Object</a></h3>
 <p>A <a href="https://www.khronos.org/opengl/wiki/Vertex_Specification#Vertex_Array_Object">Vertex Array
 Object</a>
 (VAO) is an object that collects together a few different bits of stuff.
@@ -498,7 +461,7 @@ array binding. This might sound a little silly, but it can help spot bugs in
 some situations. If you have no VAO bound when you try to call VAO affected
 functions it'll generate an error, which usually means that you forgot to bind
 the VAO that you really did want to affect.</p>
-<h3><a class="header" href="#generate-a-vertex-buffer-object" id="generate-a-vertex-buffer-object">Generate A Vertex Buffer Object</a></h3>
+<h3 id="generate-a-vertex-buffer-object"><a class="header" href="#generate-a-vertex-buffer-object">Generate A Vertex Buffer Object</a></h3>
 <p>To actually get some bytes of data to the video card we need a <a href="https://www.khronos.org/opengl/wiki/Vertex_Specification#Vertex_Buffer_Object">Vertex Buffer
 Object</a>
 (VBO) to go with our Vertex Array Object. You might get sick of the words
@@ -544,7 +507,7 @@ see all the options on the <code>glBufferData</code> spec page. For our first de
 <code>GL_STATIC_DRAW</code>, since we'll just be sending the data once, and then GL will
 draw with it many times.</p>
 <p>But what data do we send?</p>
-<h4><a class="header" href="#demo-vertex-data" id="demo-vertex-data">Demo Vertex Data</a></h4>
+<h4 id="demo-vertex-data"><a class="header" href="#demo-vertex-data">Demo Vertex Data</a></h4>
 <p>We're going to be sending this data:</p>
 <pre><pre class="playground"><code class="language-rust">
 <span class="boring">#![allow(unused)]
@@ -580,7 +543,7 @@ it takes a void pointer.</p>
 <span class="boring">}
 </span></code></pre></pre>
 <p>Good to go!</p>
-<h3><a class="header" href="#enable-a-vertex-attribute" id="enable-a-vertex-attribute">Enable A Vertex Attribute</a></h3>
+<h3 id="enable-a-vertex-attribute"><a class="header" href="#enable-a-vertex-attribute">Enable A Vertex Attribute</a></h3>
 <p>How will the GPU know the correct way to use the bytes we just sent it? Good
 question. We describe the &quot;vertex attributes&quot; and then it'll be able to
 interpret the bytes correctly.</p>
@@ -638,7 +601,7 @@ then cast at the end. I sure know which one I prefer.</p>
 }
 <span class="boring">}
 </span></code></pre></pre>
-<h2><a class="header" href="#send-a-program" id="send-a-program">Send A Program</a></h2>
+<h2 id="send-a-program"><a class="header" href="#send-a-program">Send A Program</a></h2>
 <p>Okay, we have some bytes sent to the GPU, and the GPU knows that it's a series
 of vertexes which are each three <code>f32</code> values. How does it know what to do from
 there? Again, with these good questions.</p>
@@ -652,7 +615,7 @@ use that program.</p>
 <p>Of course, to attach those compiled shader stages we need to make some <a href="https://www.khronos.org/opengl/wiki/GLSL_Object#Shader_objects">Shader
 Objects</a> too.
 It's objects all the way down!</p>
-<h3><a class="header" href="#create-a-vertex-shader" id="create-a-vertex-shader">Create A Vertex Shader</a></h3>
+<h3 id="create-a-vertex-shader"><a class="header" href="#create-a-vertex-shader">Create A Vertex Shader</a></h3>
 <p>First we want a <a href="https://www.khronos.org/opengl/wiki/Vertex_Shader">Vertex Shader</a>.</p>
 <p>This time we're <em>not</em> calling a &quot;gen&quot; style method with an array to fill and
 getting a huge array of new shaders. GL assumes that you'll use sufficiently few
@@ -692,7 +655,7 @@ shader:</p>
 <span class="boring">}
 </span></code></pre></pre>
 <p>That's one long string literal with a lot of stuff inside it.</p>
-<h4><a class="header" href="#inspecting-the-vertex-source" id="inspecting-the-vertex-source">Inspecting The Vertex Source</a></h4>
+<h4 id="inspecting-the-vertex-source"><a class="header" href="#inspecting-the-vertex-source">Inspecting The Vertex Source</a></h4>
 <p>The first line of the vertex shader is a <code>#version 330 core</code>. You have to have
 this line on the very first line, it identifies the version of the GLSL language
 that your program is written for. In the same way that each version of OpenGL
@@ -715,7 +678,7 @@ we're going to call <code>pos</code>.</p>
 and writes that <code>vec4</code> into the <code>gl_Position</code> variable. It just copies over the
 data, no math or anything. Not the most exciting. We'll have plenty of math
 later, don't worry.</p>
-<h4><a class="header" href="#upload-the-vertex-shader-source-and-compile" id="upload-the-vertex-shader-source-and-compile">Upload The Vertex Shader Source, and Compile</a></h4>
+<h4 id="upload-the-vertex-shader-source-and-compile"><a class="header" href="#upload-the-vertex-shader-source-and-compile">Upload The Vertex Shader Source, and Compile</a></h4>
 <p>Now that we've got some source, we need to send it over. For this we use
 <a href="https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glShaderSource.xhtml"><code>glShaderSource</code></a>,
 which is a little tricky to get right the first time. The first argument is the
@@ -749,7 +712,7 @@ string data, while the second array is full of the lengths of each string. This 
 }
 <span class="boring">}
 </span></code></pre></pre>
-<h4><a class="header" href="#check-for-an-error" id="check-for-an-error">Check For An Error</a></h4>
+<h4 id="check-for-an-error"><a class="header" href="#check-for-an-error">Check For An Error</a></h4>
 <p>I lied just now, we're not home free.</p>
 <p>Obviously, the one thing I'm very sure that you know about programming, is that sometimes when you compile a program there's an error. Maybe you spelled a word wrong, maybe a type didn't match, whatever. Anything could go wrong, so we have to check for that.</p>
 <p>The checking process is actually more annoying than the compilation!</p>
@@ -803,7 +766,7 @@ pointer to the buffer of course. Then we set the length of the <code>Vec</code>,
 }
 <span class="boring">}
 </span></code></pre></pre>
-<h3><a class="header" href="#create-a-fragment-shader" id="create-a-fragment-shader">Create A Fragment Shader</a></h3>
+<h3 id="create-a-fragment-shader"><a class="header" href="#create-a-fragment-shader">Create A Fragment Shader</a></h3>
 <p>Making a <a href="https://www.khronos.org/opengl/wiki/Fragment_Shader">Fragment Shader</a>
 is nearly identical to making a vertex shader, except we pass a different shader
 type. Also, we have some different source code of course.</p>
@@ -829,7 +792,7 @@ type. Also, we have some different source code of course.</p>
 &quot;#;
 <span class="boring">}
 </span></code></pre></pre>
-<h4><a class="header" href="#inspecting-the-fragment-source" id="inspecting-the-fragment-source">Inspecting The Fragment Source</a></h4>
+<h4 id="inspecting-the-fragment-source"><a class="header" href="#inspecting-the-fragment-source">Inspecting The Fragment Source</a></h4>
 <p>Again we have a version line, always nice to have versions.</p>
 <pre><code class="language-glsl">out vec4 final_color;
 </code></pre>
@@ -846,7 +809,7 @@ with any name, is the output color.</p>
 Anywhere we have a fragment, we'll have an orange pixel.</p>
 <p>I assure you that both vertex and fragment shaders will become more complex as
 we go, but if you just want to draw <em>anything</em> it's this simple.</p>
-<h4><a class="header" href="#upload-the-fragment-shader-source" id="upload-the-fragment-shader-source">Upload The Fragment Shader Source</a></h4>
+<h4 id="upload-the-fragment-shader-source"><a class="header" href="#upload-the-fragment-shader-source">Upload The Fragment Shader Source</a></h4>
 <p>And we upload and compile like before:</p>
 <pre><pre class="playground"><code class="language-rust">
 <span class="boring">#![allow(unused)]
@@ -862,7 +825,7 @@ we go, but if you just want to draw <em>anything</em> it's this simple.</p>
 }
 <span class="boring">}
 </span></code></pre></pre>
-<h4><a class="header" href="#check-for-an-error-again" id="check-for-an-error-again">Check For An Error, Again</a></h4>
+<h4 id="check-for-an-error-again"><a class="header" href="#check-for-an-error-again">Check For An Error, Again</a></h4>
 <p>And we check for an error like before:</p>
 <pre><pre class="playground"><code class="language-rust">
 <span class="boring">#![allow(unused)]
@@ -887,7 +850,7 @@ we go, but if you just want to draw <em>anything</em> it's this simple.</p>
 </span></code></pre></pre>
 <p>This is all a very good candidate for wrapping into an easier to use function,
 but we'll get to that after we can at least see a triangle.</p>
-<h3><a class="header" href="#create-a-program" id="create-a-program">Create A Program</a></h3>
+<h3 id="create-a-program"><a class="header" href="#create-a-program">Create A Program</a></h3>
 <p>A program combines several shader &quot;stages&quot; such as vertex and fragment, and lets you have a completed graphics pipeline.</p>
 <p>We use <a href="https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glCreateProgram.xhtml"><code>glCreateProgram</code></a> to create one, and then we use <a href="https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glAttachShader.xhtml"><code>glAttachShader</code></a> to connect both shaders we have so far. Finally we call <a href="https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glLinkProgram.xhtml"><code>glLinkProgram</code></a> to connect the shader stages into a single, usable whole.</p>
 <pre><pre class="playground"><code class="language-rust">
@@ -936,7 +899,7 @@ but we'll get to that after we can at least see a triangle.</p>
 <p>Finally, after all that, we can call
 <a href="https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glUseProgram.xhtml"><code>glUseProgram</code></a>
 to set our program as the one to use during drawing.</p>
-<h2><a class="header" href="#vsync" id="vsync">Vsync</a></h2>
+<h2 id="vsync"><a class="header" href="#vsync">Vsync</a></h2>
 <p>Last thing before we move on to the main loop, let's turn on
 <a href="https://en.wikipedia.org/wiki/Screen_tearing#Vertical_synchronization">vsync</a>,
 which will make our <code>swap_window</code> call block the program until the image has
@@ -952,7 +915,7 @@ save the battery even if they're on a laptop.</p>
 win.set_swap_interval(SwapInterval::Vsync);
 <span class="boring">}
 </span></code></pre></pre>
-<h2><a class="header" href="#clear-the-screen" id="clear-the-screen">Clear The Screen</a></h2>
+<h2 id="clear-the-screen"><a class="header" href="#clear-the-screen">Clear The Screen</a></h2>
 <p>In the main loop, after we process our events, we start our drawing with a call
 to
 <a href="https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glClear.xhtml"><code>glClear</code></a>.
@@ -966,7 +929,7 @@ color values. You could clear the other bits too, but since we're not using them
 }
 <span class="boring">}
 </span></code></pre></pre>
-<h2><a class="header" href="#draw-the-triangle" id="draw-the-triangle">Draw The Triangle</a></h2>
+<h2 id="draw-the-triangle"><a class="header" href="#draw-the-triangle">Draw The Triangle</a></h2>
 <p>To actually draw our triangle we call <a href="https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glDrawArrays.xhtml"><code>glDrawArrays</code></a>.</p>
 <ul>
 <li>The <code>mode</code> is how to connect the vertexes together. We use <code>GL_TRIANGLES</code>
@@ -987,7 +950,7 @@ all three of our vertexes, we use 3.</li>
 </span></code></pre></pre>
 <p>Be <em>extra careful</em> with this call. If you tell it to draw too many triangles the
 GPU will run right off the end of the array and segfault the program.</p>
-<h2><a class="header" href="#swap-the-window-buffers" id="swap-the-window-buffers">Swap The Window Buffers</a></h2>
+<h2 id="swap-the-window-buffers"><a class="header" href="#swap-the-window-buffers">Swap The Window Buffers</a></h2>
 <p>Once the drawing is done, we have to swap the window's draw buffer and display
 buffer, with <code>swap_window</code>. This will make the picture we just drew actually be
 displayed to the user. With vsync on it'll also block until the image is actually displayed.</p>
@@ -997,11 +960,11 @@ displayed to the user. With vsync on it'll also block until the image is actuall
 </span>win.swap_window();
 <span class="boring">}
 </span></code></pre></pre>
-<h2><a class="header" href="#done-1" id="done-1">Done!</a></h2>
+<h2 id="done-1"><a class="header" href="#done-1">Done!</a></h2>
 <ul>
 <li>Example Code: <a href="https://github.com/rust-tutorials/learn-opengl/blob/master/examples/001-triangle-arrays1.rs">001-triangle-arrays1</a></li>
 </ul>
-<h1><a class="header" href="#triangle-cleanup" id="triangle-cleanup">Triangle Cleanup</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="triangle-cleanup"><a class="header" href="#triangle-cleanup">Triangle Cleanup</a></h1>
 <p>Now that we can see the basics of what's going on we're going to do a bit of
 clean up. This won't change what we're drawing, it'll just help us sort out the
 easy stuff (which we can mark safe and then worry about a lot less) from the
@@ -1016,7 +979,7 @@ unsafe stuff (which we will always have to pay attention to).</p>
 <p>We'll use our helpers via <code>learn::func_name()</code>. You could of course import the
 functions and then leave off the prefix, but in tutorial code you always want to
 aim for a little more clarity than is strictly necessary.</p>
-<h2><a class="header" href="#first-a-note-on-using-glgeterror" id="first-a-note-on-using-glgeterror">First, A Note On Using <code>glGetError</code></a></h2>
+<h2 id="first-a-note-on-using-glgeterror"><a class="header" href="#first-a-note-on-using-glgeterror">First, A Note On Using <code>glGetError</code></a></h2>
 <p>The <code>ogl33</code> crate will <em>automatically</em> call
 <a href="https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glGetError.xhtml"><code>glGetError</code></a>
 after each GL call if the <code>debug_error_checks</code> is enabled along with
@@ -1030,7 +993,7 @@ value back. If there's no pending errors you get <code>GL_NO_ERROR</code>, if th
 pending error you get some other value. However, depending on driver there might
 be more than one error pending at once. So you should call <code>glGetError</code> <em>until</em>
 you finally get a <code>GL_NO_ERROR</code>.</p>
-<h2><a class="header" href="#setting-the-clear-color" id="setting-the-clear-color">Setting The Clear Color</a></h2>
+<h2 id="setting-the-clear-color"><a class="header" href="#setting-the-clear-color">Setting The Clear Color</a></h2>
 <p>Making <code>glClearColor</code> safe is easy, there's nothing that can go wrong:</p>
 <pre><pre class="playground"><code class="language-rust">
 <span class="boring">#![allow(unused)]
@@ -1048,7 +1011,7 @@ pub fn clear_color(r: f32, g: f32, b: f32, a: f32) {
 </span>learn::clear_color(0.2, 0.3, 0.3, 1.0);
 <span class="boring">}
 </span></code></pre></pre>
-<h2><a class="header" href="#vertex-array-objects" id="vertex-array-objects">Vertex Array Objects</a></h2>
+<h2 id="vertex-array-objects"><a class="header" href="#vertex-array-objects">Vertex Array Objects</a></h2>
 <p>With the Vertex Array Object stuff, we're just wrapping the name in our own type
 and then giving methods for the operations that go with it. However, we don't
 yet know all of the functions that we might need to use, so we'll keep the inner
@@ -1092,7 +1055,7 @@ impl VertexArray {
 vao.bind();
 <span class="boring">}
 </span></code></pre></pre>
-<h2><a class="header" href="#buffers" id="buffers">Buffers</a></h2>
+<h2 id="buffers"><a class="header" href="#buffers">Buffers</a></h2>
 <p>For buffers it's a little more tricky because we have to make sure that we don't
 design to heavily for just Vertex Buffers and block ourselves from easily using
 other types of buffers. In fact since we'll want to use ElementArray buffers in
@@ -1177,14 +1140,14 @@ learn::buffer_data(
 <span class="boring">}
 </span></code></pre></pre>
 <p>The <a href="https://docs.rs/bytemuck"><code>bytemuck</code></a> crate is a handy crate for safe casting operations. In this case, it's letting us cast our <code>&amp;[[f32;3]]</code> into <code>&amp;[u8]</code>.</p>
-<h2><a class="header" href="#vertex-attribute-pointers" id="vertex-attribute-pointers">Vertex Attribute Pointers</a></h2>
+<h2 id="vertex-attribute-pointers"><a class="header" href="#vertex-attribute-pointers">Vertex Attribute Pointers</a></h2>
 <p>This stuff is wild!</p>
 <p>It's actually really hard to come up with a general vertex attribute pointer
 system that works with arbitrary rust data type inputs and also always lines up
 with the shaders you're using... so I'm <em>not even going to bother</em>.</p>
 <p>It's okay to have a few unsafe parts where you just always pay attention to what
 you're doing.</p>
-<h2><a class="header" href="#shaders-and-programs" id="shaders-and-programs">Shaders and Programs</a></h2>
+<h2 id="shaders-and-programs"><a class="header" href="#shaders-and-programs">Shaders and Programs</a></h2>
 <p>So obviously we want a shader type enum:</p>
 <pre><pre class="playground"><code class="language-rust">
 <span class="boring">#![allow(unused)]
@@ -1441,7 +1404,7 @@ shader_program.use_program();
 <span class="boring">}
 </span></code></pre></pre>
 <p>That's so much smaller! Very nice.</p>
-<h2><a class="header" href="#clearing-and-drawing-arrays" id="clearing-and-drawing-arrays">Clearing And Drawing Arrays?</a></h2>
+<h2 id="clearing-and-drawing-arrays"><a class="header" href="#clearing-and-drawing-arrays">Clearing And Drawing Arrays?</a></h2>
 <p>We could also wrap the clearing function, but it's small and has to go with other unsafe calls, so we'll skip it for now. We could always add it later.</p>
 <p>We <em>can't</em> easily make <code>glDrawArrays</code> safe, because we'd have to carefully
 monitor the size of the buffer in the actively bound array buffer in the
@@ -1449,11 +1412,11 @@ actively bound vertex array to make sure that the call didn't make the GPU go
 out of bounds. Or we could make it something like &quot;draw these arrays&quot;, and you
 pass a slice and it buffers the slice and draws it immediately. I don't really
 care for either of those, so we'll just let that be unsafe too.</p>
-<h2><a class="header" href="#done-2" id="done-2">Done!</a></h2>
+<h2 id="done-2"><a class="header" href="#done-2">Done!</a></h2>
 <ul>
 <li>Example Code: <a href="https://github.com/rust-tutorials/learn-opengl/blob/master/examples/002-triangle-arrays2.rs">002-triangle-arrays2</a></li>
 </ul>
-<h1><a class="header" href="#rectangle-elements" id="rectangle-elements">Rectangle Elements</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="rectangle-elements"><a class="header" href="#rectangle-elements">Rectangle Elements</a></h1>
 <p>Naturally we don't want just one triangle. When you're playing The Witcher 3,
 there's at least two triangles on the screen (maybe more!).</p>
 <p>Let's move on to drawing a rectangle. For this we need a second triangle.</p>
@@ -1475,7 +1438,7 @@ vertex.</p>
 part is that it has four outside edges. It's not really important that the edges
 are in two pairs of parallel lines at right angles with each other like a true
 rectangle has.</p>
-<h2><a class="header" href="#data" id="data">Data</a></h2>
+<h2 id="data"><a class="header" href="#data">Data</a></h2>
 <p>So we've got some new data. We're going to have 4 vertex entries that describes
 the points we want to use, and an index buffer with 2 entries where each entry
 describes a triangle using the points.</p>
@@ -1491,7 +1454,7 @@ const VERTICES: [Vertex; 4] =
 const INDICES: [TriIndexes; 2] = [[0, 1, 3], [1, 2, 3]];
 <span class="boring">}
 </span></code></pre></pre>
-<h2><a class="header" href="#element-buffer-object" id="element-buffer-object">Element Buffer Object</a></h2>
+<h2 id="element-buffer-object"><a class="header" href="#element-buffer-object">Element Buffer Object</a></h2>
 <p>Our indexes go into a separate kind of buffer. This is that <code>ElementArray</code>
 buffer type that I snuck into the cleanup lesson.</p>
 <p>After we make and bind our vertex data we also bind a buffer for the element
@@ -1508,7 +1471,7 @@ learn::buffer_data(
 );
 <span class="boring">}
 </span></code></pre></pre>
-<h2><a class="header" href="#draw-it" id="draw-it">Draw It!</a></h2>
+<h2 id="draw-it"><a class="header" href="#draw-it">Draw It!</a></h2>
 <p>Finally, instead of calling <code>glDrawArrays</code>, we use a separate function called <a href="https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glDrawElements.xhtml"><code>glDrawElements</code></a>.</p>
 <ul>
 <li><code>mode</code>: The style of drawing. We're still drawing triangles so we keep that
@@ -1535,7 +1498,7 @@ unsafe {
 win.swap_window();
 <span class="boring">}
 </span></code></pre></pre>
-<h2><a class="header" href="#bonus-wireframe-mode" id="bonus-wireframe-mode">Bonus: Wireframe Mode</a></h2>
+<h2 id="bonus-wireframe-mode"><a class="header" href="#bonus-wireframe-mode">Bonus: Wireframe Mode</a></h2>
 <p>Since this lesson is really short let's look at one extra ability we can use.</p>
 <p>You often see 3d models with just the outlines of each triangle. &quot;Wireframe
 mode&quot; it's sometimes called. We can easily do that with
@@ -1577,72 +1540,44 @@ pub fn polygon_mode(mode: PolygonMode) {
 <span class="boring">}
 </span></code></pre></pre>
 <p>Now we get a wireframe quad! and it looks like two triangles just like it should!</p>
-<h2><a class="header" href="#done-3" id="done-3">Done!</a></h2>
+<h2 id="done-3"><a class="header" href="#done-3">Done!</a></h2>
 <ul>
 <li>Code <a href="https://github.com/rust-tutorials/learn-opengl/blob/master/examples/003-rectangle-elements.rs">003-rectangle-elements</a></li>
 </ul>
-<h1><a class="header" href="#appendix-math" id="appendix-math">Appendix: Math</a></h1>
-<h1><a class="header" href="#vectors" id="vectors">Vectors</a></h1>
-<h1><a class="header" href="#matrices" id="matrices">Matrices</a></h1>
-<h1><a class="header" href="#transforms" id="transforms">Transforms</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="appendix-math"><a class="header" href="#appendix-math">Appendix: Math</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="vectors"><a class="header" href="#vectors">Vectors</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="matrices"><a class="header" href="#matrices">Matrices</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="transforms"><a class="header" href="#transforms">Transforms</a></h1>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                        
-
-                        
-
                         <div style="clear: both"></div>
                     </nav>
                 </div>
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                
-
-                
             </nav>
 
         </div>
 
-        
-
-        
-
-        
-
-        
         <script type="text/javascript">
             window.playground_copyable = true;
         </script>
-        
-
-        
-
-        
         <script src="elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
         <script src="mark.min.js" type="text/javascript" charset="utf-8"></script>
         <script src="searcher.js" type="text/javascript" charset="utf-8"></script>
-        
-
         <script src="clipboard.min.js" type="text/javascript" charset="utf-8"></script>
         <script src="highlight.js" type="text/javascript" charset="utf-8"></script>
         <script src="book.js" type="text/javascript" charset="utf-8"></script>
 
         <!-- Custom JS scripts -->
-        
-
-        
-        
         <script type="text/javascript">
         window.addEventListener('load', function() {
             window.setTimeout(window.print, 100);
         });
         </script>
-        
-        
-
     </body>
 </html>
