@@ -4,8 +4,10 @@
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
         <title>Triangle Cleanup - Learn OpenGL Rust</title>
+
+
         <!-- Custom HTML head -->
-        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        
         <meta name="description" content="A version of the LearnOpenGL book for Rust.">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#ffffff" />
@@ -16,25 +18,29 @@
         <link rel="stylesheet" href="../css/general.css">
         <link rel="stylesheet" href="../css/chrome.css">
         <link rel="stylesheet" href="../css/print.css" media="print">
+
         <!-- Fonts -->
         <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
         <link rel="stylesheet" href="../fonts/fonts.css">
+
         <!-- Highlight.js Stylesheets -->
         <link rel="stylesheet" href="../highlight.css">
         <link rel="stylesheet" href="../tomorrow-night.css">
         <link rel="stylesheet" href="../ayu-highlight.css">
 
         <!-- Custom theme stylesheets -->
+
     </head>
     <body>
+    <div id="body-container">
         <!-- Provide site root to javascript -->
-        <script type="text/javascript">
+        <script>
             var path_to_root = "../";
             var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
         </script>
 
         <!-- Work around some values being stored in localStorage wrapped in quotes -->
-        <script type="text/javascript">
+        <script>
             try {
                 var theme = localStorage.getItem('mdbook-theme');
                 var sidebar = localStorage.getItem('mdbook-sidebar');
@@ -50,7 +56,7 @@
         </script>
 
         <!-- Set the theme before any content is loaded, prevents flash -->
-        <script type="text/javascript">
+        <script>
             var theme;
             try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
             if (theme === null || theme === undefined) { theme = default_theme; }
@@ -62,12 +68,14 @@
         </script>
 
         <!-- Hide / unhide sidebar before it is displayed -->
-        <script type="text/javascript">
+        <script>
             var html = document.querySelector('html');
-            var sidebar = 'hidden';
+            var sidebar = null;
             if (document.body.clientWidth >= 1080) {
                 try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
                 sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
             }
             html.classList.remove('sidebar-visible');
             html.classList.add("sidebar-" + sidebar);
@@ -83,7 +91,7 @@
         <div id="page-wrapper" class="page-wrapper">
 
             <div class="page">
-                <div id="menu-bar-hover-placeholder"></div>
+                                <div id="menu-bar-hover-placeholder"></div>
                 <div id="menu-bar" class="menu-bar sticky bordered">
                     <div class="left-buttons">
                         <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
@@ -93,7 +101,7 @@
                             <i class="fa fa-paint-brush"></i>
                         </button>
                         <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
-                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
@@ -110,6 +118,7 @@
                         <a href="../print.html" title="Print this book" aria-label="Print this book">
                             <i id="print-button" class="fa fa-print"></i>
                         </a>
+
                     </div>
                 </div>
 
@@ -123,8 +132,9 @@
                         </ul>
                     </div>
                 </div>
+
                 <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
-                <script type="text/javascript">
+                <script>
                     document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
                     document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
                     Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
@@ -140,12 +150,10 @@ clean up. This won't change what we're drawing, it'll just help us sort out the
 easy stuff (which we can mark safe and then worry about a lot less) from the
 unsafe stuff (which we will always have to pay attention to).</p>
 <p>From here on, the examples will all have</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>use learn_opengl as learn;
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>We'll use our helpers via <code>learn::func_name()</code>. You could of course import the
 functions and then leave off the prefix, but in tutorial code you always want to
 aim for a little more clarity than is strictly necessary.</p>
@@ -165,30 +173,25 @@ be more than one error pending at once. So you should call <code>glGetError</cod
 you finally get a <code>GL_NO_ERROR</code>.</p>
 <h2 id="setting-the-clear-color"><a class="header" href="#setting-the-clear-color">Setting The Clear Color</a></h2>
 <p>Making <code>glClearColor</code> safe is easy, there's nothing that can go wrong:</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>/// Sets the color to clear to when clearing the screen.
 pub fn clear_color(r: f32, g: f32, b: f32, a: f32) {
   unsafe { glClearColor(r, g, b, a) }
 }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>and then in the example we'd call it like this:</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>learn::clear_color(0.2, 0.3, 0.3, 1.0);
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <h2 id="vertex-array-objects"><a class="header" href="#vertex-array-objects">Vertex Array Objects</a></h2>
 <p>With the Vertex Array Object stuff, we're just wrapping the name in our own type
 and then giving methods for the operations that go with it. However, we don't
 yet know all of the functions that we might need to use, so we'll keep the inner
 value public and we can just pull that out at any time if we need to.</p>
 <p>We'll want a way to make them, and to bind them.</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>/// Basic wrapper for a [Vertex Array
 /// Object](https://www.khronos.org/opengl/wiki/Vertex_Specification#Vertex_Array_Object).
@@ -215,23 +218,19 @@ impl VertexArray {
     unsafe { glBindVertexArray(0) }
   }
 }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>Then we use it like this:</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>let vao = VertexArray::new().expect(&quot;Couldn't make a VAO&quot;);
 vao.bind();
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <h2 id="buffers"><a class="header" href="#buffers">Buffers</a></h2>
 <p>For buffers it's a little more tricky because we have to make sure that we don't
 design to heavily for just Vertex Buffers and block ourselves from easily using
 other types of buffers. In fact since we'll want to use ElementArray buffers in
 the next lesson we can add that now to a <code>BufferType</code>.</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>/// The types of buffer object that you can have.
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -241,11 +240,9 @@ pub enum BufferType {
   /// Element Array Buffers hold indexes of what vertexes to use for drawing.
   ElementArray = GL_ELEMENT_ARRAY_BUFFER as isize,
 }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>Then the buffers themselves will accept a BufferType argument when we bind.</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>/// Basic wrapper for a [Buffer
 /// Object](https://www.khronos.org/opengl/wiki/Buffer_Object).
@@ -274,14 +271,12 @@ impl Buffer {
     unsafe { glBindBuffer(ty as GLenum, 0) }
   }
 }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>Finally, to buffer some data, we'll leave that as a free function. It'll take a
 buffer type and a slice of bytes, and a usage. I don't think we really need to
 make a special enum for usage values, so we'll just keep using <code>GLenum</code> for
 the usage argument.</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>/// Places a slice of data into a previously-bound buffer.
 pub fn buffer_data(ty: BufferType, data: &amp;[u8], usage: GLenum) {
@@ -294,11 +289,9 @@ pub fn buffer_data(ty: BufferType, data: &amp;[u8], usage: GLenum) {
     );
   }
 }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>And the usage code looks like this:</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>let vbo = Buffer::new().expect(&quot;Couldn't make a VBO&quot;);
 vbo.bind(BufferType::Array);
@@ -307,8 +300,7 @@ learn::buffer_data(
   bytemuck::cast_slice(&amp;VERTICES),
   GL_STATIC_DRAW,
 );
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>The <a href="https://docs.rs/bytemuck"><code>bytemuck</code></a> crate is a handy crate for safe casting operations. In this case, it's letting us cast our <code>&amp;[[f32;3]]</code> into <code>&amp;[u8]</code>.</p>
 <h2 id="vertex-attribute-pointers"><a class="header" href="#vertex-attribute-pointers">Vertex Attribute Pointers</a></h2>
 <p>This stuff is wild!</p>
@@ -319,8 +311,7 @@ with the shaders you're using... so I'm <em>not even going to bother</em>.</p>
 you're doing.</p>
 <h2 id="shaders-and-programs"><a class="header" href="#shaders-and-programs">Shaders and Programs</a></h2>
 <p>So obviously we want a shader type enum:</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>/// The types of shader object.
 pub enum ShaderType {
@@ -331,11 +322,9 @@ pub enum ShaderType {
   /// Also other values, but mostly color.
   Fragment = GL_FRAGMENT_SHADER as isize,
 }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>And then... well what we really want is to say to our library: &quot;I have this string and it's a shader of this type, just make it happen&quot;.</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>/// A handle to a [Shader
 /// Object](https://www.khronos.org/opengl/wiki/GLSL_Object#Shader_objects)
@@ -345,8 +334,7 @@ impl Shader {
     unimplemented!()
   }
 }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>Like that's the final interface we want to have, right? But to support that
 operation we probably want to make each individual operation a little easier to
 use. That way we can think about the bigger operation in terms of easy to use
@@ -355,8 +343,7 @@ that you don't want hidden, but this is just a little extra in the middle so
 it's fine.</p>
 <p>I'm just gonna throw it all down because you've seen it before and there's not
 much new to comment on.</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>impl Shader {
   /// Makes a new shader.
@@ -449,11 +436,9 @@ much new to comment on.</p>
     }
   }
 }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>So with the Program, again we want to have some sort of thing where we just hand over two source strings and it makes it and we don't worry about all the middle steps.</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>pub struct ShaderProgram(pub GLuint);
 impl ShaderProgram {
@@ -461,11 +446,9 @@ impl ShaderProgram {
     unimplemented!()
   }
 }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>But to do that we need to support all the middle steps:</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>/// A handle to a [Program
 /// Object](https://www.khronos.org/opengl/wiki/GLSL_Object#Program_objects)
@@ -562,17 +545,14 @@ impl ShaderProgram {
     }
   }
 }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>Our final usage becomes:</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>let shader_program =
   ShaderProgram::from_vert_frag(VERT_SHADER, FRAG_SHADER).unwrap();
 shader_program.use_program();
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <p>That's so much smaller! Very nice.</p>
 <h2 id="clearing-and-drawing-arrays"><a class="header" href="#clearing-and-drawing-arrays">Clearing And Drawing Arrays?</a></h2>
 <p>We could also wrap the clearing function, but it's small and has to go with other unsafe calls, so we'll skip it for now. We could always add it later.</p>
@@ -594,9 +574,11 @@ care for either of those, so we'll just let that be unsafe too.</p>
                             <a rel="prev" href="../basics/001-drawing-a-triangle.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
+
                             <a rel="next" href="../basics/003-rectangle.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
+
                         <div style="clear: both"></div>
                     </nav>
                 </div>
@@ -606,6 +588,7 @@ care for either of those, so we'll just let that be unsafe too.</p>
                     <a rel="prev" href="../basics/001-drawing-a-triangle.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
+
                     <a rel="next" href="../basics/003-rectangle.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
@@ -613,16 +596,25 @@ care for either of those, so we'll just let that be unsafe too.</p>
 
         </div>
 
-        <script type="text/javascript">
+
+
+
+        <script>
             window.playground_copyable = true;
         </script>
-        <script src="../elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
-        <script src="../mark.min.js" type="text/javascript" charset="utf-8"></script>
-        <script src="../searcher.js" type="text/javascript" charset="utf-8"></script>
-        <script src="../clipboard.min.js" type="text/javascript" charset="utf-8"></script>
-        <script src="../highlight.js" type="text/javascript" charset="utf-8"></script>
-        <script src="../book.js" type="text/javascript" charset="utf-8"></script>
+
+
+        <script src="../elasticlunr.min.js"></script>
+        <script src="../mark.min.js"></script>
+        <script src="../searcher.js"></script>
+
+        <script src="../clipboard.min.js"></script>
+        <script src="../highlight.js"></script>
+        <script src="../book.js"></script>
 
         <!-- Custom JS scripts -->
+
+
+    </div>
     </body>
 </html>

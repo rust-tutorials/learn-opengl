@@ -4,8 +4,10 @@
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
         <title>Creating A Window - Learn OpenGL Rust</title>
+
+
         <!-- Custom HTML head -->
-        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        
         <meta name="description" content="A version of the LearnOpenGL book for Rust.">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#ffffff" />
@@ -16,25 +18,29 @@
         <link rel="stylesheet" href="../css/general.css">
         <link rel="stylesheet" href="../css/chrome.css">
         <link rel="stylesheet" href="../css/print.css" media="print">
+
         <!-- Fonts -->
         <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
         <link rel="stylesheet" href="../fonts/fonts.css">
+
         <!-- Highlight.js Stylesheets -->
         <link rel="stylesheet" href="../highlight.css">
         <link rel="stylesheet" href="../tomorrow-night.css">
         <link rel="stylesheet" href="../ayu-highlight.css">
 
         <!-- Custom theme stylesheets -->
+
     </head>
     <body>
+    <div id="body-container">
         <!-- Provide site root to javascript -->
-        <script type="text/javascript">
+        <script>
             var path_to_root = "../";
             var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
         </script>
 
         <!-- Work around some values being stored in localStorage wrapped in quotes -->
-        <script type="text/javascript">
+        <script>
             try {
                 var theme = localStorage.getItem('mdbook-theme');
                 var sidebar = localStorage.getItem('mdbook-sidebar');
@@ -50,7 +56,7 @@
         </script>
 
         <!-- Set the theme before any content is loaded, prevents flash -->
-        <script type="text/javascript">
+        <script>
             var theme;
             try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
             if (theme === null || theme === undefined) { theme = default_theme; }
@@ -62,12 +68,14 @@
         </script>
 
         <!-- Hide / unhide sidebar before it is displayed -->
-        <script type="text/javascript">
+        <script>
             var html = document.querySelector('html');
-            var sidebar = 'hidden';
+            var sidebar = null;
             if (document.body.clientWidth >= 1080) {
                 try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
                 sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
             }
             html.classList.remove('sidebar-visible');
             html.classList.add("sidebar-" + sidebar);
@@ -83,7 +91,7 @@
         <div id="page-wrapper" class="page-wrapper">
 
             <div class="page">
-                <div id="menu-bar-hover-placeholder"></div>
+                                <div id="menu-bar-hover-placeholder"></div>
                 <div id="menu-bar" class="menu-bar sticky bordered">
                     <div class="left-buttons">
                         <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
@@ -93,7 +101,7 @@
                             <i class="fa fa-paint-brush"></i>
                         </button>
                         <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
-                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
@@ -110,6 +118,7 @@
                         <a href="../print.html" title="Print this book" aria-label="Print this book">
                             <i id="print-button" class="fa fa-print"></i>
                         </a>
+
                     </div>
                 </div>
 
@@ -123,8 +132,9 @@
                         </ul>
                     </div>
                 </div>
+
                 <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
-                <script type="text/javascript">
+                <script>
                     document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
                     document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
                     Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
@@ -146,25 +156,22 @@ cross-platform abstraction going for us.</p>
 <pre><pre class="playground"><code class="language-rust">use beryllium::*;
 
 fn main() {
-  let sdl = SDL::init(InitFlags::Everything).expect(&quot;couldn't start SDL&quot;);
-</code></pre></pre>
+  et sdl = Sdl::init(init::InitFlags::EVERYTHING);</code></pre></pre>
 <p>Then we set some attributes for the <a href="https://www.khronos.org/opengl/wiki/OpenGL_Context">OpenGL
 Context</a> that we want to
 use:</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
-</span>  sdl.gl_set_attribute(SdlGlAttr::MajorVersion, 3).unwrap();
-  sdl.gl_set_attribute(SdlGlAttr::MinorVersion, 3).unwrap();
-  sdl.gl_set_attribute(SdlGlAttr::Profile, GlProfile::Core).unwrap();
+</span>  sdl.set_gl_context_major_version(3).unwrap();
+  sdl.set_gl_context_major_version(3).unwrap();
+  sdl.set_gl_profile(video::GlProfile::Core).unwrap();
   #[cfg(target_os = &quot;macos&quot;)]
   {
     sdl
-      .gl_set_attribute(SdlGlAttr::Flags, ContextFlag::ForwardCompatible)
+      .set_gl_context_flags(video::GlContextFlags::FORWARD_COMPATIBLE)
       .unwrap();
   }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <ul>
 <li>The Core profile is a subset of the full features that the spec allows. An
 implementation must provide the Core profile, but it can also provide a
@@ -182,20 +189,21 @@ Khronos wiki suggest to only set it if you're on Mac, so that's what I did.</li>
 separate step (technically SDL2 lets you do this), but with <code>beryllium</code> it just
 sticks the window and the GL Context together as a single thing (<code>glutin</code> also
 works this way, I don't know about <code>glfw</code>).</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
-</span>  let _win = sdl
-    .create_gl_window(
-      &quot;Hello Window&quot;,
-      WindowPosition::Centered,
-      800,
-      600,
-      WindowFlags::Shown,
-    )
+</span>  let win_args = video::CreateWinArgs {
+        title: WINDOW_TITLE,
+        width: 800,
+        height: 600,
+        allow_high_dpi: true,
+        borderless: false,
+        resizable: false,
+  };
+
+  let _win = sdl
+    .create_gl_window(win_args)
     .expect(&quot;couldn't make a window and context&quot;);
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <h2 id="processing-events"><a class="header" href="#processing-events">Processing Events</a></h2>
 <p>Once we have a window, we can poll for events. In fact if we <em>don't</em> always poll
 for events promptly the OS will usually think that our application has stalled
@@ -203,24 +211,22 @@ and tell the user they should kill the program. So we want to always be polling
 for those events.</p>
 <p>Right now we just wait for a quit event (user clicked the X on the window,
 pressed Alt+F4, etc) and then quit when that happens.</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>  'main_loop: loop {
     // handle events this frame
-    while let Some(event) = sdl.poll_events().and_then(Result::ok) {
-      match event {
-        Event::Quit(_) =&gt; break 'main_loop,
-        _ =&gt; (),
-      }
+    while let Some(event) = sdl.poll_events() {
+        match event {
+            (events::Event::Quit, _) =&gt; break 'main_loop,
+            _ =&gt; (),
+        }
     }
     // now the events are clear
 
     // here's where we could change the world state and draw.
   }
 }
-<span class="boring">}
-</span></code></pre></pre>
+<span class="boring">}</span></code></pre></pre>
 <h2 id="done"><a class="header" href="#done">Done!</a></h2>
 <p>That's all there is to it for this lesson. Just a milk run.</p>
 <ul>
@@ -230,12 +236,10 @@ pressed Alt+F4, etc) and then quit when that happens.</p>
 <p>I'm developing mostly on Windows, and Windows is where most of your market share of users will end up being, so here's some bonus Windows tips:</p>
 <h3 id="windows-subsystem"><a class="header" href="#windows-subsystem">Windows Subsystem</a></h3>
 <p>I'm going to put the following attribute at the top of the file:</p>
-<pre><pre class="playground"><code class="language-rust">
-<span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span>#![cfg_attr(not(debug_assertions), windows_subsystem = &quot;windows&quot;)]
 <span class="boring">fn main() {
-</span><span class="boring">}
-</span></code></pre></pre>
+</span><span class="boring">}</span></code></pre></pre>
 <p>This will make is to that a &quot;release&quot; build (with the <code>--release</code> flag) will use the &quot;windows&quot; subsystem on Windows, instead of the &quot;console&quot; subsystem. This makes the process not have a console by default, which prevents a little terminal window from running in the background when the program runs on its own. However, we only want that in release mode because we want the ability to print debug message in debug mode.</p>
 <h3 id="static-linking-sdl2"><a class="header" href="#static-linking-sdl2">Static Linking SDL2</a></h3>
 <p>Finally, instead of dynamic linking with SDL2 we could static link with it.</p>
@@ -254,9 +258,11 @@ pressed Alt+F4, etc) and then quit when that happens.</p>
                             <a rel="prev" href="../basics/index.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
+
                             <a rel="next" href="../basics/001-drawing-a-triangle.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
+
                         <div style="clear: both"></div>
                     </nav>
                 </div>
@@ -266,6 +272,7 @@ pressed Alt+F4, etc) and then quit when that happens.</p>
                     <a rel="prev" href="../basics/index.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
+
                     <a rel="next" href="../basics/001-drawing-a-triangle.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
@@ -273,16 +280,25 @@ pressed Alt+F4, etc) and then quit when that happens.</p>
 
         </div>
 
-        <script type="text/javascript">
+
+
+
+        <script>
             window.playground_copyable = true;
         </script>
-        <script src="../elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
-        <script src="../mark.min.js" type="text/javascript" charset="utf-8"></script>
-        <script src="../searcher.js" type="text/javascript" charset="utf-8"></script>
-        <script src="../clipboard.min.js" type="text/javascript" charset="utf-8"></script>
-        <script src="../highlight.js" type="text/javascript" charset="utf-8"></script>
-        <script src="../book.js" type="text/javascript" charset="utf-8"></script>
+
+
+        <script src="../elasticlunr.min.js"></script>
+        <script src="../mark.min.js"></script>
+        <script src="../searcher.js"></script>
+
+        <script src="../clipboard.min.js"></script>
+        <script src="../highlight.js"></script>
+        <script src="../book.js"></script>
 
         <!-- Custom JS scripts -->
+
+
+    </div>
     </body>
 </html>
