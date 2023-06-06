@@ -82,7 +82,7 @@ pressed Alt+F4, etc) and then quit when that happens.
 ```rust
   'main_loop: loop {
     // handle events this frame
-    while let Some(event) = sdl.poll_events()/*.and_then(Result::ok)*/ {
+    while let Some(event) = sdl.poll_events() {
         match event {
             (events::Event::Quit, _) => break 'main_loop,
             _ => (),
