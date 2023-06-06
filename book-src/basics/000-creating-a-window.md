@@ -16,7 +16,7 @@ First we turn on SDL itself:
 use beryllium::*;
 
 fn main() {
-  let sdl = SDL::init(InitFlags::Everything).expect("couldn't start SDL");
+  et sdl = Sdl::init(init::InitFlags::EVERYTHING);
 ```
 
 Then we set some attributes for the [OpenGL
@@ -24,13 +24,13 @@ Context](https://www.khronos.org/opengl/wiki/OpenGL_Context) that we want to
 use:
 
 ```rust
-  sdl.gl_set_attribute(SdlGlAttr::MajorVersion, 3).unwrap();
-  sdl.gl_set_attribute(SdlGlAttr::MinorVersion, 3).unwrap();
-  sdl.gl_set_attribute(SdlGlAttr::Profile, GlProfile::Core).unwrap();
+  sdl.set_gl_context_major_version(3).unwrap();
+  sdl.set_gl_context_major_version(3).unwrap();
+  sdl.set_gl_profile(video::GlProfile::Core).unwrap();
   #[cfg(target_os = "macos")]
   {
     sdl
-      .gl_set_attribute(SdlGlAttr::Flags, ContextFlag::ForwardCompatible)
+      .set_gl_context_flags(video::GlContextFlags::FORWARD_COMPATIBLE)
       .unwrap();
   }
 ```
@@ -55,14 +55,17 @@ sticks the window and the GL Context together as a single thing (`glutin` also
 works this way, I don't know about `glfw`).
 
 ```rust
+  let win_args = video::CreateWinArgs {
+        title: WINDOW_TITLE,
+        width: 800,
+        height: 600,
+        allow_high_dpi: true,
+        borderless: false,
+        resizable: false,
+  };
+
   let _win = sdl
-    .create_gl_window(
-      "Hello Window",
-      WindowPosition::Centered,
-      800,
-      600,
-      WindowFlags::Shown,
-    )
+    .create_gl_window(win_args)
     .expect("couldn't make a window and context");
 ```
 
@@ -79,11 +82,11 @@ pressed Alt+F4, etc) and then quit when that happens.
 ```rust
   'main_loop: loop {
     // handle events this frame
-    while let Some(event) = sdl.poll_events().and_then(Result::ok) {
-      match event {
-        Event::Quit(_) => break 'main_loop,
-        _ => (),
-      }
+    while let Some(event) = sdl.poll_events()/*.and_then(Result::ok)*/ {
+        match event {
+            (events::Event::Quit, _) => break 'main_loop,
+            _ => (),
+        }
     }
     // now the events are clear
 
