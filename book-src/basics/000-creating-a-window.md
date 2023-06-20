@@ -16,7 +16,7 @@ First we turn on SDL itself:
 use beryllium::*;
 
 fn main() {
-  et sdl = Sdl::init(init::InitFlags::EVERYTHING);
+  let sdl = Sdl::init(init::InitFlags::EVERYTHING);
 ```
 
 Then we set some attributes for the [OpenGL
