@@ -24,14 +24,13 @@ Context](https://www.khronos.org/opengl/wiki/OpenGL_Context) that we want to
 use:
 
 ```rust
-  sdl.set_gl_context_major_version(3).unwrap();
-  sdl.set_gl_context_major_version(3).unwrap();
-  sdl.set_gl_profile(video::GlProfile::Core).unwrap();
-  #[cfg(target_os = "macos")]
+  sdl.set_gl_context_major_version(sdl, 3).unwrap_or_default();
+  sdl.set_gl_profile(video::GlProfile::Core).unwrap_default();
+  #[cfg(target_os = "windows")]
   {
     sdl
       .set_gl_context_flags(video::GlContextFlags::FORWARD_COMPATIBLE)
-      .unwrap();
+      .unwrap_or_default();
   }
 ```
 
@@ -55,6 +54,7 @@ sticks the window and the GL Context together as a single thing (`glutin` also
 works this way, I don't know about `glfw`).
 
 ```rust
+  const WINDOW_TITLE: &str = "TITLE";
   let win_args = video::CreateWinArgs {
         title: WINDOW_TITLE,
         width: 800,
