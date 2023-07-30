@@ -24,14 +24,13 @@ Context](https://www.khronos.org/opengl/wiki/OpenGL_Context) that we want to
 use:
 
 ```rust
-  sdl.set_gl_context_major_version(3).unwrap();
-  sdl.set_gl_context_major_version(3).unwrap();
-  sdl.set_gl_profile(video::GlProfile::Core).unwrap();
-  #[cfg(target_os = "macos")]
+  sdl.set_gl_context_major_version(sdl, 3).unwrap_or_default();
+  sdl.set_gl_profile(video::GlProfile::Core).unwrap_default();
+  #[cfg(target_os = "windows")]
   {
     sdl
       .set_gl_context_flags(video::GlContextFlags::FORWARD_COMPATIBLE)
-      .unwrap();
+      .unwrap_or_default();
   }
 ```
 
@@ -55,6 +54,7 @@ sticks the window and the GL Context together as a single thing (`glutin` also
 works this way, I don't know about `glfw`).
 
 ```rust
+  const WINDOW_TITLE: &str = "TITLE";
   let win_args = video::CreateWinArgs {
         title: WINDOW_TITLE,
         width: 800,
@@ -82,12 +82,9 @@ pressed Alt+F4, etc) and then quit when that happens.
 ```rust
   'main_loop: loop {
     // handle events this frame
-    while let Some(event) = sdl.poll_events() {
-        match event {
-            (events::Event::Quit, _) => break 'main_loop,
-            _ => (),
+    if let Some((events::Event::Quit, _)) = sdl.poll_events().iter().next() {
+            break 'main_loop;
         }
-    }
     // now the events are clear
 
     // here's where we could change the world state and draw.
