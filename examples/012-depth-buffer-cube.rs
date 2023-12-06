@@ -7,7 +7,12 @@ const WINDOW_TITLE: &str = "Depth Buffer Cube";
 const WINDOW_WIDTH: u32 = 800;
 const WINDOW_HEIGHT: u32 = 800;
 
-use beryllium::*;
+use beryllium::{
+  events::Event,
+  init::InitFlags,
+  video::{CreateWinArgs, GlContextFlags, GlProfile, GlSwapInterval},
+  *,
+};
 use core::{
   convert::{TryFrom, TryInto},
   mem::{size_of, size_of_val},
@@ -115,30 +120,31 @@ fn main() {
     bitmap
   };
 
-  let sdl = SDL::init(InitFlags::Everything).expect("couldn't start SDL");
-  sdl.gl_set_attribute(SdlGlAttr::MajorVersion, 3).unwrap();
-  sdl.gl_set_attribute(SdlGlAttr::MinorVersion, 3).unwrap();
-  sdl.gl_set_attribute(SdlGlAttr::Profile, GlProfile::Core).unwrap();
-  #[cfg(target_os = "macos")]
-  {
-    sdl
-      .gl_set_attribute(SdlGlAttr::Flags, ContextFlag::ForwardCompatible)
-      .unwrap();
+  let sdl = Sdl::init(InitFlags::EVERYTHING);
+  sdl.set_gl_context_major_version(3).unwrap();
+  sdl.set_gl_context_minor_version(3).unwrap();
+  sdl.set_gl_profile(GlProfile::Core).unwrap();
+  let mut flags = GlContextFlags::default();
+  if cfg!(target_os = "macos") {
+    flags |= GlContextFlags::FORWARD_COMPATIBLE;
   }
+  if cfg!(debug_asserts) {
+    flags |= GlContextFlags::DEBUG;
+  }
+  sdl.set_gl_context_flags(flags).unwrap();
 
   let win = sdl
-    .create_gl_window(
-      WINDOW_TITLE,
-      WindowPosition::Centered,
-      WINDOW_WIDTH,
-      WINDOW_HEIGHT,
-      WindowFlags::Shown,
-    )
+    .create_gl_window(CreateWinArgs {
+      title: WINDOW_TITLE,
+      width: 800,
+      height: 600,
+      ..Default::default()
+    })
     .expect("couldn't make a window and context");
-  win.set_swap_interval(SwapInterval::Vsync);
+  win.set_swap_interval(GlSwapInterval::Vsync).unwrap();
 
   unsafe {
-    load_gl_with(|f_name| win.get_proc_address(f_name));
+    load_gl_with(|f_name| win.get_proc_address(f_name.cast()));
 
     glEnable(GL_DEPTH_TEST);
   }
@@ -264,9 +270,9 @@ fn main() {
 
   'main_loop: loop {
     // handle events this frame
-    while let Some(event) = sdl.poll_events().and_then(Result::ok) {
+    while let Some((event, _timestamp)) = sdl.poll_events() {
       match event {
-        Event::Quit(_) => break 'main_loop,
+        Event::Quit => break 'main_loop,
         _ => (),
       }
     }

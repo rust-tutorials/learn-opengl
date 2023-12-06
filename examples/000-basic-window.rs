@@ -3,35 +3,41 @@
 
 const WINDOW_TITLE: &str = "Hello Window";
 
-use beryllium::*;
+use beryllium::{
+  events::Event,
+  init::InitFlags,
+  video::{CreateWinArgs, GlContextFlags, GlProfile},
+  *,
+};
 
 fn main() {
-  let sdl = SDL::init(InitFlags::Everything).expect("couldn't start SDL");
-  sdl.gl_set_attribute(SdlGlAttr::MajorVersion, 3).unwrap();
-  sdl.gl_set_attribute(SdlGlAttr::MinorVersion, 3).unwrap();
-  sdl.gl_set_attribute(SdlGlAttr::Profile, GlProfile::Core).unwrap();
-  #[cfg(target_os = "macos")]
-  {
-    sdl
-      .gl_set_attribute(SdlGlAttr::Flags, ContextFlag::ForwardCompatible)
-      .unwrap();
+  let sdl = Sdl::init(InitFlags::EVERYTHING);
+  sdl.set_gl_context_major_version(3).unwrap();
+  sdl.set_gl_context_minor_version(3).unwrap();
+  sdl.set_gl_profile(GlProfile::Core).unwrap();
+  let mut flags = GlContextFlags::default();
+  if cfg!(target_os = "macos") {
+    flags |= GlContextFlags::FORWARD_COMPATIBLE;
   }
+  if cfg!(debug_asserts) {
+    flags |= GlContextFlags::DEBUG;
+  }
+  sdl.set_gl_context_flags(flags).unwrap();
 
   let _win = sdl
-    .create_gl_window(
-      WINDOW_TITLE,
-      WindowPosition::Centered,
-      800,
-      600,
-      WindowFlags::Shown,
-    )
+    .create_gl_window(CreateWinArgs {
+      title: WINDOW_TITLE,
+      width: 800,
+      height: 600,
+      ..Default::default()
+    })
     .expect("couldn't make a window and context");
 
   'main_loop: loop {
     // handle events this frame
-    while let Some(event) = sdl.poll_events().and_then(Result::ok) {
+    while let Some((event, _timestamp)) = sdl.poll_events() {
       match event {
-        Event::Quit(_) => break 'main_loop,
+        Event::Quit => break 'main_loop,
         _ => (),
       }
     }

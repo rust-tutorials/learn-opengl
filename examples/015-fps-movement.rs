@@ -2,12 +2,20 @@
 #![allow(unused_imports)]
 #![allow(clippy::single_match)]
 #![allow(clippy::zero_ptr)]
+#![allow(non_upper_case_globals)]
 
 const WINDOW_TITLE: &str = "Movement";
 const WINDOW_WIDTH: u32 = 800;
 const WINDOW_HEIGHT: u32 = 800;
 
-use beryllium::*;
+use beryllium::{
+  events::{
+    Event, SDLK_a, SDLK_d, SDLK_e, SDLK_q, SDLK_s, SDLK_w, SDL_Keycode,
+  },
+  init::InitFlags,
+  video::{CreateWinArgs, GlContextFlags, GlProfile, GlSwapInterval},
+  *,
+};
 use core::{
   convert::{TryFrom, TryInto},
   mem::{size_of, size_of_val},
@@ -129,30 +137,31 @@ fn main() {
     bitmap
   };
 
-  let sdl = SDL::init(InitFlags::Everything).expect("couldn't start SDL");
-  sdl.gl_set_attribute(SdlGlAttr::MajorVersion, 3).unwrap();
-  sdl.gl_set_attribute(SdlGlAttr::MinorVersion, 3).unwrap();
-  sdl.gl_set_attribute(SdlGlAttr::Profile, GlProfile::Core).unwrap();
-  #[cfg(target_os = "macos")]
-  {
-    sdl
-      .gl_set_attribute(SdlGlAttr::Flags, ContextFlag::ForwardCompatible)
-      .unwrap();
+  let sdl = Sdl::init(InitFlags::EVERYTHING);
+  sdl.set_gl_context_major_version(3).unwrap();
+  sdl.set_gl_context_minor_version(3).unwrap();
+  sdl.set_gl_profile(GlProfile::Core).unwrap();
+  let mut flags = GlContextFlags::default();
+  if cfg!(target_os = "macos") {
+    flags |= GlContextFlags::FORWARD_COMPATIBLE;
   }
+  if cfg!(debug_asserts) {
+    flags |= GlContextFlags::DEBUG;
+  }
+  sdl.set_gl_context_flags(flags).unwrap();
 
   let win = sdl
-    .create_gl_window(
-      WINDOW_TITLE,
-      WindowPosition::Centered,
-      WINDOW_WIDTH,
-      WINDOW_HEIGHT,
-      WindowFlags::Shown,
-    )
+    .create_gl_window(CreateWinArgs {
+      title: WINDOW_TITLE,
+      width: 800,
+      height: 600,
+      ..Default::default()
+    })
     .expect("couldn't make a window and context");
-  win.set_swap_interval(SwapInterval::Vsync);
+  win.set_swap_interval(GlSwapInterval::Vsync).unwrap();
 
   unsafe {
-    load_gl_with(|f_name| win.get_proc_address(f_name));
+    load_gl_with(|f_name| win.get_proc_address(f_name.cast()));
 
     glEnable(GL_DEPTH_TEST);
   }
@@ -282,20 +291,16 @@ fn main() {
 
   'main_loop: loop {
     // handle events this frame
-    while let Some(event) = sdl.poll_events().and_then(Result::ok) {
+    while let Some((event, _timestamp)) = sdl.poll_events() {
       match event {
-        Event::Quit(_) => break 'main_loop,
-        Event::MouseMotion(MouseMotionEvent { x_delta, y_delta, .. }) => {
+        Event::Quit => break 'main_loop,
+        Event::MouseMotion { x_delta, y_delta, .. } => {
           let d_yaw_deg = -x_delta as f32 * 0.1;
           let d_pitch_deg = -y_delta as f32 * 0.1;
           camera.update_orientation(d_pitch_deg, d_yaw_deg);
         }
-        Event::Keyboard(KeyboardEvent {
-          is_pressed,
-          key: KeyInfo { keycode, .. },
-          ..
-        }) => {
-          if is_pressed {
+        Event::Key { pressed, keycode, .. } => {
+          if pressed {
             keys_held.insert(keycode);
           } else {
             keys_held.remove(&keycode);
@@ -368,18 +373,22 @@ impl EulerFPSCamera {
   /// Updates the position using WASDQE controls.
   ///
   /// The "forward" vector is relative to the current orientation.
-  pub fn update_position(&mut self, keys: &HashSet<Keycode>, distance: f32) {
+  pub fn update_position(
+    &mut self,
+    keys: &HashSet<SDL_Keycode>,
+    distance: f32,
+  ) {
     let forward = self.make_front();
     let cross_normalized = forward.cross(Self::UP).normalized();
     let mut move_vector =
       keys.iter().copied().fold(Vec3 { x: 0.0, y: 0.0, z: 0.0 }, |vec, key| {
         match key {
-          Keycode::W => vec + forward,
-          Keycode::S => vec - forward,
-          Keycode::A => vec - cross_normalized,
-          Keycode::D => vec + cross_normalized,
-          Keycode::E => vec + Self::UP,
-          Keycode::Q => vec - Self::UP,
+          SDLK_w => vec + forward,
+          SDLK_s => vec - forward,
+          SDLK_a => vec - cross_normalized,
+          SDLK_d => vec + cross_normalized,
+          SDLK_e => vec + Self::UP,
+          SDLK_q => vec - Self::UP,
           _ => vec,
         }
       });
